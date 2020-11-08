@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  minasan-client:
+    container_name: minasan-client
+    working_dir: /usr/src/app
+    build:
+      context: ./client
+      target: development
+    volumes:
+      - ./client:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - 3000:3000
+    command: yarn start
+    networks:
+      - minasan-network
+  
+  minasan-server:
+    container_name: minasan-server
+    build:
+      context: ./server
+      target: development
+    volumes:
+      - ./server:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - 4000:4000
+    command: yarn start:dev
+    networks:
+      - minasan-network
+
+  minasan-db:
+    image: postgres:12
+    container_name: minasan-db
+    restart: always
+    environment:
+      POSTGRES_DB: minasan
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: 123456
+    tty: true
+    ports:
+      - 5432:5432
+    volumes:
+      - ./db_data:/var/lib/postgresql/data
+    networks:
+      - minasan-network
+
+networks:
+  minasan-network:
+    driver: bridge
