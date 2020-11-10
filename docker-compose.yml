@@ -33,7 +33,7 @@ services:
   minasan-db:
     image: postgres:12
     container_name: minasan-db
-    restart: always
+    restart: unless-stopped
     environment:
       POSTGRES_DB: minasan
       POSTGRES_USER: root
