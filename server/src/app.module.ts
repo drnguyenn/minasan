@@ -5,9 +5,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { ormConfig } from './core/Config/ormconfig';
 import { HttpRequestLogger } from './core/Loggers/http-request.logger';
+import { UsersModule } from './modules/users/users.module';
 
 @Module({
-  imports: [ConfigModule.forRoot({ isGlobal: true }), TypeOrmModule.forRoot(ormConfig)],
+  imports: [ConfigModule.forRoot({ isGlobal: true }), TypeOrmModule.forRoot(ormConfig), UsersModule],
   controllers: [],
   providers: [
     {
