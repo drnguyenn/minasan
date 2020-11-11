@@ -30,6 +30,14 @@ export const GlobalStyle = createGlobalStyle`
     color: white !important;
   }
 
+  :-webkit-autofill,
+  :-webkit-autofill:hover,
+  :-webkit-autofill:focus,
+  :-webkit-autofill:active {
+      transition: background-color 5000s ease-in-out 0s;
+      -webkit-text-fill-color: #fff !important;
+  }
+
   * {
     box-sizing: border-box;
   }
