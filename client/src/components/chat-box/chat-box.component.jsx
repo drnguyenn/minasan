@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Avatar } from '@material-ui/core';
 
 import Conversation from '../conversation/conversation.component';
+import MessageEditor from '../message-editor/message-editor.component';
 
 import { fetchChatContentStart } from '../../redux/chat/chat.actions';
 
@@ -34,6 +35,7 @@ const ChatBox = () => {
         </AvatarAndTitle>
       </Header>
       <Conversation />
+      <MessageEditor />
     </ChatBoxStyles>
   );
 };
