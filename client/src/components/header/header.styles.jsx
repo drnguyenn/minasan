@@ -11,6 +11,7 @@ export const HeaderStyles = styled.div`
   height: 60px;
   padding: 0 10px;
   border-bottom: solid blue 1px;
+  background-color: white;
 `;
 
 export const AppName = styled.h2`

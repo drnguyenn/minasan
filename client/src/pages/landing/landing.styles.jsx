@@ -6,6 +6,7 @@ export const LandingPageStyles = styled.div`
 
 export const LandingImageContainer = styled.img`
   width: 50%;
+  height: 100%;
 `;
 
 export const SignInAndSignUpForm = styled.div`
