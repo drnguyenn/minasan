@@ -17,4 +17,6 @@ export const Input = styled.textarea`
   font-family: inherit;
   border-radius: 10px;
   outline: none;
+  background-color: #303132;
+  color: white;
 `;

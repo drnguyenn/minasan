@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 
 const isSelectedStyles = css`
-  background-color: #e8e5e5;
+  background-color: #18191a;
 `;
 
 export const ChatHistoryItemStyles = styled.div`
@@ -12,7 +12,7 @@ export const ChatHistoryItemStyles = styled.div`
   padding: 0 10px;
 
   &:hover {
-    background-color: #e8e5e5;
+    background-color: #18191a;
     cursor: pointer;
   }
 

@@ -3,11 +3,31 @@ import { createGlobalStyle } from 'styled-components';
 export const GlobalStyle = createGlobalStyle`
   body {
     font-family: 'Open Sans Condensed';
+    background-color: #242526;
+    color: white;
   }
 
   a {
     text-decoration: none;
     color: black;
+  }
+
+  input, textarea {
+    background-color: #303132 !important;
+    color: white !important;
+  }
+
+  ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: white !important;
+    opacity: 1; /* Firefox */
+  }
+
+  :-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: white !important;
+  }
+
+  ::-ms-input-placeholder { /* Microsoft Edge */
+    color: white !important;
   }
 
   * {
@@ -16,13 +36,13 @@ export const GlobalStyle = createGlobalStyle`
 
   ::-webkit-scrollbar-track {
     box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-    background-color: #f5f5f5;
+    background-color: #242526;
     border-radius: 10px;
   }
 
   ::-webkit-scrollbar {
     width: 10px;
-    background-color: #f5f5f5;
+    background-color: #242526;
   }
 
   ::-webkit-scrollbar-thumb {

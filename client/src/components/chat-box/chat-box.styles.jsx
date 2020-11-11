@@ -14,8 +14,8 @@ export const Header = styled.div`
   align-items: center;
   height: 65px;
   padding: 0 10px;
-  border-bottom: solid blue 1px;
-  background-color: white;
+  border-bottom: solid gray 1px;
+  background-color: #242526;
 `;
 
 export const AvatarAndTitle = styled.div`

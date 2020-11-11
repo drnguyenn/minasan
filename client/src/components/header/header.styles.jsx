@@ -10,8 +10,8 @@ export const HeaderStyles = styled.div`
   align-items: center;
   height: 60px;
   padding: 0 10px;
-  border-bottom: solid blue 1px;
-  background-color: white;
+  border-bottom: solid gray 1px;
+  background-color: #242526;
 `;
 
 export const AppName = styled.h2`

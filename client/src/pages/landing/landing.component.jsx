@@ -2,7 +2,7 @@ import React from 'react';
 
 import SignInAndSignUp from '../../components/sign-in-and-sign-up/sign-in-and-sign-up.component';
 
-import LandingImage from '../../assets/images/landing-page.jpg';
+import LandingImage from '../../assets/images/landing-page.png';
 
 import {
   LandingPageStyles,
