@@ -5,6 +5,7 @@ export const MessageEditorStyles = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 0 10px;
+  background-color: black;
 `;
 
 export const Input = styled.textarea`

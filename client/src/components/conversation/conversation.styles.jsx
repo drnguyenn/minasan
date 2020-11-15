@@ -5,6 +5,7 @@ export const ConversationStyles = styled.div`
   flex-direction: column;
   justify-content: flex-end;
   height: 75%;
+  background-color: black;
   overflow-y: auto;
 `;
 
