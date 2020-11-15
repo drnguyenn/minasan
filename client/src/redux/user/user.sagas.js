@@ -4,26 +4,35 @@ import {
   signInSuccess,
   signInFailure,
   signOutSuccess,
-  signOutFailure
-  // signUpSuccess,
-  // signUpFailure
+  signOutFailure,
+  signUpSuccess,
+  signUpFailure
 } from './user.actions';
-import { signInWithEmailAndPassword } from '../../services/user.services';
+import * as UserServices from '../../services/user.services';
 import UserActionTypes from './user.types';
 
-export function* isUserAuthenticated() {
-  // try {
-  //   const userAuth = yield call(getCurrenUser);
-  //   if (!userAuth) return;
-  //   yield getSnapshotFromUserAuth(userAuth);
-  // } catch (error) {
-  //   yield put(signInFailure(error));
-  // }
+export function* getCurrentUser() {
+  try {
+    const accessToken = localStorage.getItem('accessToken');
+
+    if (!accessToken) return;
+
+    const { user } = yield call(UserServices.getCurrentUser, accessToken);
+
+    if (!user) return;
+
+    yield put(signInSuccess(user));
+  } catch (error) {
+    yield put(signInFailure(error));
+  }
 }
 
 export function* signInWithEmail({ payload: { email, password } }) {
   try {
-    const { user } = yield call(signInWithEmailAndPassword, email, password);
+    const { user } = yield call(UserServices.signInWithEmail, email, password);
+
+    if (!user) return;
+
     yield put(signInSuccess(user));
   } catch (error) {
     yield put(signInFailure(error));
@@ -32,28 +41,29 @@ export function* signInWithEmail({ payload: { email, password } }) {
 
 export function* signOut() {
   try {
-    // yield signOut();
+    localStorage.removeItem('accessToken');
+
     yield put(signOutSuccess());
   } catch (error) {
     yield put(signOutFailure(error));
   }
 }
 
-export function* signUp({ payload: { email, password, displayName } }) {
-  // try {
-  //   const { user } = yield createUserWithEmailAndPassword(email, password);
-  //   yield put(signUpSuccess({ user, additionalData: { displayName } }));
-  // } catch (error) {
-  //   yield put(signUpFailure(error));
-  // }
+export function* signUp({ payload: { username, email, password } }) {
+  try {
+    const { user } = yield call(UserServices.signUp, username, email, password);
+
+    if (!user) return;
+
+    yield put(signUpSuccess({ user }));
+    alert('Signed Up Successfully.');
+  } catch (error) {
+    yield put(signUpFailure(error));
+  }
 }
 
-export function* signInAfterSignUp({ payload: { user, additionalData } }) {
-  // yield getSnapshotFromUserAuth(user, additionalData);
-}
-
-export function* onCheckUserSession() {
-  yield takeLatest(UserActionTypes.CHECK_USER_SESSION, isUserAuthenticated);
+export function* onGetCurrentUser() {
+  yield takeLatest(UserActionTypes.GET_CURRENT_USER, getCurrentUser);
 }
 
 export function* onEmailSignInStart() {
@@ -68,16 +78,11 @@ export function* onSignUpStart() {
   yield takeLatest(UserActionTypes.SIGN_UP_START, signUp);
 }
 
-export function* onSignUpSuccess() {
-  yield takeLatest(UserActionTypes.SIGN_UP_SUCCESS, signInAfterSignUp);
-}
-
 export function* userSagas() {
   yield all([
-    call(onCheckUserSession),
+    call(onGetCurrentUser),
     call(onEmailSignInStart),
     call(onSignOutStart),
-    call(onSignUpStart),
-    call(onSignUpSuccess)
+    call(onSignUpStart)
   ]);
 }

@@ -1,7 +1,7 @@
 import UserActionTypes from './user.types';
 
-export const checkUserSession = () => ({
-  type: UserActionTypes.CHECK_USER_SESSION
+export const getCurrentUser = () => ({
+  type: UserActionTypes.GET_CURRENT_USER
 });
 
 export const emailSignInStart = (email, password) => ({
@@ -37,9 +37,9 @@ export const signUpStart = userCredentials => ({
   payload: userCredentials
 });
 
-export const signUpSuccess = ({ user, additionalData }) => ({
+export const signUpSuccess = ({ user: { email, password } }) => ({
   type: UserActionTypes.SIGN_UP_SUCCESS,
-  payload: { user, additionalData }
+  payload: { email, password }
 });
 
 export const signUpFailure = error => ({

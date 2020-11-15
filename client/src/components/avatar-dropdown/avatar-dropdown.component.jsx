@@ -1,6 +1,5 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 
 import { signOutStart } from '../../redux/user/user.actions';
 
@@ -8,7 +7,6 @@ import { Menu, MenuItem, IconButton, Avatar } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
 
 const AvatarDropdown = () => {
-  const history = useHistory();
   const dispatch = useDispatch();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -34,7 +32,7 @@ const AvatarDropdown = () => {
       <Menu anchorEl={anchorEl} keepMounted open={open} onClose={handleClose}>
         <MenuItem
           onClick={() => {
-            history.push('/profile');
+            // history.push('/profile');
             handleClose();
           }}
         >

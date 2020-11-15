@@ -27,7 +27,7 @@ const SignUp = () => {
       return;
     }
 
-    dispatch(signUpStart(email, password));
+    dispatch(signUpStart({ username, email, password }));
 
     setUserCredentials({
       ...userCredentials,
