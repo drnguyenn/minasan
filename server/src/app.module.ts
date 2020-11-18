@@ -7,9 +7,16 @@ import { ormConfig } from './core/Config/ormconfig';
 import { HttpRequestLogger } from './core/Loggers/http-request.logger';
 import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
+import { MessagesModule } from './modules/message/messages.module';
 
 @Module({
-  imports: [ConfigModule.forRoot({ isGlobal: true }), TypeOrmModule.forRoot(ormConfig), UsersModule, AuthModule],
+  imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
+    TypeOrmModule.forRoot(ormConfig),
+    UsersModule,
+    AuthModule,
+    MessagesModule,
+  ],
   controllers: [],
   providers: [
     {
