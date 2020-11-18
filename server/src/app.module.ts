@@ -8,6 +8,7 @@ import { HttpRequestLogger } from './core/Loggers/http-request.logger';
 import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
 import { MessagesModule } from './modules/message/messages.module';
+import { WsModule } from './modules/ws/ws.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { MessagesModule } from './modules/message/messages.module';
     UsersModule,
     AuthModule,
     MessagesModule,
+    WsModule,
   ],
   controllers: [],
   providers: [
