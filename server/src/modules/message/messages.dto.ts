@@ -17,4 +17,3 @@ export class CreateMessageDto {
   @IsNumber()
   recipientId: number;
 }
-
