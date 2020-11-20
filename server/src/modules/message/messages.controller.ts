@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, UseGuards, Query, DefaultValuePipe, HttpCode } from '@nestjs/common';
+import { Controller, Get, Post, Body, UseGuards, Query, DefaultValuePipe, HttpCode, Param } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiOperation, ApiTags, ApiQuery } from '@nestjs/swagger';
 
@@ -12,25 +12,20 @@ export class MessagesController {
   constructor(public messageService: MessagesService) {}
 
   @ApiOperation({ summary: 'Retrieve message history between users'})
-  @Get()
+  @Get(':conversationId')
   @UseGuards(AuthGuard())
   @ApiQuery({
-    name: 'conversation_id',
-    required: true,
-    type: Number,
-  })
-  @ApiQuery({
     name: 'limit',
-    required: true,
+    required: false,
     type: Number,
   })
   @ApiQuery({
     name: 'page',
-    required: true,
+    required: false,
     type: Number,
   })
   async getMessageHistory (
-    @Query('conversation_id') conversationId: number,
+    @Param('conversationId') conversationId: number,
     @Query('limit', new DefaultValuePipe(20)) limit: number,
     @Query('page', new DefaultValuePipe(1)) page: number,
   ) {
