@@ -4,6 +4,11 @@ import { IsDefined, IsString, IsNumber } from 'class-validator';
 export class CreateMessageDto {
   @ApiProperty()
   @IsDefined()
+  @IsNumber()
+  conversationId: number;
+  
+  @ApiProperty()
+  @IsDefined()
   @IsString()
   message: string;
 
@@ -11,9 +16,4 @@ export class CreateMessageDto {
   @IsDefined()
   @IsNumber()
   senderId: number;
-
-  @ApiProperty()
-  @IsDefined()
-  @IsNumber()
-  recipientId: number;
 }

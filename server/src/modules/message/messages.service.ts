@@ -8,12 +8,9 @@ import { Message } from 'src/entities/Message.entity';
 export class MessagesService {
   constructor(@InjectRepository(Message) private messageRepository: Repository<Message>){}
 
-  async getMessageHistory(userOneId: number, userTwoId: number,  page: number, limit: number) {
+  async getMessageHistory(conversationId: number,  page: number, limit: number) {
     const messageHistory = await this.messageRepository.find({
-      where: [
-        { senderId: userOneId, recipientId: userTwoId },
-        { senderId: userTwoId, recipientId: userOneId },
-      ],
+      where: { conversationId },
       order: {
         createdAt: "DESC"
       },
@@ -24,10 +21,10 @@ export class MessagesService {
     return messageHistory
   }
 
-  async saveMessage(senderId: number, recipientId: number, message: string) {
+  async saveMessage(conversationId: number, senderId: number, message: string) {
     await this.messageRepository.insert({
+      conversationId,
       senderId,
-      recipientId,
       message,
     });
   }
