@@ -6,8 +6,8 @@ import AvatarDropdown from '../avatar-dropdown/avatar-dropdown.component';
 
 import { IconButton } from '@material-ui/core';
 import { Assessment } from '@material-ui/icons';
-
-import { HeaderStyles, AppName, OptionsContainer } from './header.styles';
+import { HeaderStyles, AppName, OptionsContainer, Left } from './header.styles';
+import FindFriend from './../find-friend/find-friend.component';
 
 const Header = () => {
   const currentUser = useSelector(state => state.user.currentUser);
@@ -16,7 +16,11 @@ const Header = () => {
 
   return (
     <HeaderStyles>
+      <Left>
       <AppName onClick={() => history.push('/home')}>Minasan</AppName>
+      <FindFriend/> 
+      </Left>
+          
       <OptionsContainer>
         {currentUser ? (
           currentUser.isAdmin ? (

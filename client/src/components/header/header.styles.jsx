@@ -17,9 +17,11 @@ export const HeaderStyles = styled.div`
 export const AppName = styled.h2`
   &:hover {
     color: blue;
-    cursor: pointer;
+    cursor: pointer; 
   }
 `;
+
+
 
 export const LogoContainer = styled(Link)`
   margin: 10px;
@@ -37,3 +39,10 @@ export const OptionLink = styled(Link)`
   padding: 10px 15px;
   cursor: pointer;
 `;
+
+export const Left = styled.div`
+display: flex;
+width: 29%;
+align-items: center;
+justify-content: space-between;
+`; 
