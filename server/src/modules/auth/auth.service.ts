@@ -4,7 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { compareSync, genSaltSync, hashSync } from 'bcrypt';
 import { Repository } from 'typeorm';
 
-import { User } from '../users/users.entity';
+import { User } from 'src/entities/User.entity';
 import { AuthDto } from './auth.dto';
 import { JwtPayload } from './jwt-payload.model';
 

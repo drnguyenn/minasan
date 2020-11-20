@@ -5,7 +5,7 @@ import { plainToClass } from 'class-transformer';
 import { UserInfo } from 'src/shared/Decorators/user-info.decorator';
 
 import { CreateUserDto, UpdateUserDto } from './users.dto';
-import { User } from './users.entity';
+import { User } from 'src/entities/User.entity';
 import { UsersService } from './users.service';
 
 @ApiTags('Users')
