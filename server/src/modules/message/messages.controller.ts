@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, UseGuards, Query, DefaultValuePipe, HttpCode } from '@nestjs/common';
+import { Controller, Get, Post, Body, UseGuards, Query, DefaultValuePipe, HttpCode, Param } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiOperation, ApiTags, ApiQuery } from '@nestjs/swagger';
 
@@ -12,35 +12,24 @@ export class MessagesController {
   constructor(public messageService: MessagesService) {}
 
   @ApiOperation({ summary: 'Retrieve message history between users'})
-  @Get()
+  @Get(':conversationId')
   @UseGuards(AuthGuard())
   @ApiQuery({
-    name: 'user_one_id',
-    required: true,
-    type: Number,
-  })
-  @ApiQuery({
-    name: 'user_two_id',
-    required: true,
-    type: Number,
-  })
-  @ApiQuery({
     name: 'limit',
-    required: true,
+    required: false,
     type: Number,
   })
   @ApiQuery({
     name: 'page',
-    required: true,
+    required: false,
     type: Number,
   })
-  async getMessageHistory (
-    @Query('user_one_id') userOneId: number,
-    @Query('user_two_id') userTwoId: number,
+  async getMessageHistory(
+    @Param('conversationId') conversationId: number,
     @Query('limit', new DefaultValuePipe(20)) limit: number,
     @Query('page', new DefaultValuePipe(1)) page: number,
   ) {
-    return this.messageService.getMessageHistory(userOneId, userTwoId, page, limit);
+    return this.messageService.getMessageHistory(conversationId, page, limit);
   }
 
   // TODO: This one for test saveMessage() in MessagesService 
@@ -48,7 +37,7 @@ export class MessagesController {
   @Post()
   @HttpCode(200)
   async saveMessage(@Body() dto: CreateMessageDto): Promise<any> {
-    await this.messageService.saveMessage(dto.senderId, dto.recipientId, dto.message);
-    return {status: 'Successful'}
+    await this.messageService.saveMessage(dto.conversationId, dto.senderId, dto.message);
+    return { status: 'Successful' };
   }
 }

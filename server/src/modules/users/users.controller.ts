@@ -1,11 +1,11 @@
-import { Body, Controller, Get, Patch, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Patch, Post, UseGuards, Request } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { plainToClass } from 'class-transformer';
 import { UserInfo } from 'src/shared/Decorators/user-info.decorator';
 
 import { CreateUserDto, UpdateUserDto } from './users.dto';
-import { User } from './users.entity';
+import { User } from 'src/entities/User.entity';
 import { UsersService } from './users.service';
 
 @ApiTags('Users')
@@ -35,5 +35,13 @@ export class UsersController {
   async createOne(@Body() dto: CreateUserDto): Promise<User> {
     const newUser = await this.service.createUser(dto);
     return plainToClass(User, newUser);
+  }
+
+  @ApiOperation({ summary: 'Get random users' })
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard())
+  @Get('random')
+  async getRandomUsers(@UserInfo() user): Promise<Array<User>> {
+    return this.service.getRandomUsers(user.id);
   }
 }

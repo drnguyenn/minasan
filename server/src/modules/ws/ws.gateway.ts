@@ -22,27 +22,27 @@ export class WsGateway {
    */
   @SubscribeMessage('joinRooms')
   handleJoinRooms(client: Socket, payload: any) {
-    const { userInfo, roomIds } = payload
+    const { userInfo, roomIds } = payload;
     roomIds.map((roomId: string) => {
-      client.join(roomId)
-      this.server.to(roomId).emit('clientJoinedRoom', userInfo)
+      client.join(roomId);
+      this.server.to(roomId).emit('clientJoinedRoom', userInfo);
     });
   }
 
   /**
    * handle message sent from a client to chatRoom
    * @param client 
-   * @param payload: { roomId, msg, senderId, recipientId }
+   * @param payload: { roomId, msg, senderId }
    */
   @SubscribeMessage('sendMsg')
   async handleSendMsg(client: Socket, payload: any) {
-    const { roomId, msg, senderId, recipientId } = payload;
-    if (!roomId || !msg || !senderId || !recipientId) {
+    const { roomId, msg, senderId } = payload;
+    if (!roomId || !msg || !senderId) {
       throw new WsException('bad_request');
     }
     // Save message to database
-    await this.messsageService.saveMessage(senderId, recipientId, msg);
+    await this.messsageService.saveMessage(roomId, senderId, msg);
     // Broadcast to other users
-    this.server.to(roomId).emit('broadcastMsg', { senderId, recipientId, msg });
+    this.server.to(roomId).emit('broadcastMsg', { senderId, msg });
   }
 }

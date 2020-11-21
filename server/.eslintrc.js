@@ -22,6 +22,11 @@ module.exports = {
     '@typescript-eslint/interface-name-prefix': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
-    '@typescript-eslint/no-explicit-any': 'off'
+    '@typescript-eslint/no-explicit-any': 'off',
+    'eol-last': ['error', 'always'],
+    'block-spacing': ['error'],
+    'semi': ['error', 'always'],
+    'space-before-function-paren': ['error', 'never'],
+    'space-before-blocks': ['error', 'always']
   }
 };
