@@ -24,7 +24,7 @@ export class MessagesController {
     required: false,
     type: Number,
   })
-  async getMessageHistory (
+  async getMessageHistory(
     @Param('conversationId') conversationId: number,
     @Query('limit', new DefaultValuePipe(20)) limit: number,
     @Query('page', new DefaultValuePipe(1)) page: number,
@@ -38,6 +38,6 @@ export class MessagesController {
   @HttpCode(200)
   async saveMessage(@Body() dto: CreateMessageDto): Promise<any> {
     await this.messageService.saveMessage(dto.conversationId, dto.senderId, dto.message);
-    return {status: 'Successful'}
+    return { status: 'Successful' };
   }
 }

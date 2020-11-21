@@ -1,11 +1,11 @@
 import { ConflictException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { plainToClass } from 'class-transformer';
 import { Repository } from 'typeorm';
 
 import { AuthService } from '../auth/auth.service';
 import { CreateUserDto, UpdateUserDto } from './users.dto';
 import { User } from 'src/entities/User.entity';
-import { UserResponse } from './user-response.dto';
 
 const RANDOM_USERS_TO_GET = 5;
 @Injectable()
@@ -34,15 +34,15 @@ export class UsersService {
     }
   }
 
-  async getRandomUsers(currentUserId: number): Promise<Array<UserResponse>> {
+  async getRandomUsers(currentUserId: number): Promise<Array<User>> {
     const users = await this.userRepository
       .createQueryBuilder('user')
       .where("user.id != :currentUserId", { currentUserId })
       .orderBy("RANDOM()")
       .limit(RANDOM_USERS_TO_GET)
-      .getMany()
+      .getMany();
 
-    const response = users.map(user => new UserResponse(user));
+    const response = users.map(user => plainToClass(User, user));
     return response;
   }
 }

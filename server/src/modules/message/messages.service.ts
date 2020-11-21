@@ -11,7 +11,7 @@ export class MessagesService {
     @InjectRepository(Message) private messageRepository: Repository<Message>,
     @InjectRepository(Conversation) private conversationRepository: Repository<Conversation>,
 
-  ){}
+  ) {}
 
   async getMessageHistory(conversationId: number,  page: number, limit: number) {
     const messageHistory = await this.messageRepository.find({
@@ -21,9 +21,9 @@ export class MessagesService {
       },
       skip: limit*(page - 1),
       take: limit
-    })
+    });
 
-    return messageHistory
+    return messageHistory;
   }
 
   async saveMessage(conversationId: number, senderId: number, message: string) {

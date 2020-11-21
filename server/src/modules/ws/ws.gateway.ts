@@ -22,10 +22,10 @@ export class WsGateway {
    */
   @SubscribeMessage('joinRooms')
   handleJoinRooms(client: Socket, payload: any) {
-    const { userInfo, roomIds } = payload
+    const { userInfo, roomIds } = payload;
     roomIds.map((roomId: string) => {
-      client.join(roomId)
-      this.server.to(roomId).emit('clientJoinedRoom', userInfo)
+      client.join(roomId);
+      this.server.to(roomId).emit('clientJoinedRoom', userInfo);
     });
   }
 

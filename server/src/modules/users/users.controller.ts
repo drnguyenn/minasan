@@ -6,7 +6,6 @@ import { UserInfo } from 'src/shared/Decorators/user-info.decorator';
 
 import { CreateUserDto, UpdateUserDto } from './users.dto';
 import { User } from 'src/entities/User.entity';
-import { UserResponse } from './user-response.dto';
 import { UsersService } from './users.service';
 
 @ApiTags('Users')
@@ -42,10 +41,7 @@ export class UsersController {
   @ApiBearerAuth()
   @UseGuards(AuthGuard())
   @Get('random')
-  async getRandomUsers(@Request() req): Promise<Array< UserResponse>> {
-    if (!req.user) {
-      throw new Error('JWT does not work');
-    }
-    return this.service.getRandomUsers(req.user.id);
+  async getRandomUsers(@UserInfo() user): Promise<Array<User>> {
+    return this.service.getRandomUsers(user.id);
   }
 }
