@@ -5,7 +5,7 @@ import { Avatar } from '@material-ui/core';
 
 import Conversation from '../conversation/conversation.component';
 import MessageEditor from '../message-editor/message-editor.component';
-import ChatView from '../chat-view/chat-view.component'
+
 import { fetchChatContentStart } from '../../redux/chat/chat.actions';
 
 import {
@@ -26,8 +26,7 @@ const ChatBox = () => {
     state => state.chat.currentChat && state.chat.currentChat.title
   );
 
-  const [messages, setMessages] = useState([])
-  const [draft, setDraft] = useState('')
+  const [messages, setMessages] = useState([]);
 
   return (
     <ChatBoxStyles>
@@ -38,7 +37,11 @@ const ChatBox = () => {
         </AvatarAndTitle>
       </Header>
       <Conversation messages={messages} />
-      <MessageEditor onSend={(isSender, text) => {setMessages([...messages, {isSender, text}])}} />
+      <MessageEditor
+        onSend={(isSender, text) => {
+          setMessages([...messages, { isSender, text }]);
+        }}
+      />
     </ChatBoxStyles>
   );
 };

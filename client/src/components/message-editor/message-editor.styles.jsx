@@ -4,6 +4,7 @@ export const MessageEditorStyles = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  min-height: 19%;
   padding: 0 10px;
   background-color: black;
 `;
