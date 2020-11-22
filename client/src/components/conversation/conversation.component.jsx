@@ -11,6 +11,7 @@ import {
   IntroTitle,
   IntroDescription
 } from './conversation.styles';
+
 import ChatView from '../chat-view/chat-view.component';
 
 const Conversation = ({messages}) => {

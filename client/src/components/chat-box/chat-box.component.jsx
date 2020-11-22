@@ -17,15 +17,18 @@ import {
 
 const ChatBox = () => {
   const dispatch = useDispatch();
+  const user = useSelector( state => state.user.currentUser)
+  console.log(user)
 
   useEffect(() => {
-    dispatch(fetchChatContentStart('long.nd'));
+    dispatch(fetchChatContentStart('1'));
   }, [dispatch]);
 
   const title = useSelector(
     state => state.chat.currentChat && state.chat.currentChat.title
   );
-
+  console.log(user)
+  
   const [messages, setMessages] = useState([]);
 
   return (
