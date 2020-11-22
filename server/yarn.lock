@@ -626,10 +626,10 @@
     multer "1.4.2"
     tslib "2.0.3"
 
-"@nestjs/platform-socket.io@7.5.3":
-  version "7.5.3"
-  resolved "https://registry.yarnpkg.com/@nestjs/platform-socket.io/-/platform-socket.io-7.5.3.tgz#172fe181bfda033033025e1e987666b674513219"
-  integrity sha512-P1z7MYtepmmk4BGu+hcyVlFPIY4Jf1QYmg/iHuNSJSosx2F9nuXTAQz5wPlAJocr/QrG3pDddauM3wC0/GJXog==
+"@nestjs/platform-socket.io@^7.5.4":
+  version "7.5.4"
+  resolved "https://registry.yarnpkg.com/@nestjs/platform-socket.io/-/platform-socket.io-7.5.4.tgz#276278902a6f22f60d866669402f8b64de133d39"
+  integrity sha512-JwxrDccRxfAp3pS0P3kroOEEa83WQHJ2QvK8OQqK/7bqqOva6ZsW2VSv0S+0HoVtTrKKkRek3oBKY62GODUNnA==
   dependencies:
     socket.io "2.3.0"
     tslib "2.0.3"
@@ -668,10 +668,10 @@
   dependencies:
     uuid "8.3.1"
 
-"@nestjs/websockets@7.5.3":
-  version "7.5.3"
-  resolved "https://registry.yarnpkg.com/@nestjs/websockets/-/websockets-7.5.3.tgz#c12e1b371e80e8e5ce9efa844550fd947a1b44e6"
-  integrity sha512-ElFojfWg3oYT+tn5A7WpwuLA6PSKmT9L+/5LQgEt4FXVK1WD+YZhVsYrdGoVFJzxWtNDmSI/1TPTvGYCTNx+UQ==
+"@nestjs/websockets@^7.5.4":
+  version "7.5.4"
+  resolved "https://registry.yarnpkg.com/@nestjs/websockets/-/websockets-7.5.4.tgz#0766023fed806d6aa8f72a414ef512b4afd3433b"
+  integrity sha512-1cyt6OjWz2VEknBGzW/2Ols+xJ+SH75JqvcsbQHwNQeEyNDyPnmPIO02o2VgTEZHxZgV94GDa3+14FrWcxU//A==
   dependencies:
     iterare "1.2.1"
     tslib "2.0.3"
@@ -807,6 +807,13 @@
   integrity sha512-fO3gf3DxU2Trcbr75O7obVndW/X5k8rJNZkLXlQWStTHhP71PkRqjwPIEI0yMnJdg9R9OasjU+Bsr+Hr1xy/0w==
   dependencies:
     "@types/express" "*"
+
+"@types/engine.io@*":
+  version "3.1.4"
+  resolved "https://registry.yarnpkg.com/@types/engine.io/-/engine.io-3.1.4.tgz#3d9472711d179daa7c95c051e50ad411e18a9bdc"
+  integrity sha512-98rXVukLD6/ozrQ2O80NAlWDGA4INg+tqsEReWJldqyi2fulC9V7Use/n28SWgROXKm6003ycWV4gZHoF8GA6w==
+  dependencies:
+    "@types/node" "*"
 
 "@types/eslint-scope@^3.7.0":
   version "3.7.0"
@@ -971,6 +978,14 @@
   integrity sha512-MoJhSQreaVoL+/hurAZzIm8wafFR6ajiTM1m4A0kv6AGeVBl4r4pOV8bGFrjjq1sGxDTnCoF8i22o0/aE5XCyA==
   dependencies:
     "@types/mime" "*"
+    "@types/node" "*"
+
+"@types/socket.io@^2.1.11":
+  version "2.1.11"
+  resolved "https://registry.yarnpkg.com/@types/socket.io/-/socket.io-2.1.11.tgz#e0d6759880e5f9818d5297a3328b36641bae996b"
+  integrity sha512-bVprmqPhJMLb9ZCm8g0Xy8kwBFRbnanOWSxzWkDkkIwxTvud5tKMfAJymXX6LQbizUKCS1yima7JM4BeLqjNqA==
+  dependencies:
+    "@types/engine.io" "*"
     "@types/node" "*"
 
 "@types/source-list-map@*":
