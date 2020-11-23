@@ -18,7 +18,7 @@ import {
 const ChatBox = () => {
   const dispatch = useDispatch();
   const user = useSelector( state => state.user.currentUser)
-  console.log(user)
+  // console.log(user)
 
   useEffect(() => {
     dispatch(fetchChatContentStart('Aite no namae'));
