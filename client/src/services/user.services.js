@@ -8,10 +8,20 @@ export const signInWithEmail = async (email, password) => {
       body: JSON.stringify({ email, password })
     });
 
-    const { accessToken } = await response.json();
-    localStorage.setItem('accessToken', accessToken);
+    switch (response.status) {
+      case 201:
+        const { accessToken } = await response.json();
+        localStorage.setItem('accessToken', accessToken);
 
-    return await getCurrentUser(accessToken);
+        return await getCurrentUser(accessToken);
+
+      case 401:
+        alert('Email or Password is incorrect.');
+        throw new Error(response.statusText);
+
+      default:
+        return {};
+    }
   } catch (error) {
     console.error(error);
     throw new Error(error.message);
