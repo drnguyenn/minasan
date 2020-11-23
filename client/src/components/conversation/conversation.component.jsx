@@ -13,7 +13,6 @@ import {
   IntroDescription
 } from './conversation.styles';
 
-import ChatView from '../chat-view/chat-view.component';
 
 const Conversation = () => {
   const { isLoading } = useSelector(state => state.chat);

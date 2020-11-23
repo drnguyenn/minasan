@@ -2,12 +2,8 @@ import ChatActionTypes from './chat.types';
 
 const INITIAL_STATE = {
   chatHistory: [],
-<<<<<<< HEAD
-  currentChat: null,
   random_chatter: [],
-=======
   currentChat: { title: '', messages: [] },
->>>>>>> 9c1ddaf57362285299c3405c9e9a7cdd8639355a
   isLoading: false,
   error: null
 };
