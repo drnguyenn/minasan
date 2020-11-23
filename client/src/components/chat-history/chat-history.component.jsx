@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchConversationsStart } from '../../redux/chat/chat.actions'
 
@@ -11,24 +11,23 @@ const ChatHistory = () => {
   const dispatch = useDispatch();
 
   const user = useSelector( state => state.user.currentUser)
+  const chat_history = useSelector( state => state.chat.chatHistory)
 
   const [currentChatId, setCurrentChatId] = useState(user.name);
-
-  dispatch(fetchConversationsStart())
-
-  const chat_history = UserSelector(state => state.chat.chatHistory)
+  useEffect(() => {
+    dispatch(fetchConversationsStart())
+  }, [])
   console.log(chat_history)
-  // user_history.forEach((h)=>{
-  //   return (
-  //     <ChatHistoryStyles>
-  //       <ChatHistoryItem
-  //         title={h.username}
-  //         handleClick={() => setCurrentChatId(h.id)}
-  //         isSelected={currentChatId === h.id}
-  //       />
-  //     </ChatHistoryStyles>
-  //   )
-  // })
+  const uh = chat_history.map((h)=>{
+    return (
+      <ChatHistoryItem
+        key={h.id}
+        title={h.user2Id.toString()}
+        handleClick={() => setCurrentChatId(h.id)}
+        isSelected={currentChatId === h.id}
+      />
+    )
+  })
 
   return (
     <ChatHistoryStyles>
@@ -37,6 +36,7 @@ const ChatHistory = () => {
         handleClick={() => setCurrentChatId(user.id)}
         isSelected={currentChatId === user.id}
       />
+      {uh}
     </ChatHistoryStyles>
   );
 };

@@ -31,8 +31,10 @@ export function* onFetchChatContentStart() {
 export function* fetchConversations( ) {
   try {
     const accessToken = localStorage.getItem('accessToken');
-    const {chat} = yield call(ChatServices.fetchConversations, accessToken);
-    yield put(fetchConversationsSuccess(chat))
+    const { chat_list } = yield call(ChatServices.fetchConversations, accessToken);
+    // console.log(chat_list)
+
+    yield put(fetchConversationsSuccess(chat_list))
   } catch (error) {
     yield put(fetchConversationsFailure(error))
   }
@@ -63,7 +65,8 @@ export function* createConversasion({ payload: { curr_id, aite_id } }) {
 
     const {con} = yield call(ChatServices.createConversation, accessToken, curr_id, aite_id)
 
-    yield put(createConversasionSuccess('z'))
+    console.log(con)
+    yield put(createConversasionSuccess(con))
   } catch (error) {
     yield put(createConversasionFailure(error))
   }

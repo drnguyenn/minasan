@@ -40,7 +40,7 @@ const chatReducer = (state = INITIAL_STATE, action) => {
     case ChatActionTypes.FETCH_CONVERSATIONS_SUCCESS:
       return {
         ...state,
-        history: action.payload,
+        chatHistory: action.payload,
         isLoading: false,
         error: null
       };

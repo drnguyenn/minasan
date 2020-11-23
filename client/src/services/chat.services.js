@@ -62,13 +62,15 @@ export const createConversation = async (accessToken,curr_id, aite_id) =>{
       },
       body: JSON.stringify({ user1Id: curr_id, user2Id: aite_id })
     });
-    
-    console.log(await response.json())
-    // const userlist = await response.json();
-    // return response.status === 200
-    //   ? { user_list :userlist }
-    //   : {};
-
+    if (response.status === 200) {
+      let re = await response.json()
+      return {re}
+    }
+    // if (response.status === 400) {
+    //   console.error('Bad Request')
+    //   console.log(response.meta)
+    // }
+    return {};
   } catch (error) {
     console.error(error);
     throw new Error(error.message);
