@@ -38,7 +38,7 @@ const ChatBox = () => {
           <Title>{title}</Title>
         </AvatarAndTitle>
       </Header>
-      <Conversation messages={messages} />
+      <Conversation />
       <MessageEditor
         onSend={(isSender, text) => {
           setMessages([...messages, { isSender, text }]);

@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 
 import { Avatar } from '@material-ui/core';
 
 import Spinner from '../spinner/spinner.component';
+import Message from '../message/message.component';
 
 import {
   ConversationStyles,
@@ -14,24 +15,36 @@ import {
 
 import ChatView from '../chat-view/chat-view.component';
 
-const Conversation = ({messages}) => {
+const Conversation = () => {
   const { isLoading } = useSelector(state => state.chat);
-  const title = useSelector(
-    state => state.chat.currentChat && state.chat.currentChat.title
-  );
+  const { title, messages } = useSelector(state => state.chat.currentChat);
+
+  const { currentUser } = useSelector(state => state.user);
+
+  const conversationEndRef = useRef(null);
+
+  useEffect(() => {
+    conversationEndRef.current.scrollIntoView({ behavior: 'smooth' });
+  }, [title]);
 
   return isLoading ? (
     <Spinner />
   ) : (
     <ConversationStyles>
-      
       <Introduction>
-        
-      <Avatar alt={title} src='' />
+        <Avatar alt={title} src='' />
         <IntroTitle>{title}</IntroTitle>
         <IntroDescription>Your conversation starts here</IntroDescription>
-        <ChatView messages={messages}/>
       </Introduction>
+      {messages.map(({ id, sender, ...otherProps }) => (
+        <Message
+          key={id}
+          isMyMessage={sender === currentUser.username}
+          sender={sender}
+          {...otherProps}
+        />
+      ))}
+      <div ref={conversationEndRef} />
     </ConversationStyles>
   );
 };
