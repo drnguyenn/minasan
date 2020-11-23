@@ -21,13 +21,12 @@ const ChatBox = () => {
   console.log(user)
 
   useEffect(() => {
-    dispatch(fetchChatContentStart('1'));
+    dispatch(fetchChatContentStart('Aite no namae'));
   }, [dispatch]);
 
   const title = useSelector(
     state => state.chat.currentChat && state.chat.currentChat.title
   );
-  console.log(user)
   
   const [messages, setMessages] = useState([]);
 

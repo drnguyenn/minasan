@@ -30,26 +30,28 @@ const chatReducer = (state = INITIAL_STATE, action) => {
         error: action.payload
       };
 
-    case ChatActionTypes.FETCH_CHAT_CONTENT_START:
+    case ChatActionTypes.FETCH_CONVERSATIONS_START:
       return {
         ...state,
         isLoading: true
       };
 
-    case ChatActionTypes.FETCH_CHAT_CONTENT_SUCCESS:
+    case ChatActionTypes.FETCH_CONVERSATIONS_SUCCESS:
       return {
         ...state,
-        currentChat: action.payload,
+        history: action.payload,
         isLoading: false,
         error: null
       };
 
-    case ChatActionTypes.FETCH_CHAT_CONTENT_FAILURE:
+    case ChatActionTypes.FETCH_CONVERSATIONS_FAILURE:
       return {
         ...state,
         isLoading: false,
         error: action.payload
       };
+
+    case ChatActionTypes.FETCH_RANDOM:
 
     default:
       return state;

@@ -11,7 +11,7 @@ const ChatHistory = () => {
   const dispatch = useDispatch();
 
   const user = useSelector( state => state.user.currentUser)
-  dispatch(fetchConversationsStart(user.id))
+  dispatch(fetchConversationsStart())
 
   const user_history = []
 

@@ -26,7 +26,6 @@ export const getCurrentUser = async accessToken => {
         Authorization: `Bearer ${accessToken}`
       }
     });
-
     const { id, name: username, email: userEmail } = await response.json();
 
     return response.status === 200

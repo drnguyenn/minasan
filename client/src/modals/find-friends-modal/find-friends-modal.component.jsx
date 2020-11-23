@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
@@ -10,9 +10,13 @@ import {
   ListItemAvatar,
   Avatar
 } from '@material-ui/core';
+import {fetchRandom} from '../../redux/chat/chat.actions'
+
+
 import { Person } from '@material-ui/icons';
 
 import { toggleFindFriendsModalOpened } from '../../redux/modal/modal.actions';
+
 
 const FindFriendsModal = () => {
   const { isFindFriendsModalOpened } = useSelector(state => state.modal);

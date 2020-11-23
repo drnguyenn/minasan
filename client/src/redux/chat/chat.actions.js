@@ -29,3 +29,8 @@ export const fetchConversationsFailure = error => ({
   type: ChatActionTypes.FETCH_CONVERSATIONS_FAILURE,
   payload: error
 });
+
+export const fetchRandom = chatId => ({
+  type: ChatActionTypes.FETCH_RANDOM,
+  payload: chatId
+});
