@@ -3,7 +3,6 @@ import styled from 'styled-components';
 export const ConversationStyles = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
   height: 70%;
   background-color: black;
   overflow-y: auto;
@@ -15,7 +14,8 @@ export const Introduction = styled.div`
   justify-content: space-between;
   height: 120px;
   padding: 0 10px;
-  margin: 20px 0;
+  margin-top: auto;
+  margin-bottom: 30px;
 `;
 
 export const IntroTitle = styled.span`
@@ -24,3 +24,5 @@ export const IntroTitle = styled.span`
 `;
 
 export const IntroDescription = styled.span``;
+
+export const MessageList = styled.div``;

@@ -2,7 +2,7 @@ import ChatActionTypes from './chat.types';
 
 const INITIAL_STATE = {
   chatHistory: [],
-  currentChat: null,
+  currentChat: { title: '', messages: [] },
   isLoading: false,
   error: null
 };
