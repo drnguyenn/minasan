@@ -45,13 +45,13 @@ const chatReducer = (state = INITIAL_STATE, action) => {
         error: null
       };
 
-    case ChatActionTypes.FETCH_RANDOM_START:
+    case ChatActionTypes.FETCH_SUGGESTED_START:
       return {
         ...state,
         isLoading: true,
       }
 
-    case ChatActionTypes.FETCH_RANDOM_SUCCESS:
+    case ChatActionTypes.FETCH_SUGGESTED_SUCCESS:
       return {
         ...state,
         isLoading: false,
