@@ -11,8 +11,9 @@ import ChatActionTypes from './chat.types';
 
 export function* fetchChatContent({ payload }) {
   try {
-    const { chat } = yield call(ChatServices.fetchChatContent, payload);
-    
+    const {chatId, roomId} = payload
+    const { chat } = yield call(ChatServices.fetchChatContent, chatId, roomId);
+    // console.log(chat)
     yield put(fetchChatContentSuccess(chat));
   } catch (error) {
     yield put(fetchFailure(error));

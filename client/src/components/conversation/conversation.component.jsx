@@ -26,12 +26,13 @@ const Conversation = () => {
   }, [title]);
 
   return isLoading ? (
-    <Spinner />
+    <div>
+      <Spinner />
+      <div ref={conversationEndRef} />
+    </div>
   ) : (
     <ConversationStyles>
       <Introduction>
-        <Avatar alt={title} src='' />
-        <IntroTitle>{title}</IntroTitle>
         <IntroDescription>Your conversation starts here</IntroDescription>
       </Introduction>
       {messages.map(({ id, sender, ...otherProps }) => (

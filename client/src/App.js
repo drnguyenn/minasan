@@ -20,6 +20,7 @@ const HomePage = lazy(() => import('./pages/homepage/homepage.component'));
 const App = () => {
   const { isLoading, currentUser } = useSelector(state => state.user);
   const dispatch = useDispatch();
+  
   useEffect(() => {
     dispatch(getCurrentUser());
     dispatch(fetchConversationsStart());

@@ -12,6 +12,8 @@ const ChatHistory = () => {
 
   const partner = useSelector(state => state.chat.currentPartner);
   const chat_history = useSelector(state => state.chat.chatHistory);
+  const currentUser = useSelector(state => state.user.currentUser);
+  // console.log(currentUser);
 
   const [currentChatId, setCurrentChatId] = useState(null);
 
@@ -21,13 +23,16 @@ const ChatHistory = () => {
     }
   }, [partner]);
 
-  const partnersList = chat_history.map(h => {
+  const partnersList = chat_history.map(partner => {
+    let p = currentUser.id == partner.user1.id ? partner.user2 : partner.user1;
+    // console.log(part);
     return (
       <ChatHistoryItem
-        key={h.id}
-        title={h.user2.name.toString()}
-        handleClick={() => setCurrentChatId(h.user2.id)}
-        isSelected={currentChatId === h.user2.id}
+        key={partner.id}
+        title={p.name.toString()}
+        roomId={partner.id}
+        handleClick={() => setCurrentChatId(p.id)}
+        isSelected={currentChatId === p.id}
       />
     );
   });

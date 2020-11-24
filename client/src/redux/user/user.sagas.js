@@ -9,6 +9,9 @@ import {
   signUpFailure
 } from './user.actions';
 import * as UserServices from '../../services/user.services';
+
+import { fetchConversations } from '../../services/chat.services';
+import {fetchConversationsSuccess} from '../chat/chat.actions'
 import UserActionTypes from './user.types';
 
 export function* getCurrentUser() {
@@ -20,7 +23,7 @@ export function* getCurrentUser() {
     const { user } = yield call(UserServices.getCurrentUser, accessToken);
 
     if (!user) return;
-
+    yield put()
     yield put(signInSuccess(user));
   } catch (error) {
     yield put(signInFailure(error));
@@ -33,7 +36,11 @@ export function* signInWithEmail({ payload: { email, password } }) {
 
     if (!user) return;
 
+    const accessToken = localStorage.getItem('accessToken');
+    const { chat_list } = yield call(fetchConversations, accessToken);
+
     yield put(signInSuccess(user));
+    yield put(fetchConversationsSuccess(chat_list))
   } catch (error) {
     yield put(signInFailure(error));
   }
