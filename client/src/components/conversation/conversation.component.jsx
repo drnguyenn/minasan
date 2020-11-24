@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
+import FlipMove from 'react-flip-move';
 
 import { Avatar } from '@material-ui/core';
 
@@ -36,14 +37,16 @@ const Conversation = () => {
         <IntroTitle>{title}</IntroTitle>
         <IntroDescription>Your conversation starts here</IntroDescription>
       </Introduction>
-      {messages.map(({ id, sender, ...otherProps }) => (
-        <Message
-          key={id}
-          isMyMessage={sender === currentUser.username}
-          sender={sender}
-          {...otherProps}
-        />
-      ))}
+      <FlipMove>
+        {messages.map(({ id, sender, ...otherProps }) => (
+          <Message
+            key={id}
+            isMyMessage={sender === currentUser.username}
+            sender={sender}
+            {...otherProps}
+          />
+        ))}
+      </FlipMove>
       <MessageStatus>
         {isSending ? 'Sending...' : error ? 'Error' : 'Sent'}
       </MessageStatus>

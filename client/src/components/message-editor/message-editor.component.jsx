@@ -30,19 +30,18 @@ const MessageEditor = () => {
   };
 
   const onEnterPress = event => {
-    if (event.keyCode === 13 && event.shiftKey === false) {
+    if (text.length > 0 && event.keyCode === 13 && event.shiftKey === false)
       handleSubmit(event);
-    }
   };
 
   return (
     <MessageEditorStyles onSubmit={handleSubmit} id=''>
       <Input
+        type='text'
         value={text}
         onChange={handleInputChange}
-        type='text'
-        placeholder='Say something...'
         onKeyDown={onEnterPress}
+        placeholder='Say something...'
       />
       <Fab
         type='submit'
