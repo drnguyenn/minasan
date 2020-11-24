@@ -1,3 +1,5 @@
+import {API_URL} from '../config'
+
 export const fetchChatContent = async chatId => {
   // console.log('hello')
   return {
@@ -23,7 +25,7 @@ export const fetchConversations = async (accessToken) =>{
   try {
     console.log('fetchConversations')
     // console.log(accessToken)
-    const response = await fetch(`/api/conversations`, {
+    const response = await fetch(`${API_URL}/api/conversations`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${accessToken}`
@@ -45,7 +47,7 @@ export const fetchRandom = async (accessToken) =>{
   try {
     console.log('fetchRandom')
     // console.log(accessToken)
-    const response = await fetch(`/api/users/random`, {
+    const response = await fetch(`${API_URL}/api/users/random`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${accessToken}`
@@ -66,7 +68,7 @@ export const createConversation = async (accessToken,curr_id, aite_id) =>{
   try {
     console.log('create conversation')
     // console.log(accessToken)
-    const response = await fetch(`/api/conversations`, {
+    const response = await fetch(`${API_URL}/api/conversations`, {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${accessToken}`,

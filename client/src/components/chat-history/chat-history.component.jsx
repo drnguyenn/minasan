@@ -4,7 +4,6 @@ import { fetchConversationsStart } from '../../redux/chat/chat.actions';
 
 import ChatSearchBar from '../chat-search-bar/chat-search-bar.component';
 import ChatHistoryItem from '../chat-history-item/chat-history-item.component';
-import { UserSent } from '../chat-view/chat-view.styles';
 
 import { ChatHistoryStyles, ItemList } from './chat-history.styles';
 
@@ -33,12 +32,14 @@ const ChatHistory = () => {
   return (
     <ChatHistoryStyles>
       <ChatSearchBar />
-      <ChatHistoryItem
-        title={user.username}
-        handleClick={() => setCurrentChatId(user.id)}
-        isSelected={currentChatId === user.id}
-      />
-      <ItemList>{uh}</ItemList>
+      <ItemList>
+        <ChatHistoryItem
+          title={user.username}
+          handleClick={() => setCurrentChatId(user.id)}
+          isSelected={currentChatId === user.id}
+        />
+        {uh}
+      </ItemList>
     </ChatHistoryStyles>
   );
 };
