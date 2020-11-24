@@ -6,7 +6,7 @@ import { SqlLogger } from '../Loggers/sql.logger';
 
 config({ path: join(__dirname, '../../../.env') });
 
-export const ormConfig: ConnectionOptions = {
+export const OrmConfig: ConnectionOptions = {
   type: 'postgres',
   host: process.env.SQL_HOST,
   port: 5432,

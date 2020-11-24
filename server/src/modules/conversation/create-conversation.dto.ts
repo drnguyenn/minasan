@@ -6,7 +6,7 @@ export class CreateConversationDto {
   @IsDefined()
   @IsNumber()
   user1Id: number;
-  
+
   @ApiProperty()
   @IsDefined()
   @IsNumber()
