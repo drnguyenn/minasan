@@ -19,9 +19,9 @@ export const fetchConversationsStart = () => ({
   type: ChatActionTypes.FETCH_CONVERSATIONS_START
 });
 
-export const fetchConversationsSuccess = chat_list => ({
+export const fetchConversationsSuccess = (chat_list, user) => ({
   type: ChatActionTypes.FETCH_CONVERSATIONS_SUCCESS,
-  payload: chat_list
+  payload: { chat_list, user }
 });
 
 export const fetchConversationsFailure = error => ({
@@ -38,18 +38,14 @@ export const fetchSuggestedUsersSuccess = suggesstedList => ({
   payload: suggesstedList
 });
 
-// export const createConversation = partnerId => ({
-//   type: ChatActionTypes.CREATE_CONVERSATION_START,
-//   payload: { partnerId }
-// });
 export const fetchSuggestedUsersFailure = error => ({
   type: ChatActionTypes.FETCH_SUGGESTED_USERS_FAILURE,
   payload: error
 });
 
-export const createConversationStart = (currentUserId, partnerId) => ({
+export const createConversationStart = partnerId => ({
   type: ChatActionTypes.CREATE_CONVERSATION_START,
-  payload: { currentUserId, partnerId }
+  payload: partnerId
 });
 
 export const createConversationSuccess = userList => ({

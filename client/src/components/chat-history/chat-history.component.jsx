@@ -7,20 +7,14 @@ import Spinner from '../spinner/spinner.component';
 
 import { ChatHistoryStyles, ItemList } from './chat-history.styles';
 
+import { fetchConversationsStart } from '../../redux/chat/chat.actions';
+
 const ChatHistory = () => {
   const dispatch = useDispatch();
 
   // const partner = useSelector(state => state.chat.currentPartner);
   // const chat_history = useSelector(state => state.chat.chatHistory);
   // const currentUser = useSelector(state => state.user.currentUser);
-
-  // const [currentChatId, setCurrentChatId] = useState(null);
-
-  // useEffect(() => {
-  //   if (partner != null) {
-  //     setCurrentChatId(partner.id);
-  //   }
-  // }, [partner]);
 
   // const partnersList = chat_history.map(partner => {
   //   let p = currentUser.id == partner.user1.id ? partner.user2 : partner.user1;
@@ -46,7 +40,7 @@ const ChatHistory = () => {
   useEffect(() => {
     if (chatHistory.length) setCurrentChatId(chatHistory[0].id);
   }, [chatHistory]);
-
+  console.log(chatHistory);
   return (
     <ChatHistoryStyles>
       <ChatSearchBar />
@@ -55,19 +49,20 @@ const ChatHistory = () => {
         <Spinner />
       ) : (
         <ItemList>
-          <ChatHistoryItem
-            title={user.username}
-            handleClick={() => setCurrentChatId(user.id)}
-            isSelected={currentChatId === user.id}
-          />
-          {chatHistory.map(chatHistoryItem => (
-            <ChatHistoryItem
-              key={chatHistoryItem.id}
-              title={chatHistoryItem.user2Id.toString()}
-              handleClick={() => setCurrentChatId(chatHistoryItem.id)}
-              isSelected={currentChatId === chatHistoryItem.id}
-            />
-          ))}
+          {chatHistory.map(chatHistoryItem => {
+            const partner =
+              user.id === chatHistoryItem.user1.id
+                ? chatHistoryItem.user2
+                : chatHistoryItem.user1;
+            return (
+              <ChatHistoryItem
+                key={chatHistoryItem.id}
+                title={partner.name}
+                handleClick={() => setCurrentChatId(chatHistoryItem.id)}
+                isSelected={currentChatId === chatHistoryItem.id}
+              />
+            );
+          })}
         </ItemList>
       )}
     </ChatHistoryStyles>

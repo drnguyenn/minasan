@@ -5,7 +5,7 @@ const INITIAL_STATE = {
   suggestedUser: [],
   // currentChat: { title: '', roomId: -1, messages: [] },
   currentPartner: null,
-  currentChat: { conversationId: '', title: '', messages: [] },
+  currentChat: { conversationId: '', title: '', roomId: -1, messages: [] },
   isLoading: false,
   isSending: false,
   error: null
@@ -34,12 +34,20 @@ const chatReducer = (state = INITIAL_STATE, action) => {
       };
 
     case ChatActionTypes.FETCH_CONVERSATIONS_SUCCESS:
-      const currPartner =
-        action.payload.length > 0 ? action.payload[0].user2 : null;
+      // const currPartner =
+      //   action.payload.length > 0 ? action.payload[0].user2 : null;
+      const { chat_list, user } = action.payload;
+      var currPartner;
+      if (chat_list > 0) {
+        currPartner =
+          chat_list.user2.id === user.id ? chat_list.user1 : chat_list.user2;
+      }
+      console.log(chat_list);
+      console.log(user);
       return {
         ...state,
-        chatHistory: action.payload,
-        currentPartner: currPartner,
+        chatHistory: chat_list,
+        currentPartner: null,
         isLoading: false,
         error: null
       };

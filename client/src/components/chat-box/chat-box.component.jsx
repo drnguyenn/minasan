@@ -22,8 +22,10 @@ import { socket } from '../../socket/socket';
 const ChatBox = () => {
   const dispatch = useDispatch();
   const history = useSelector(state => state.chat.chatHistory);
+  const currChat = useSelector(state => state.chat.currentChat);
   const currentUser = useSelector(state => state.user.currentUser);
   let partner = null;
+
   if (history.length > 0) {
     partner =
       history[0].user1.id === currentUser.id
@@ -53,23 +55,14 @@ const ChatBox = () => {
       socket.on('new-room', fetchConversationsStart());
       connected = true;
     }
-    //   dispatch(
-    //     fetchChatContentStart(
-    //       partner != null ? partner.name : 'There is no one here',
-    //       history[0].id
-    //     )
-    //   );
-    // }, [partner]);
 
-    const currChat = useSelector(state => state.chat.currentChat);
-    dispatch(fetchChatContentStart(user.username));
-  }, [dispatch, user]);
-
-  const { title } = useSelector(state => state.chat.currentChat);
+    // dispatch(fetchChatContentStart(partner.id, history[0].id));
+  }, [dispatch, currentUser]);
 
   const sendMessage = mes => {
+    console.log('runthis');
     const data = {
-      roomId: currChat.roomId,
+      roomId: 1,
       message: mes,
       senderId: currentUser.id
     };
@@ -86,13 +79,8 @@ const ChatBox = () => {
         </AvatarAndTitle>
       </Header>
       <Conversation />
-      {/* <MessageEditor
-        onSend={(isSender, text) => {
-          sendMessage(text);
-          setMessages([...messages, { isSender, text }]);
-        }}
-      /> */}
-      <MessageEditor />
+      <MessageEditor sendEvent={sendMessage} />
+      {/* <MessageEditor /> */}
     </ChatBoxStyles>
   );
 };

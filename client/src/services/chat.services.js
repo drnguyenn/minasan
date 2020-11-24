@@ -1,20 +1,20 @@
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
-export const fetchChatContent = async (chatId, roomId) => {
+export const fetchChatContent = async (title, roomId) => {
   return {
     chat: {
-      title: chatId,
+      title: title,
       roomId: roomId,
       messages: [
         {
           id: 1,
           sender: 'test.user',
-          content: 'Hi there'
+          message: 'Hi there'
         },
         {
           id: 2,
           sender: 'long',
-          content: "What 's uppp"
+          message: "What 's uppp"
         }
       ]
     }
