@@ -24,45 +24,41 @@ const ChatBox = () => {
   const history = useSelector(state => state.chat.chatHistory);
   const currChat = useSelector(state => state.chat.currentChat);
   const currentUser = useSelector(state => state.user.currentUser);
-  let partner = null;
-
-  if (history.length > 0) {
-    partner =
-      history[0].user1.id === currentUser.id
-        ? history[0].user2
-        : history[0].user1;
-  }
+  const partner = useSelector(state => state.chat.currentPartner);
 
   const roomIds = history.map(h => h.id);
   const userId = currentUser.id;
 
-  let connected = false;
+  useEffect(() => {
+    socket.on('connect', () => {
+      socket.emit('join-rooms', { roomIds, userId });
+    });
+
+    socket.on('joined-room', room_id =>
+      console.log(`joined room id: ${room_id}`)
+    );
+
+    socket.on('broadcast-message', data => {
+      console.log(data);
+    });
+
+    socket.on('new-room', fetchConversationsStart());
+  }, []);
 
   useEffect(() => {
-    if (!connected) {
-      socket.on('connect', () => {
-        socket.emit('join-rooms', { roomIds, userId });
-      });
+    dispatch(
+      fetchChatContentStart(
+        partner != null ? partner.name : 'No one here yet',
+        history.length ? history[0].id : -1
+      )
+    );
+  }, [dispatch, partner]);
 
-      socket.on('joined-room', room_id =>
-        console.log(`joined room id: ${room_id}`)
-      );
-
-      socket.on('broadcast-message', data => {
-        console.log(data);
-      });
-
-      socket.on('new-room', fetchConversationsStart());
-      connected = true;
-    }
-
-    // dispatch(fetchChatContentStart(partner.id, history[0].id));
-  }, [dispatch, currentUser]);
+  console.log(currChat);
 
   const sendMessage = mes => {
-    console.log('runthis');
     const data = {
-      roomId: 1,
+      roomId: currChat.roomId,
       message: mes,
       senderId: currentUser.id
     };

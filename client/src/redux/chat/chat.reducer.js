@@ -3,7 +3,6 @@ import ChatActionTypes from './chat.types';
 const INITIAL_STATE = {
   chatHistory: [],
   suggestedUser: [],
-  // currentChat: { title: '', roomId: -1, messages: [] },
   currentPartner: null,
   currentChat: { conversationId: '', title: '', roomId: -1, messages: [] },
   isLoading: false,
@@ -34,20 +33,18 @@ const chatReducer = (state = INITIAL_STATE, action) => {
       };
 
     case ChatActionTypes.FETCH_CONVERSATIONS_SUCCESS:
-      // const currPartner =
-      //   action.payload.length > 0 ? action.payload[0].user2 : null;
       const { chat_list, user } = action.payload;
       var currPartner;
-      if (chat_list > 0) {
+      if (chat_list.length > 0) {
         currPartner =
-          chat_list.user2.id === user.id ? chat_list.user1 : chat_list.user2;
+          chat_list[0].user2.id === user.id
+            ? chat_list[0].user1
+            : chat_list[0].user2;
       }
-      console.log(chat_list);
-      console.log(user);
       return {
         ...state,
         chatHistory: chat_list,
-        currentPartner: null,
+        currentPartner: currPartner,
         isLoading: false,
         error: null
       };
