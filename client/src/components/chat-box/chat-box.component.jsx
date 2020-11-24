@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import io from 'socket.io-client';
 
 import { Avatar } from '@material-ui/core';
 
@@ -52,17 +53,19 @@ const ChatBox = () => {
       socket.on('new-room', fetchConversationsStart());
       connected = true;
     }
-    dispatch(
-      fetchChatContentStart(
-        partner != null ? partner.name : 'There is no one here',
-        history[0].id
-      )
-    );
-  }, [partner]);
+    //   dispatch(
+    //     fetchChatContentStart(
+    //       partner != null ? partner.name : 'There is no one here',
+    //       history[0].id
+    //     )
+    //   );
+    // }, [partner]);
 
-  const currChat = useSelector(state => state.chat.currentChat);
+    const currChat = useSelector(state => state.chat.currentChat);
+    dispatch(fetchChatContentStart(user.username));
+  }, [dispatch, user]);
 
-  const [messages, setMessages] = useState([]);
+  const { title } = useSelector(state => state.chat.currentChat);
 
   const sendMessage = mes => {
     const data = {
@@ -83,12 +86,13 @@ const ChatBox = () => {
         </AvatarAndTitle>
       </Header>
       <Conversation />
-      <MessageEditor
+      {/* <MessageEditor
         onSend={(isSender, text) => {
           sendMessage(text);
           setMessages([...messages, { isSender, text }]);
         }}
-      />
+      /> */}
+      <MessageEditor />
     </ChatBoxStyles>
   );
 };

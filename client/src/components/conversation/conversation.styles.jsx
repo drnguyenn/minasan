@@ -25,4 +25,7 @@ export const IntroTitle = styled.span`
 
 export const IntroDescription = styled.span``;
 
-export const MessageList = styled.div``;
+export const MessageStatus = styled.span`
+  align-self: flex-end;
+  margin: 0 10px;
+`;

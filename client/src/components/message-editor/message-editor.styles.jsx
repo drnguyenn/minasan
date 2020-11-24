@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const MessageEditorStyles = styled.div`
+export const MessageEditorStyles = styled.form`
   display: flex;
   justify-content: space-between;
   align-items: center;
