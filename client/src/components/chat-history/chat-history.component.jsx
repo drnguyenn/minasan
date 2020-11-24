@@ -10,20 +10,24 @@ import { ChatHistoryStyles, ItemList } from './chat-history.styles';
 const ChatHistory = () => {
   const dispatch = useDispatch();
 
-  const user = useSelector(state => state.user.currentUser);
+  const partner = useSelector(state => state.chat.currentPartner);
   const chat_history = useSelector(state => state.chat.chatHistory);
 
-  const [currentChatId, setCurrentChatId] = useState(user.name);
+  const [currentChatId, setCurrentChatId] = useState(null);
+
   useEffect(() => {
-    dispatch(fetchConversationsStart());
-  }, [dispatch]);
-  const uh = chat_history.map(h => {
+    if (partner != null) {
+      setCurrentChatId(partner.id);
+    }
+  }, [partner]);
+
+  const partnersList = chat_history.map(h => {
     return (
       <ChatHistoryItem
         key={h.id}
-        title={h.user2Id.toString()}
-        handleClick={() => setCurrentChatId(h.id)}
-        isSelected={currentChatId === h.id}
+        title={h.user2.name.toString()}
+        handleClick={() => setCurrentChatId(h.user2.id)}
+        isSelected={currentChatId === h.user2.id}
       />
     );
   });
@@ -31,14 +35,7 @@ const ChatHistory = () => {
   return (
     <ChatHistoryStyles>
       <ChatSearchBar />
-      <ItemList>
-        <ChatHistoryItem
-          title={user.username}
-          handleClick={() => setCurrentChatId(user.id)}
-          isSelected={currentChatId === user.id}
-        />
-        {uh}
-      </ItemList>
+      <ItemList>{partnersList}</ItemList>
     </ChatHistoryStyles>
   );
 };

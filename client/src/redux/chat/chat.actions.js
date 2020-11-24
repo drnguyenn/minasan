@@ -33,12 +33,7 @@ export const fetchSuggestedUsersSuccess = suggesstedList => ({
   payload: suggesstedList
 });
 
-export const createConversation = (currentUserId, partnerId) => ({
+export const createConversation = (partnerId) => ({
   type: ChatActionTypes.CREATE_CONVERSATION_START,
-  payload: {currentUserId, partnerId},
-});
-
-export const createConversationSuccess = user_list => ({
-  type: ChatActionTypes.CREATE_CONVERSATION_SUCCESS,
-  payload: user_list
+  payload: {partnerId},
 });

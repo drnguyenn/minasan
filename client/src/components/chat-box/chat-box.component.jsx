@@ -19,12 +19,15 @@ import io from 'socket.io-client';
 
 const ChatBox = () => {
   const dispatch = useDispatch();
-  const user = useSelector(state => state.user.currentUser);
-  const socket = io();
+  const partner = useSelector(state => state.chat.currentPartner);
 
   useEffect(() => {
-    dispatch(fetchChatContentStart(user.username));
-  }, [dispatch]);
+    dispatch(
+      fetchChatContentStart(
+        partner != null ? partner.name : 'There is no one here'
+      )
+    );
+  }, [partner]);
 
   const title = useSelector(
     state => state.chat.currentChat && state.chat.currentChat.title

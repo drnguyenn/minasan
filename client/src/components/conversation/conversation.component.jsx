@@ -13,7 +13,6 @@ import {
   IntroDescription
 } from './conversation.styles';
 
-
 const Conversation = () => {
   const { isLoading } = useSelector(state => state.chat);
   const { title, messages } = useSelector(state => state.chat.currentChat);

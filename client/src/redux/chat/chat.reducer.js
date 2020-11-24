@@ -4,6 +4,7 @@ const INITIAL_STATE = {
   chatHistory: [],
   suggestedUser: [],
   currentChat: { title: '', messages: [] },
+  currentPartner: null,
   isLoading: false,
   error: null
 };
@@ -38,9 +39,11 @@ const chatReducer = (state = INITIAL_STATE, action) => {
       };
 
     case ChatActionTypes.FETCH_CONVERSATIONS_SUCCESS:
+      const currPartner = action.payload.length>0?action.payload[0].user2:null
       return {
         ...state,
         chatHistory: action.payload,
+        currentPartner: currPartner,
         isLoading: false,
         error: null
       };
@@ -64,11 +67,6 @@ const chatReducer = (state = INITIAL_STATE, action) => {
         isLoading: true,
       }
 
-    case ChatActionTypes.CREATE_CONVERSATION_SUCCESS:
-      return {
-        ...state,
-        isLoading: false,
-      }
 
     default:
       return state;

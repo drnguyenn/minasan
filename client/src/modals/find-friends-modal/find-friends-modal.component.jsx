@@ -20,12 +20,11 @@ const FindFriendsModal = () => {
   const { isFindFriendsModalOpened } = useSelector(state => state.modal);
 
   const dispatch = useDispatch();
-  const current_user = useSelector(state => state.user.currentUser);
   const users = useSelector(state => state.chat.suggestedUser);
 
-  const click_event = user_id => {
+  const clickEvent = partnerId => {
     dispatch(toggleFindFriendsModalOpened());
-    dispatch(createConversation(current_user.id, user_id));
+    dispatch(createConversation(partnerId));
   };
 
   return (
@@ -36,7 +35,7 @@ const FindFriendsModal = () => {
       <DialogTitle>Get new friends</DialogTitle>
       <List>
         {users.map(user => (
-          <ListItem key={user.id} onClick={() => click_event(user.id)} button>
+          <ListItem key={user.id} onClick={() => clickEvent(user.id)} button>
             <ListItemAvatar>
               <Avatar>
                 <Person />

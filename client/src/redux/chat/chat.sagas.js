@@ -4,7 +4,6 @@ import {
   fetchChatContentSuccess,
   fetchFailure,
   fetchConversationsSuccess,
-  createConversationSuccess,
   fetchSuggestedUsersSuccess,
 } from './chat.actions';
 import * as ChatServices from '../../services/chat.services';
@@ -42,13 +41,15 @@ export function* FetchSuggestedUsers( ) {
   }
 }
 
-export function* createConversation({ payload: { currentUserId, partnerId } }) {
+export function* createConversation({ payload: { partnerId } }) {
   try {
     const accessToken = localStorage.getItem('accessToken');
 
-    const {con} = yield call(ChatServices.createConversation, accessToken, currentUserId, partnerId)
+    yield call(ChatServices.createConversation, accessToken, partnerId)
+    const { chat_list } = yield call(ChatServices.fetchConversations, accessToken);
 
-    yield put(createConversationSuccess(con))
+    yield put(fetchConversationsSuccess(chat_list))
+
   } catch (error) {
     yield put(fetchFailure(error))
   }

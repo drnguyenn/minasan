@@ -61,7 +61,7 @@ export const FetchSuggestedUsers = async (accessToken) =>{
   }
 }
 
-export const createConversation = async (accessToken,currentUserId, partnerId) =>{
+export const createConversation = async (accessToken, partnerId) =>{
   try {
     console.log('create conversation')
     const response = await fetch(`${BASE_URL}/api/conversations`, {
@@ -70,8 +70,9 @@ export const createConversation = async (accessToken,currentUserId, partnerId) =
         Authorization: `Bearer ${accessToken}`,
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ user1Id: currentUserId, user2Id: partnerId })
+      body: JSON.stringify({ userId: partnerId })
     });
+    
     if (response.status === 200) {
       let re = await response.json()
       return {re}
