@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Redirect, Route, Switch } from 'react-router-dom';
 
 import { getCurrentUser } from './redux/user/user.actions';
-import {fetchConversationsStart} from './redux/chat/chat.actions'
+import { fetchConversationsStart } from './redux/chat/chat.actions';
 
 import PrivateRoute from './routes/private-route.component';
 
@@ -20,12 +20,11 @@ const HomePage = lazy(() => import('./pages/homepage/homepage.component'));
 const App = () => {
   const { isLoading, currentUser } = useSelector(state => state.user);
   const dispatch = useDispatch();
-  
+
   useEffect(() => {
     dispatch(getCurrentUser());
     dispatch(fetchConversationsStart());
   }, [dispatch]);
-  
 
   return (
     <div>

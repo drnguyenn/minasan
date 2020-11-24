@@ -13,7 +13,6 @@ const ChatHistory = () => {
   const partner = useSelector(state => state.chat.currentPartner);
   const chat_history = useSelector(state => state.chat.chatHistory);
   const currentUser = useSelector(state => state.user.currentUser);
-  // console.log(currentUser);
 
   const [currentChatId, setCurrentChatId] = useState(null);
 
@@ -25,7 +24,6 @@ const ChatHistory = () => {
 
   const partnersList = chat_history.map(partner => {
     let p = currentUser.id == partner.user1.id ? partner.user2 : partner.user1;
-    // console.log(part);
     return (
       <ChatHistoryItem
         key={partner.id}
