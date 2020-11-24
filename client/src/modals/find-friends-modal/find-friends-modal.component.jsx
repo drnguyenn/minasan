@@ -22,11 +22,9 @@ const FindFriendsModal = () => {
   const dispatch = useDispatch();
   const current_user = useSelector(state => state.user.currentUser);
   const users = useSelector(state => state.chat.suggestedUser);
-  // console.log(users)
 
   const click_event = user_id => {
     dispatch(toggleFindFriendsModalOpened());
-    console.log(current_user.id);
     dispatch(createConversation(current_user.id, user_id));
   };
 

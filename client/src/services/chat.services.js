@@ -1,7 +1,6 @@
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 export const fetchChatContent = async chatId => {
-  // console.log('hello')
   return {
     chat: {
       title: chatId,
@@ -24,7 +23,6 @@ export const fetchChatContent = async chatId => {
 export const fetchConversations = async (accessToken) =>{
   try {
     console.log('fetchConversations')
-    // console.log(accessToken)
     const response = await fetch(`${BASE_URL}/api/conversations`, {
       method: 'GET',
       headers: {
@@ -46,7 +44,6 @@ export const fetchConversations = async (accessToken) =>{
 export const FetchSuggestedUsers = async (accessToken) =>{
   try {
     console.log('fetchSuggestedUsers')
-    // console.log(accessToken)
     const response = await fetch(`${BASE_URL}/api/users/random`, {
       method: 'GET',
       headers: {
@@ -67,7 +64,6 @@ export const FetchSuggestedUsers = async (accessToken) =>{
 export const createConversation = async (accessToken,currentUserId, partnerId) =>{
   try {
     console.log('create conversation')
-    // console.log(accessToken)
     const response = await fetch(`${BASE_URL}/api/conversations`, {
       method: 'POST',
       headers: {
@@ -80,10 +76,7 @@ export const createConversation = async (accessToken,currentUserId, partnerId) =
       let re = await response.json()
       return {re}
     }
-    // if (response.status === 400) {
-    //   console.error('Bad Request')
-    //   console.log(response.meta)
-    // }
+
     return {};
   } catch (error) {
     console.error(error);

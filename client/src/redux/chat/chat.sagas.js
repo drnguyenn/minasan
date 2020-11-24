@@ -24,7 +24,6 @@ export function* fetchConversations( ) {
   try {
     const accessToken = localStorage.getItem('accessToken');
     const { chat_list } = yield call(ChatServices.fetchConversations, accessToken);
-    // console.log(chat_list)
 
     yield put(fetchConversationsSuccess(chat_list))
   } catch (error) {
@@ -37,7 +36,6 @@ export function* FetchSuggestedUsers( ) {
   try {
     const accessToken = localStorage.getItem('accessToken');
     const {user_list} = yield call(ChatServices.FetchSuggestedUsers, accessToken);
-    // console.log(user_list)
     yield put(fetchSuggestedUsersSuccess(user_list))
   } catch (error) {
     yield put(fetchFailure(error))
@@ -50,7 +48,6 @@ export function* createConversation({ payload: { currentUserId, partnerId } }) {
 
     const {con} = yield call(ChatServices.createConversation, accessToken, currentUserId, partnerId)
 
-    // console.log(con)
     yield put(createConversationSuccess(con))
   } catch (error) {
     yield put(fetchFailure(error))
