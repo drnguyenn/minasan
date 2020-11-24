@@ -24,7 +24,7 @@ const ChatBox = () => {
   const socket = io();
 
   useEffect(() => {
-    dispatch(fetchChatContentStart(user.name));
+    dispatch(fetchChatContentStart(user.username));
   }, [dispatch]);
 
   const title = useSelector(

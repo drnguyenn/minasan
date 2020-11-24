@@ -45,7 +45,7 @@ export const fetchConversations = async (accessToken) =>{
 
 export const FetchSuggestedUsers = async (accessToken) =>{
   try {
-    console.log('fetchRandom')
+    console.log('fetchSuggestedUsers')
     // console.log(accessToken)
     const response = await fetch(`${BASE_URL}/api/users/random`, {
       method: 'GET',

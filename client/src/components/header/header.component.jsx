@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 import { toggleFindFriendsModalOpened } from '../../redux/modal/modal.actions';
-import { fetchRandom } from '../../redux/chat/chat.actions';
+import { fetchSuggestedUsers } from '../../redux/chat/chat.actions';
 
 import AvatarDropdown from '../avatar-dropdown/avatar-dropdown.component';
 
@@ -18,10 +18,10 @@ const Header = () => {
   const history = useHistory();
 
   const dispatch = useDispatch();
-  const clickEffect = ()=>{
-    dispatch(toggleFindFriendsModalOpened())
-    dispatch(fetchRandom())
-  }
+  const clickEffect = () => {
+    dispatch(toggleFindFriendsModalOpened());
+    dispatch(fetchSuggestedUsers());
+  };
 
   return (
     <HeaderStyles>
@@ -29,11 +29,7 @@ const Header = () => {
 
       {currentUser ? (
         <OptionsContainer>
-          <Fab
-            variant='extended'
-            color='primary'
-            onClick={() => clickEffect()}
-          >
+          <Fab variant='extended' color='primary' onClick={() => clickEffect()}>
             <Group />
             Find Friends
           </Fab>

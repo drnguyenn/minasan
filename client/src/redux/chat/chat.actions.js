@@ -11,7 +11,7 @@ export const fetchChatContentSuccess = chat => ({
 });
 
 export const fetchFailure = error => ({
-  type: ChatActionTypes.FETCH_CHAT_CONTENT_FAILURE,
+  type: ChatActionTypes.FETCH_FAILURE,
   payload: error
 });
 

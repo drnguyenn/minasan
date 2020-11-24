@@ -4,8 +4,8 @@ import {
   fetchChatContentSuccess,
   fetchFailure,
   fetchConversationsSuccess,
-  createConversasionSuccess,
-
+  createConversationSuccess,
+  fetchSuggestedUsersSuccess,
 } from './chat.actions';
 import * as ChatServices from '../../services/chat.services';
 import ChatActionTypes from './chat.types';
@@ -32,9 +32,6 @@ export function* fetchConversations( ) {
   }
 }
 
-export function* onFetchConversationStart(){
-  yield takeLatest(ChatActionTypes.FETCH_CONVERSATIONS_START, fetchConversations);
-}
 
 export function* FetchSuggestedUsers( ) {
   try {
@@ -47,14 +44,14 @@ export function* FetchSuggestedUsers( ) {
   }
 }
 
-export function* createConversasion({ payload: { currentUserId, partnerId } }) {
+export function* createConversation({ payload: { currentUserId, partnerId } }) {
   try {
     const accessToken = localStorage.getItem('accessToken');
 
     const {con} = yield call(ChatServices.createConversation, accessToken, currentUserId, partnerId)
 
     // console.log(con)
-    yield put(createConversasionSuccess(con))
+    yield put(createConversationSuccess(con))
   } catch (error) {
     yield put(fetchFailure(error))
   }
@@ -68,16 +65,19 @@ export function* onFetchSuggestedUsers(){
   yield takeLatest(ChatActionTypes.FETCH_SUGGESTED_START, FetchSuggestedUsers);
 }
 
-export function* onCreateConversasion(){
-  yield takeLatest(ChatActionTypes.CREATE_CONVERSASION_START, createConversasion);
+export function* onCreateConversation(){
+  yield takeLatest(ChatActionTypes.CREATE_CONVERSATION_START, createConversation);
 }
 
+export function* onFetchConversationStart(){
+  yield takeLatest(ChatActionTypes.FETCH_CONVERSATIONS_START, fetchConversations);
+}
 
 export function* chatSagas() {
   yield all([
     call(onFetchChatContentStart),
     call(onFetchConversationStart),
     call(onFetchSuggestedUsers),
-    call(onCreateConversasion),
+    call(onCreateConversation),
   ]);
 }

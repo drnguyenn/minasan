@@ -14,22 +14,21 @@ import {
 import { Person } from '@material-ui/icons';
 
 import { toggleFindFriendsModalOpened } from '../../redux/modal/modal.actions';
-import { createConversasion } from '../../redux/chat/chat.actions';
-
+import { createConversation } from '../../redux/chat/chat.actions';
 
 const FindFriendsModal = () => {
   const { isFindFriendsModalOpened } = useSelector(state => state.modal);
 
   const dispatch = useDispatch();
-  const current_user = useSelector(state => state.user.currentUser)
-  const users = useSelector(state =>state.chat.random_chatter);
+  const current_user = useSelector(state => state.user.currentUser);
+  const users = useSelector(state => state.chat.suggestedUser);
   // console.log(users)
 
-  const click_event= (user_id)=>{
-    dispatch(toggleFindFriendsModalOpened())
-    console.log(current_user.id)
-    dispatch(createConversasion(current_user.id, user_id ))
-  }
+  const click_event = user_id => {
+    dispatch(toggleFindFriendsModalOpened());
+    console.log(current_user.id);
+    dispatch(createConversation(current_user.id, user_id));
+  };
 
   return (
     <Dialog
