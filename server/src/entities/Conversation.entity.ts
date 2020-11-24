@@ -1,11 +1,23 @@
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
+
 import { BaseEntity } from './Base.entity';
+import { Message } from './Message.entity';
+import { User } from './User.entity';
 
 @Entity()
 export class Conversation extends BaseEntity {
-  @Column({name: 'user_1_id',  type: 'int', nullable: false })
+  @Column()
   user1Id: number;
 
-  @Column({name: 'user_2_id',  type: 'int', nullable: false })
+  @Column()
   user2Id: number;
+
+  @OneToMany(() => Message, (message) => message.conversation, { eager: true, cascade: true })
+  messages: Message[];
+
+  @ManyToOne(() => User, (user) => user.conversations1, { eager: true, cascade: true })
+  user1: User;
+
+  @ManyToOne(() => User, (user) => user.conversations2, { eager: true, cascade: true })
+  user2: User;
 }

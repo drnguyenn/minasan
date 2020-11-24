@@ -1,8 +1,8 @@
 import { Body, Controller, DefaultValuePipe, Get, Param, Post, Query, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
-import { Message } from 'src/entities/Message.entity';
 
+import { Message } from '../../entities/Message.entity';
 import { CreateMessageDto } from './messages.dto';
 import { MessagesService } from './messages.service';
 
