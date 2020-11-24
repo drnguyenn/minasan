@@ -10,12 +10,13 @@ import {
   ConversationStyles,
   Introduction,
   IntroTitle,
-  IntroDescription
+  IntroDescription,
+  MessageStatus
 } from './conversation.styles';
 
-
 const Conversation = () => {
-  const { isLoading } = useSelector(state => state.chat);
+  const { isLoading, isSending, error } = useSelector(state => state.chat);
+
   const { title, messages } = useSelector(state => state.chat.currentChat);
 
   const { currentUser } = useSelector(state => state.user);
@@ -24,7 +25,7 @@ const Conversation = () => {
 
   useEffect(() => {
     conversationEndRef.current.scrollIntoView({ behavior: 'smooth' });
-  }, [title]);
+  }, [messages]);
 
   return isLoading ? (
     <Spinner />
@@ -43,6 +44,9 @@ const Conversation = () => {
           {...otherProps}
         />
       ))}
+      <MessageStatus>
+        {isSending ? 'Sending...' : error ? 'Error' : 'Sent'}
+      </MessageStatus>
       <div ref={conversationEndRef} />
     </ConversationStyles>
   );

@@ -20,30 +20,27 @@ export const fetchChatContent = async chatId => {
   };
 };
 
-export const fetchConversations = async (accessToken) =>{
+export const fetchConversations = async accessToken => {
   try {
-    console.log('fetchConversations')
+    console.log('fetchConversations');
     const response = await fetch(`${BASE_URL}/api/conversations`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${accessToken}`
       }
     });
-    const res = await response.json()
+    const res = await response.json();
 
-    return response.status === 200
-      ? { chat_list :res }
-      : {};
-      
+    return response.status === 200 ? { chat_list: res } : {};
   } catch (error) {
     console.error(error);
     throw new Error(error.message);
   }
-}
+};
 
-export const FetchSuggestedUsers = async (accessToken) =>{
+export const FetchSuggestedUsers = async accessToken => {
   try {
-    console.log('fetchSuggestedUsers')
+    console.log('fetchSuggestedUsers');
     const response = await fetch(`${BASE_URL}/api/users/random`, {
       method: 'GET',
       headers: {
@@ -51,19 +48,20 @@ export const FetchSuggestedUsers = async (accessToken) =>{
       }
     });
     const userlist = await response.json();
-    return response.status === 200
-      ? { user_list :userlist }
-      : {};
-
+    return response.status === 200 ? { user_list: userlist } : {};
   } catch (error) {
     console.error(error);
     throw new Error(error.message);
   }
-}
+};
 
-export const createConversation = async (accessToken,currentUserId, partnerId) =>{
+export const createConversation = async (
+  accessToken,
+  currentUserId,
+  partnerId
+) => {
   try {
-    console.log('create conversation')
+    console.log('create conversation');
     const response = await fetch(`${BASE_URL}/api/conversations`, {
       method: 'POST',
       headers: {
@@ -73,8 +71,8 @@ export const createConversation = async (accessToken,currentUserId, partnerId) =
       body: JSON.stringify({ user1Id: currentUserId, user2Id: partnerId })
     });
     if (response.status === 200) {
-      let re = await response.json()
-      return {re}
+      let re = await response.json();
+      return { re };
     }
 
     return {};
@@ -82,4 +80,15 @@ export const createConversation = async (accessToken,currentUserId, partnerId) =
     console.error(error);
     throw new Error(error.message);
   }
-}
+};
+
+export const sendMessage = async (message, conversationId) => {
+  try {
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
+    return { id: Math.random(), ...message };
+  } catch (error) {
+    console.error(error);
+    throw new Error(error.message);
+  }
+};

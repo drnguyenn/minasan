@@ -14,7 +14,7 @@ import {
 import { Person } from '@material-ui/icons';
 
 import { toggleFindFriendsModalOpened } from '../../redux/modal/modal.actions';
-import { createConversation } from '../../redux/chat/chat.actions';
+import { createConversationStart } from '../../redux/chat/chat.actions';
 
 const FindFriendsModal = () => {
   const { isFindFriendsModalOpened } = useSelector(state => state.modal);
@@ -25,7 +25,7 @@ const FindFriendsModal = () => {
 
   const click_event = user_id => {
     dispatch(toggleFindFriendsModalOpened());
-    dispatch(createConversation(current_user.id, user_id));
+    dispatch(createConversationStart(current_user.id, user_id));
   };
 
   return (

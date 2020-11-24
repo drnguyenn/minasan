@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import io from 'socket.io-client';
 
 import { Avatar } from '@material-ui/core';
 
@@ -15,8 +16,6 @@ import {
   Title
 } from './chat-box.styles';
 
-import io from 'socket.io-client';
-
 const ChatBox = () => {
   const dispatch = useDispatch();
   const user = useSelector(state => state.user.currentUser);
@@ -24,13 +23,9 @@ const ChatBox = () => {
 
   useEffect(() => {
     dispatch(fetchChatContentStart(user.username));
-  }, [dispatch]);
+  }, [dispatch, user]);
 
-  const title = useSelector(
-    state => state.chat.currentChat && state.chat.currentChat.title
-  );
-
-  const [messages, setMessages] = useState([]);
+  const { title } = useSelector(state => state.chat.currentChat);
 
   return (
     <ChatBoxStyles>
@@ -41,11 +36,7 @@ const ChatBox = () => {
         </AvatarAndTitle>
       </Header>
       <Conversation />
-      <MessageEditor
-        onSend={(isSender, text) => {
-          setMessages([...messages, { isSender, text }]);
-        }}
-      />
+      <MessageEditor />
     </ChatBoxStyles>
   );
 };
