@@ -7,6 +7,7 @@ import Conversation from '../conversation/conversation.component';
 import MessageEditor from '../message-editor/message-editor.component';
 
 import { fetchChatContentStart } from '../../redux/chat/chat.actions';
+import { fetchConversationsStart } from '../../redux/chat/chat.actions';
 
 import {
   ChatBoxStyles,
@@ -47,6 +48,8 @@ const ChatBox = () => {
       socket.on('broadcast-message', data => {
         console.log(data);
       });
+
+      socket.on('new-room', fetchConversationsStart());
       connected = true;
     }
     dispatch(

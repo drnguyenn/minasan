@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchConversationsStart } from '../../redux/chat/chat.actions';
 
 import ChatSearchBar from '../chat-search-bar/chat-search-bar.component';
 import ChatHistoryItem from '../chat-history-item/chat-history-item.component';
