@@ -25,7 +25,7 @@ export const fetchConversations = async (accessToken) =>{
   try {
     console.log('fetchConversations')
     // console.log(accessToken)
-    const response = await fetch(`${API_URL}/api/conversations`, {
+    const response = await fetch(`${BASE_URL}/api/conversations`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${accessToken}`
