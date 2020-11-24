@@ -7,7 +7,7 @@ export const ChatBoxStyles = styled.div`
 
 export const Header = styled.div`
   position: sticky;
-  top: 60px;
+  top: 65px;
   z-index: 99;
   display: flex;
   justify-content: space-between;
