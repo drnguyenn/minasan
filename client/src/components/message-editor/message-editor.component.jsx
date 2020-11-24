@@ -8,7 +8,7 @@ import { sendMessageStart } from '../../redux/chat/chat.actions';
 
 import { MessageEditorStyles, Input } from './message-editor.styles';
 
-const MessageEditor = () => {
+const MessageEditor = ({ sendEvent }) => {
   const [text, setText] = useState('');
 
   const { currentUser } = useSelector(state => state.user);
@@ -21,10 +21,8 @@ const MessageEditor = () => {
 
   const handleSubmit = event => {
     event.preventDefault();
-
-    dispatch(
-      sendMessageStart({ sender: currentUser.username, content: text }, '')
-    );
+    sendEvent(text);
+    dispatch(sendMessageStart(currentUser.id, text));
 
     setText('');
   };

@@ -13,11 +13,21 @@ import {
   sendMessageFailure
 } from './chat.actions';
 import * as ChatServices from '../../services/chat.services';
+import { getCurrentUser } from '../../services/user.services';
 import ChatActionTypes from './chat.types';
 
 export function* fetchChatContent({ payload }) {
   try {
-    const { chat } = yield call(ChatServices.fetchChatContent, payload);
+    const accessToken = localStorage.getItem('accessToken');
+
+    const { chatId, roomId } = payload;
+    const { chat } = yield call(
+      ChatServices.fetchChatContent,
+      accessToken,
+      chatId,
+      roomId
+    );
+    // const { chat } = yield call(ChatServices.fetchChatContent, payload);
 
     yield put(fetchChatContentSuccess(chat));
   } catch (error) {
@@ -32,8 +42,9 @@ export function* fetchConversations() {
       ChatServices.fetchConversations,
       accessToken
     );
+    const { user } = yield call(getCurrentUser, accessToken);
 
-    yield put(fetchConversationsSuccess(chat_list));
+    yield put(fetchConversationsSuccess(chat_list, user));
   } catch (error) {
     yield put(fetchConversationsFailure(error));
   }
@@ -52,32 +63,27 @@ export function* fetchSuggestedUsers() {
   }
 }
 
-export function* createConversation({ payload: { currentUserId, partnerId } }) {
+export function* createConversation({ payload }) {
   try {
     const accessToken = localStorage.getItem('accessToken');
 
-    const { con } = yield call(
-      ChatServices.createConversation,
-      accessToken,
-      currentUserId,
-      partnerId
-    );
+    yield call(ChatServices.createConversation, accessToken, payload);
 
-    yield put(createConversationSuccess(con));
+    const { chat_list } = yield call(
+      ChatServices.fetchConversations,
+      accessToken
+    );
+    const { user } = yield call(getCurrentUser, accessToken);
+
+    yield put(fetchConversationsSuccess(chat_list, user));
   } catch (error) {
     yield put(createConversationFailure(error));
   }
 }
 
-export function* sendMessage({ payload: { message, conversationId } }) {
+export function* sendMessage({ payload: { message, senderId } }) {
   try {
-    const sentMessage = yield call(
-      ChatServices.sendMessage,
-      message,
-      conversationId
-    );
-
-    yield put(sendMessageSuccess(sentMessage, conversationId));
+    yield put(sendMessageSuccess(message, senderId));
   } catch (error) {
     yield put(sendMessageFailure(error));
   }
@@ -87,14 +93,14 @@ export function* onFetchChatContentStart() {
   yield takeLatest(ChatActionTypes.FETCH_CHAT_CONTENT_START, fetchChatContent);
 }
 
-export function* onFetchSuggestedUsers() {
+export function* onFetchSuggestedUsersStart() {
   yield takeLatest(
     ChatActionTypes.FETCH_SUGGESTED_USERS_START,
     fetchSuggestedUsers
   );
 }
 
-export function* onCreateConversation() {
+export function* onCreateConversationStart() {
   yield takeLatest(
     ChatActionTypes.CREATE_CONVERSATION_START,
     createConversation
@@ -116,8 +122,8 @@ export function* chatSagas() {
   yield all([
     call(onFetchChatContentStart),
     call(onFetchConversationStart),
-    call(onFetchSuggestedUsers),
-    call(onCreateConversation),
+    call(onFetchSuggestedUsersStart),
+    call(onCreateConversationStart),
     call(onSendMessageStart)
   ]);
 }

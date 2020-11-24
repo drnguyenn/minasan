@@ -3,7 +3,8 @@ import ChatActionTypes from './chat.types';
 const INITIAL_STATE = {
   chatHistory: [],
   suggestedUser: [],
-  currentChat: { conversationId: '', title: '', messages: [] },
+  currentPartner: null,
+  currentChat: { conversationId: '', title: '', roomId: -1, messages: [] },
   isLoading: false,
   isSending: false,
   error: null
@@ -32,9 +33,18 @@ const chatReducer = (state = INITIAL_STATE, action) => {
       };
 
     case ChatActionTypes.FETCH_CONVERSATIONS_SUCCESS:
+      const { chat_list, user } = action.payload;
+      var currPartner;
+      if (chat_list.length > 0) {
+        currPartner =
+          chat_list[0].user2.id === user.id
+            ? chat_list[0].user1
+            : chat_list[0].user2;
+      }
       return {
         ...state,
-        chatHistory: action.payload,
+        chatHistory: chat_list,
+        currentPartner: currPartner,
         isLoading: false,
         error: null
       };
@@ -71,11 +81,15 @@ const chatReducer = (state = INITIAL_STATE, action) => {
       };
 
     case ChatActionTypes.SEND_MESSAGE_SUCCESS:
+      const data = {
+        senderId: action.payload.senderId,
+        message: action.payload.message
+      };
       return {
         ...state,
         currentChat: {
           ...state.currentChat,
-          messages: [...state.currentChat.messages, action.payload.message]
+          messages: [...state.currentChat.messages, data]
         },
         isSending: false
       };

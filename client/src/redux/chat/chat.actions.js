@@ -1,8 +1,8 @@
 import ChatActionTypes from './chat.types';
 
-export const fetchChatContentStart = chatId => ({
+export const fetchChatContentStart = (chatId, roomId) => ({
   type: ChatActionTypes.FETCH_CHAT_CONTENT_START,
-  payload: chatId
+  payload: { chatId, roomId }
 });
 
 export const fetchChatContentSuccess = chat => ({
@@ -19,9 +19,9 @@ export const fetchConversationsStart = () => ({
   type: ChatActionTypes.FETCH_CONVERSATIONS_START
 });
 
-export const fetchConversationsSuccess = chat_list => ({
+export const fetchConversationsSuccess = (chat_list, user) => ({
   type: ChatActionTypes.FETCH_CONVERSATIONS_SUCCESS,
-  payload: chat_list
+  payload: { chat_list, user }
 });
 
 export const fetchConversationsFailure = error => ({
@@ -43,9 +43,9 @@ export const fetchSuggestedUsersFailure = error => ({
   payload: error
 });
 
-export const createConversationStart = (currentUserId, partnerId) => ({
+export const createConversationStart = partnerId => ({
   type: ChatActionTypes.CREATE_CONVERSATION_START,
-  payload: { currentUserId, partnerId }
+  payload: partnerId
 });
 
 export const createConversationSuccess = userList => ({
@@ -58,14 +58,14 @@ export const createConversationFailure = error => ({
   payload: error
 });
 
-export const sendMessageStart = (message, conversationId) => ({
+export const sendMessageStart = (senderId, message) => ({
   type: ChatActionTypes.SEND_MESSAGE_START,
-  payload: { message, conversationId }
+  payload: { message, senderId }
 });
 
-export const sendMessageSuccess = (message, conversationId) => ({
+export const sendMessageSuccess = (message, senderId) => ({
   type: ChatActionTypes.SEND_MESSAGE_SUCCESS,
-  payload: { message, conversationId }
+  payload: { message, senderId }
 });
 
 export const sendMessageFailure = error => ({

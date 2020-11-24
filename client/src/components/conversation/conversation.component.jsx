@@ -28,25 +28,25 @@ const Conversation = () => {
   }, [messages]);
 
   return isLoading ? (
-    <Spinner />
+    <div>
+      <Spinner />
+      <div ref={conversationEndRef} />
+    </div>
   ) : (
     <ConversationStyles>
       <Introduction>
-        <Avatar alt={title} src='' />
-        <IntroTitle>{title}</IntroTitle>
         <IntroDescription>Your conversation starts here</IntroDescription>
       </Introduction>
-      {messages.map(({ id, sender, ...otherProps }) => (
+      {messages.map(({ senderId, ...otherProps }, index) => (
         <Message
-          key={id}
-          isMyMessage={sender === currentUser.username}
-          sender={sender}
+          key={index}
+          isMyMessage={senderId === currentUser.id}
           {...otherProps}
         />
       ))}
-      <MessageStatus>
+      {/* <MessageStatus>
         {isSending ? 'Sending...' : error ? 'Error' : 'Sent'}
-      </MessageStatus>
+      </MessageStatus> */}
       <div ref={conversationEndRef} />
     </ConversationStyles>
   );

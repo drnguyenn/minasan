@@ -2,10 +2,10 @@ import React from 'react';
 
 import { MessageStyles, Content } from './message.styles';
 
-const Message = ({ sender, content, isMyMessage }) => {
+const Message = ({ sender, message, isMyMessage }) => {
   return (
     <MessageStyles isMyMessage={isMyMessage}>
-      <Content isMyMessage={isMyMessage}>{content}</Content>
+      <Content isMyMessage={isMyMessage}>{message}</Content>
     </MessageStyles>
   );
 };
