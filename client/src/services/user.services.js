@@ -1,6 +1,8 @@
+const BASE_URL = process.env.REACT_APP_BASE_URL;
+
 export const signInWithEmail = async (email, password) => {
   try {
-    let response = await fetch(`/api/auth`, {
+    let response = await fetch(`${BASE_URL}/api/auth`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -30,7 +32,7 @@ export const signInWithEmail = async (email, password) => {
 
 export const getCurrentUser = async accessToken => {
   try {
-    const response = await fetch(`/api/users/me`, {
+    const response = await fetch(`${BASE_URL}/api/users/me`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${accessToken}`
@@ -50,7 +52,7 @@ export const getCurrentUser = async accessToken => {
 
 export const signUp = async (username, email, password) => {
   try {
-    let response = await fetch(`/api/users`, {
+    let response = await fetch(`${BASE_URL}/api/users`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
