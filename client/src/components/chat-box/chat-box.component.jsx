@@ -15,11 +15,15 @@ import {
   Title
 } from './chat-box.styles';
 
+import io from 'socket.io-client';
+
 const ChatBox = () => {
   const dispatch = useDispatch();
+  const user = useSelector(state => state.user.currentUser);
+  const socket = io();
 
   useEffect(() => {
-    dispatch(fetchChatContentStart('long.nd'));
+    dispatch(fetchChatContentStart(user.username));
   }, [dispatch]);
 
   const title = useSelector(

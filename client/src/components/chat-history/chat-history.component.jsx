@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchConversationsStart } from '../../redux/chat/chat.actions';
 
 import ChatSearchBar from '../chat-search-bar/chat-search-bar.component';
 import ChatHistoryItem from '../chat-history-item/chat-history-item.component';
@@ -6,27 +8,36 @@ import ChatHistoryItem from '../chat-history-item/chat-history-item.component';
 import { ChatHistoryStyles, ItemList } from './chat-history.styles';
 
 const ChatHistory = () => {
-  const [currentChatId, setCurrentChatId] = useState('long.nd');
+  const dispatch = useDispatch();
+
+  const user = useSelector(state => state.user.currentUser);
+  const chat_history = useSelector(state => state.chat.chatHistory);
+
+  const [currentChatId, setCurrentChatId] = useState(user.name);
+  useEffect(() => {
+    dispatch(fetchConversationsStart());
+  }, [dispatch]);
+  const uh = chat_history.map(h => {
+    return (
+      <ChatHistoryItem
+        key={h.id}
+        title={h.user2Id.toString()}
+        handleClick={() => setCurrentChatId(h.id)}
+        isSelected={currentChatId === h.id}
+      />
+    );
+  });
 
   return (
     <ChatHistoryStyles>
       <ChatSearchBar />
       <ItemList>
         <ChatHistoryItem
-          title='long.nd'
-          handleClick={() => setCurrentChatId('long.nd')}
-          isSelected={currentChatId === 'long.nd'}
+          title={user.username}
+          handleClick={() => setCurrentChatId(user.id)}
+          isSelected={currentChatId === user.id}
         />
-        <ChatHistoryItem
-          title='duong.lh'
-          handleClick={() => setCurrentChatId('duong.lh')}
-          isSelected={currentChatId === 'duong.lh'}
-        />
-        <ChatHistoryItem
-          title='cuong.pv'
-          handleClick={() => setCurrentChatId('cuong.pv')}
-          isSelected={currentChatId === 'cuong.pv'}
-        />
+        {uh}
       </ItemList>
     </ChatHistoryStyles>
   );
