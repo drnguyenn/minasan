@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { plainToClass } from 'class-transformer';
 import { Repository } from 'typeorm';
 
+import { Conversation } from '../../entities/Conversation.entity';
 import { User } from '../../entities/User.entity';
 import { AuthService } from '../auth/auth.service';
 import { CreateUserDto, UpdateUserDto } from './users.dto';
@@ -11,7 +12,11 @@ const RANDOM_USERS_TO_GET = 5;
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectRepository(User) private userRepository: Repository<User>, private authService: AuthService) {}
+  constructor(
+    @InjectRepository(User) private userRepository: Repository<User>,
+    @InjectRepository(Conversation) private conversationRepository: Repository<Conversation>,
+    private authService: AuthService
+  ) {}
 
   async createUser(dto: CreateUserDto): Promise<User> {
     const { name, email, password } = dto;
@@ -35,10 +40,20 @@ export class UsersService {
     }
   }
 
-  async getRandomUsers(currentUserId: number): Promise<Array<User>> {
+  async getRandomUsers(userId: number): Promise<User[]> {
+    // Exclude matched users from search result
+    const conversations = await this.conversationRepository.find({
+      where: [{ user1Id: userId }, { user2Id: userId }]
+    });
+
+    const matchedUserIds = conversations.map((conversation: Conversation) => {
+      return conversation.user1.id === userId ? conversation.user2.id : conversation.user1.id;
+    });
+
     const users = await this.userRepository
       .createQueryBuilder('user')
-      .where('user.id != :currentUserId', { currentUserId })
+      .where('user.id != :userId', { userId })
+      .andWhere('user.id NOT IN (:...matchedUserIds)', { matchedUserIds })
       .orderBy('RANDOM()')
       .limit(RANDOM_USERS_TO_GET)
       .getMany();

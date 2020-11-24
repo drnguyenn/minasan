@@ -1,14 +1,23 @@
-import { BaseEntity  } from './Base.entity';
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, ManyToOne } from 'typeorm';
+
+import { BaseEntity } from './Base.entity';
+import { Conversation } from './Conversation.entity';
+import { User } from './User.entity';
 
 @Entity()
 export class Message extends BaseEntity {
-  @Column({ name: 'conversation_id', type: 'text', nullable: false})
-  conversationId: number;
-  
-  @Column({ name: 'message', type: 'varchar', nullable: false})
+  @Column()
   message: string;
 
-  @Column({ name: 'sender_id', type: 'int', nullable: false})
+  @Column()
+  conversationId: number;
+
+  @Column()
   senderId: number;
+
+  @ManyToOne(() => Conversation, (conversation) => conversation.messages)
+  conversation: Conversation;
+
+  @ManyToOne(() => User, (user) => user.messages)
+  sender: User;
 }
