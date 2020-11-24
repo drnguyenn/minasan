@@ -2,13 +2,9 @@ import { takeLatest, all, call, put } from 'redux-saga/effects';
 
 import {
   fetchChatContentSuccess,
-  fetchChatContentFailure,
-  fetchConversationsFailure,
+  fetchFailure,
   fetchConversationsSuccess,
-  fetchRandomFailure,
-  fetchRandomSuccess,
   createConversasionSuccess,
-  createConversasionFailure,
 
 } from './chat.actions';
 import * as ChatServices from '../../services/chat.services';
@@ -20,12 +16,8 @@ export function* fetchChatContent({ payload }) {
     
     yield put(fetchChatContentSuccess(chat));
   } catch (error) {
-    yield put(fetchChatContentFailure(error));
+    yield put(fetchFailure(error));
   }
-}
-
-export function* onFetchChatContentStart() {
-  yield takeLatest(ChatActionTypes.FETCH_CHAT_CONTENT_START, fetchChatContent);
 }
 
 export function* fetchConversations( ) {
@@ -36,7 +28,7 @@ export function* fetchConversations( ) {
 
     yield put(fetchConversationsSuccess(chat_list))
   } catch (error) {
-    yield put(fetchConversationsFailure(error))
+    yield put(fetchFailure(error))
   }
 }
 
@@ -44,32 +36,36 @@ export function* onFetchConversationStart(){
   yield takeLatest(ChatActionTypes.FETCH_CONVERSATIONS_START, fetchConversations);
 }
 
-export function* fetchRandom( ) {
+export function* FetchSuggestedUsers( ) {
   try {
     const accessToken = localStorage.getItem('accessToken');
-    const {user_list} = yield call(ChatServices.fetchRandom, accessToken);
+    const {user_list} = yield call(ChatServices.FetchSuggestedUsers, accessToken);
     // console.log(user_list)
-    yield put(fetchRandomSuccess(user_list))
+    yield put(fetchSuggestedUsersSuccess(user_list))
   } catch (error) {
-    yield put(fetchRandomFailure(error))
+    yield put(fetchFailure(error))
   }
 }
 
-export function* onFetchRandom(){
-  yield takeLatest(ChatActionTypes.FETCH_RANDOM_START, fetchRandom);
-}
-
-export function* createConversasion({ payload: { curr_id, aite_id } }) {
+export function* createConversasion({ payload: { currentUserId, partnerId } }) {
   try {
     const accessToken = localStorage.getItem('accessToken');
 
-    const {con} = yield call(ChatServices.createConversation, accessToken, curr_id, aite_id)
+    const {con} = yield call(ChatServices.createConversation, accessToken, currentUserId, partnerId)
 
-    console.log(con)
+    // console.log(con)
     yield put(createConversasionSuccess(con))
   } catch (error) {
-    yield put(createConversasionFailure(error))
+    yield put(fetchFailure(error))
   }
+}
+
+export function* onFetchChatContentStart() {
+  yield takeLatest(ChatActionTypes.FETCH_CHAT_CONTENT_START, fetchChatContent);
+}
+
+export function* onFetchSuggestedUsers(){
+  yield takeLatest(ChatActionTypes.FETCH_SUGGESTED_START, FetchSuggestedUsers);
 }
 
 export function* onCreateConversasion(){
@@ -81,7 +77,7 @@ export function* chatSagas() {
   yield all([
     call(onFetchChatContentStart),
     call(onFetchConversationStart),
-    call(onFetchRandom),
+    call(onFetchSuggestedUsers),
     call(onCreateConversasion),
   ]);
 }

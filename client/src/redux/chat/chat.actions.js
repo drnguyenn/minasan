@@ -10,7 +10,7 @@ export const fetchChatContentSuccess = chat => ({
   payload: chat
 });
 
-export const fetchChatContentFailure = error => ({
+export const fetchFailure = error => ({
   type: ChatActionTypes.FETCH_CHAT_CONTENT_FAILURE,
   payload: error
 });
@@ -24,36 +24,21 @@ export const fetchConversationsSuccess = chat_list => ({
   payload: chat_list
 });
 
-export const fetchConversationsFailure = error => ({
-  type: ChatActionTypes.FETCH_CONVERSATIONS_FAILURE,
-  payload: error
+export const fetchSuggestedUsers = () => ({
+  type: ChatActionTypes.FETCH_SUGGESTED_START,
 });
 
-export const fetchRandom = () => ({
-  type: ChatActionTypes.FETCH_RANDOM_START,
+export const fetchSuggestedUsersSuccess = suggesstedList => ({
+  type: ChatActionTypes.FETCH_SUGGESTED_SUCCESS,
+  payload: suggesstedList
 });
 
-export const fetchRandomSuccess = user_list => ({
-  type: ChatActionTypes.FETCH_RANDOM_SUCCESS,
+export const createConversation = (currentUserId, partnerId) => ({
+  type: ChatActionTypes.CREATE_CONVERSATION_START,
+  payload: {currentUserId, partnerId},
+});
+
+export const createConversationSuccess = user_list => ({
+  type: ChatActionTypes.CREATE_CONVERSATION_SUCCESS,
   payload: user_list
-});
-
-export const fetchRandomFailure = error => ({
-  type: ChatActionTypes.FETCH_RANDOM_FAILURE,
-  payload: error
-});
-
-export const createConversasion = (curr_id, aite_id) => ({
-  type: ChatActionTypes.CREATE_CONVERSASION_START,
-  payload: {curr_id, aite_id},
-});
-
-export const createConversasionSuccess = user_list => ({
-  type: ChatActionTypes.CREATE_CONVERSASION_SUCCESS,
-  payload: user_list
-});
-
-export const createConversasionFailure = error => ({
-  type: ChatActionTypes.CREATE_CONVERSASION_FAILURE,
-  payload: error
 });

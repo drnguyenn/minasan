@@ -43,7 +43,7 @@ export const fetchConversations = async (accessToken) =>{
   }
 }
 
-export const fetchRandom = async (accessToken) =>{
+export const FetchSuggestedUsers = async (accessToken) =>{
   try {
     console.log('fetchRandom')
     // console.log(accessToken)
@@ -64,7 +64,7 @@ export const fetchRandom = async (accessToken) =>{
   }
 }
 
-export const createConversation = async (accessToken,curr_id, aite_id) =>{
+export const createConversation = async (accessToken,currentUserId, partnerId) =>{
   try {
     console.log('create conversation')
     // console.log(accessToken)
@@ -74,7 +74,7 @@ export const createConversation = async (accessToken,curr_id, aite_id) =>{
         Authorization: `Bearer ${accessToken}`,
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ user1Id: curr_id, user2Id: aite_id })
+      body: JSON.stringify({ user1Id: currentUserId, user2Id: partnerId })
     });
     if (response.status === 200) {
       let re = await response.json()

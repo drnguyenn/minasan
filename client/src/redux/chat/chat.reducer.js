@@ -2,7 +2,7 @@ import ChatActionTypes from './chat.types';
 
 const INITIAL_STATE = {
   chatHistory: [],
-  random_chatter: [],
+  suggestedUser: [],
   currentChat: { title: '', messages: [] },
   isLoading: false,
   error: null
@@ -24,7 +24,7 @@ const chatReducer = (state = INITIAL_STATE, action) => {
         error: null
       };
 
-    case ChatActionTypes.FETCH_CHAT_CONTENT_FAILURE:
+    case ChatActionTypes.FETCH_FAILURE:
       return {
         ...state,
         isLoading: false,
@@ -45,13 +45,6 @@ const chatReducer = (state = INITIAL_STATE, action) => {
         error: null
       };
 
-    case ChatActionTypes.FETCH_CONVERSATIONS_FAILURE:
-      return {
-        ...state,
-        isLoading: false,
-        error: action.payload
-      };
-
     case ChatActionTypes.FETCH_RANDOM_START:
       return {
         ...state,
@@ -62,34 +55,20 @@ const chatReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         isLoading: false,
-        random_chatter: action.payload
+        suggestedUser: action.payload
       }
-      
-    case ChatActionTypes.FETCH_RANDOM_FAILURE:
-      return {
-        ...state,
-        isLoading: false,
-        error: action.payload
-      };
 
-    case ChatActionTypes.CREATE_CONVERSASION_START:
+    case ChatActionTypes.CREATE_CONVERSATION_START:
       return {
         ...state,
         isLoading: true,
       }
 
-    case ChatActionTypes.CREATE_CONVERSASION_SUCCESS:
+    case ChatActionTypes.CREATE_CONVERSATION_SUCCESS:
       return {
         ...state,
         isLoading: false,
       }
-
-    case ChatActionTypes.CREATE_CONVERSASION_FAILURE:
-      return {
-        ...state,
-        isLoading: false,
-        error: action.payload
-      };
 
     default:
       return state;
