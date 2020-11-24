@@ -17,7 +17,7 @@ const ChatHistory = () => {
   useEffect(() => {
     dispatch(fetchConversationsStart());
   }, [dispatch]);
-  console.log(chat_history);
+  // console.log(chat_history);
   const uh = chat_history.map(h => {
     return (
       <ChatHistoryItem

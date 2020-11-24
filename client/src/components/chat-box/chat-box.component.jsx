@@ -15,19 +15,22 @@ import {
   Title
 } from './chat-box.styles';
 
+import io from 'socket.io-client';
+
 const ChatBox = () => {
   const dispatch = useDispatch();
-  const user = useSelector( state => state.user.currentUser)
+  const user = useSelector(state => state.user.currentUser);
   // console.log(user)
+  const socket = io();
 
   useEffect(() => {
-    dispatch(fetchChatContentStart('Aite no namae'));
+    dispatch(fetchChatContentStart(user.name));
   }, [dispatch]);
 
   const title = useSelector(
     state => state.chat.currentChat && state.chat.currentChat.title
   );
-  
+
   const [messages, setMessages] = useState([]);
 
   return (
