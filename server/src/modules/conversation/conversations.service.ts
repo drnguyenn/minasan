@@ -2,14 +2,14 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { Conversation } from 'src/entities/Conversation.entity';
-import { User } from 'src/entities/User.entity';
+import { Conversation } from '../../entities/Conversation.entity';
+import { User } from '../../entities/User.entity';
 
 @Injectable()
 export class ConversationsService {
   constructor(
     @InjectRepository(Conversation) private conversationRepository: Repository<Conversation>,
-    @InjectRepository(User) private userRepository: Repository<User>,
+    @InjectRepository(User) private userRepository: Repository<User>
   ) {}
 
   async createConversation(user1Id: number, user2Id: number) {
@@ -23,7 +23,7 @@ export class ConversationsService {
     const conversation = await this.conversationRepository.find({
       where: [
         { user1Id: user1Id, user2Id: user2Id },
-        { user1Id: user2Id, user2Id: user1Id },
+        { user1Id: user2Id, user2Id: user1Id }
       ]
     });
 
@@ -31,23 +31,15 @@ export class ConversationsService {
       throw new BadRequestException('conversation_pair_existed');
     }
 
-    await this.conversationRepository.insert({
-      user1Id,
-      user2Id,
-    });
+    await this.conversationRepository.insert({ user1Id, user2Id });
 
-    return { status: 'Success'};
+    return { status: 'Success' };
   }
 
   async getConversationHistory(userId: number): Promise<Array<Conversation>> {
     return this.conversationRepository.find({
-      where: [
-        { user1Id: userId },
-        { user2Id: userId },
-      ],
-      order: {
-        updatedAt: 'DESC',
-      }
+      where: [{ user1Id: userId }, { user2Id: userId }],
+      order: { updatedAt: 'DESC' }
     });
   }
 }
