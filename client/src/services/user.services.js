@@ -32,7 +32,6 @@ export const signInWithEmail = async (email, password) => {
 
 export const getCurrentUser = async accessToken => {
   try {
-    console.log(process.env.REACT_APP_BASE_URL);
     const response = await fetch(`${BASE_URL}/api/users/me`, {
       method: 'GET',
       headers: {
