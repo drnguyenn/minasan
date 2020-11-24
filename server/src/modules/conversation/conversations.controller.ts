@@ -1,12 +1,12 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, DefaultValuePipe, Get, Param, ParseIntPipe, Post, Query, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 
 import { Conversation } from '../../entities/Conversation.entity';
 import { User } from '../../entities/User.entity';
 import { UserInfo } from '../../shared/Decorators/user-info.decorator';
+import { CreateConversationDto } from './conversation.dto';
 import { ConversationsService } from './conversations.service';
-import { CreateConversationDto } from './create-conversation.dto';
 
 @ApiBearerAuth()
 @ApiTags('Conversations')
@@ -14,17 +14,31 @@ import { CreateConversationDto } from './create-conversation.dto';
 export class ConversationsController {
   constructor(public conversationService: ConversationsService) {}
 
-  @ApiOperation({ summary: 'Create pair conversation' })
-  @Post()
-  @UseGuards(AuthGuard())
-  async saveMessage(@Body() dto: CreateConversationDto): Promise<any> {
-    return this.conversationService.createConversation(dto.user1Id, dto.user2Id);
-  }
-
-  @ApiOperation({ summary: "Retrieve user's conversation history" })
+  @ApiOperation({ summary: 'Retrieve many conversations' })
   @Get()
   @UseGuards(AuthGuard())
-  async getMessageHistory(@UserInfo() user: User): Promise<Array<Conversation>> {
-    return this.conversationService.getConversationHistory(user.id);
+  async getConversations(@UserInfo() user: User): Promise<Array<Conversation>> {
+    return this.conversationService.getConversations(user.id);
+  }
+
+  @ApiOperation({ summary: 'Retrieve one conversation with messages' })
+  @ApiQuery({ name: 'limit', required: false, type: Number })
+  @ApiQuery({ name: 'page', required: false, type: Number })
+  @Get(':id')
+  @UseGuards(AuthGuard())
+  async getConversation(
+    @Param('id', ParseIntPipe) id: number,
+    @Query('limit', new DefaultValuePipe(20)) limit: number,
+    @Query('page', new DefaultValuePipe(1)) page: number,
+    @UserInfo() user: User
+  ): Promise<Conversation> {
+    return this.conversationService.getConversation(id, user.id, limit, page);
+  }
+
+  @ApiOperation({ summary: 'Create conversation' })
+  @Post()
+  @UseGuards(AuthGuard())
+  async createConversation(@UserInfo() user: User, @Body() dto: CreateConversationDto): Promise<Conversation> {
+    return this.conversationService.createConversation(user.id, dto.userId);
   }
 }

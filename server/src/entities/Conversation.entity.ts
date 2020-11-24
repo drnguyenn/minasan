@@ -12,7 +12,7 @@ export class Conversation extends BaseEntity {
   @Column()
   user2Id: number;
 
-  @OneToMany(() => Message, (message) => message.conversation, { eager: true, cascade: true })
+  @OneToMany(() => Message, (message) => message.conversation, { cascade: true })
   messages: Message[];
 
   @ManyToOne(() => User, (user) => user.conversations1, { eager: true, cascade: true })

@@ -5,10 +5,5 @@ export class CreateConversationDto {
   @ApiProperty()
   @IsDefined()
   @IsNumber()
-  user1Id: number;
-
-  @ApiProperty()
-  @IsDefined()
-  @IsNumber()
-  user2Id: number;
+  userId: number;
 }
