@@ -1,22 +1,22 @@
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
-export const fetchChatContent = async (title, roomId) => {
+export const fetchChatContent = async (accessToken, title, roomId) => {
+  const response = await fetch(`${BASE_URL}/api/conversations/${roomId}`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${accessToken}`
+    }
+  });
+
+  const { messages } = await response.json();
   return {
     chat: {
       title: title,
       roomId: roomId,
-      messages: [
-        {
-          id: 1,
-          sender: 'test.user',
-          message: 'Hi there'
-        },
-        {
-          id: 2,
-          sender: 'long',
-          message: "What 's uppp"
-        }
-      ]
+      messages: messages.map(({ message, senderId, ...props }) => {
+        console.log({ message, senderId });
+        return { message, senderId };
+      })
     }
   };
 };
@@ -74,17 +74,6 @@ export const createConversation = async (accessToken, partnerId) => {
     }
 
     return {};
-  } catch (error) {
-    console.error(error);
-    throw new Error(error.message);
-  }
-};
-
-export const sendMessage = async (message, conversationId) => {
-  try {
-    await new Promise(resolve => setTimeout(resolve, 1000));
-
-    return { id: Math.random(), ...message };
   } catch (error) {
     console.error(error);
     throw new Error(error.message);

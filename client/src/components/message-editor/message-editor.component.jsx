@@ -22,9 +22,7 @@ const MessageEditor = ({ sendEvent }) => {
   const handleSubmit = event => {
     event.preventDefault();
     sendEvent(text);
-    dispatch(
-      sendMessageStart({ sender: currentUser.username, content: text }, '')
-    );
+    dispatch(sendMessageStart(currentUser.id, text));
 
     setText('');
   };

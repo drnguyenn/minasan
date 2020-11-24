@@ -58,14 +58,14 @@ export const createConversationFailure = error => ({
   payload: error
 });
 
-export const sendMessageStart = (message, conversationId) => ({
+export const sendMessageStart = (senderId, message) => ({
   type: ChatActionTypes.SEND_MESSAGE_START,
-  payload: { message, conversationId }
+  payload: { message, senderId }
 });
 
-export const sendMessageSuccess = (message, conversationId) => ({
+export const sendMessageSuccess = (message, senderId) => ({
   type: ChatActionTypes.SEND_MESSAGE_SUCCESS,
-  payload: { message, conversationId }
+  payload: { message, senderId }
 });
 
 export const sendMessageFailure = error => ({

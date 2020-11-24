@@ -40,7 +40,7 @@ const ChatHistory = () => {
               <ChatHistoryItem
                 key={chatHistoryItem.id}
                 title={partner.name}
-                roomId={currentChatId}
+                roomId={chatHistoryItem.id}
                 handleClick={() => setCurrentChatId(chatHistoryItem.id)}
                 isSelected={currentChatId === chatHistoryItem.id}
               />

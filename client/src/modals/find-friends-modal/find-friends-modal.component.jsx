@@ -25,7 +25,6 @@ const FindFriendsModal = () => {
   const clickEvent = partnerId => {
     dispatch(toggleFindFriendsModalOpened());
     dispatch(createConversationStart(partnerId));
-    // dispatch(createConversationStart(current_user.id, user_id));
   };
 
   return (

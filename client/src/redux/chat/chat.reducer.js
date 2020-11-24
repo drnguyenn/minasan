@@ -81,11 +81,15 @@ const chatReducer = (state = INITIAL_STATE, action) => {
       };
 
     case ChatActionTypes.SEND_MESSAGE_SUCCESS:
+      const data = {
+        senderId: action.payload.senderId,
+        message: action.payload.message
+      };
       return {
         ...state,
         currentChat: {
           ...state.currentChat,
-          messages: [...state.currentChat.messages, action.payload.message]
+          messages: [...state.currentChat.messages, data]
         },
         isSending: false
       };
