@@ -52,8 +52,7 @@ export class UsersService {
 
     const users = await this.userRepository
       .createQueryBuilder('user')
-      .where('user.id != :userId', { userId })
-      .andWhere('user.id NOT IN (:...matchedUserIds)', { matchedUserIds })
+      .where('user.id NOT IN (:...matchedUserIds)', { matchedUserIds: [userId, ...matchedUserIds] })
       .orderBy('RANDOM()')
       .limit(RANDOM_USERS_TO_GET)
       .getMany();
