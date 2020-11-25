@@ -41,11 +41,11 @@ const Conversation = () => {
         <IntroDescription>Your conversation starts here</IntroDescription>
       </Introduction>
       <FlipMove>
-        {messages.map(({ id, sender, ...otherProps }) => (
+        {messages.map(({ id, senderId, ...otherProps }) => (
           <Message
             key={id}
-            isMyMessage={sender === currentUser.username}
-            sender={sender}
+            isMyMessage={senderId === currentUser.id}
+            senderId={senderId}
             {...otherProps}
           />
         ))}

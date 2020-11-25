@@ -84,6 +84,7 @@ const chatReducer = (state = INITIAL_STATE, action) => {
           messages: [
             ...state.currentChat.messages,
             {
+              id: state.currentChat.messages.length + 1,
               senderId,
               message
             }

@@ -2,10 +2,10 @@ import React, { forwardRef } from 'react';
 
 import { MessageStyles, Content } from './message.styles';
 
-const Message = forwardRef(({ sender, content, isMyMessage }, ref) => {
+const Message = forwardRef(({ senderId, message, isMyMessage }, ref) => {
   return (
     <MessageStyles isMyMessage={isMyMessage} ref={ref}>
-      <Content isMyMessage={isMyMessage}>{content}</Content>
+      <Content isMyMessage={isMyMessage}>{message}</Content>
     </MessageStyles>
   );
 });
