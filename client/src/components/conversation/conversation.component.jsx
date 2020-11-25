@@ -29,11 +29,14 @@ const Conversation = () => {
   }, [messages]);
 
   return isLoading ? (
-    <Spinner />
+    <div>
+      <Spinner />
+      <div ref={conversationEndRef} />
+    </div>
   ) : (
     <ConversationStyles>
       <Introduction>
-        <Avatar alt={title} src='' />
+        <Avatar />
         <IntroTitle>{title}</IntroTitle>
         <IntroDescription>Your conversation starts here</IntroDescription>
       </Introduction>
@@ -47,9 +50,11 @@ const Conversation = () => {
           />
         ))}
       </FlipMove>
-      <MessageStatus>
-        {isSending ? 'Sending...' : error ? 'Error' : 'Sent'}
-      </MessageStatus>
+      {messages.length ? (
+        <MessageStatus>
+          {isSending ? 'Sending...' : error ? 'Error' : 'Sent'}
+        </MessageStatus>
+      ) : null}
       <div ref={conversationEndRef} />
     </ConversationStyles>
   );

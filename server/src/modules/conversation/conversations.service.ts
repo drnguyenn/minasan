@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Brackets, Repository } from 'typeorm';
 
 import { Conversation } from '../../entities/Conversation.entity';
 import { User } from '../../entities/User.entity';
@@ -12,34 +12,46 @@ export class ConversationsService {
     @InjectRepository(User) private userRepository: Repository<User>
   ) {}
 
-  async createConversation(user1Id: number, user2Id: number) {
-    // Check existence of user1 & user2
-    const users = await this.userRepository.findByIds([user1Id, user2Id]);
-    if (users.length !== 2) {
-      throw new BadRequestException('user_does_not_exist');
-    }
+  async getConversations(userId: number): Promise<Array<Conversation>> {
+    return this.conversationRepository.find({
+      where: [{ user1Id: userId }, { user2Id: userId }],
+      order: { updatedAt: 'DESC' }
+    });
+  }
 
-    //  Check if conversation for this pair exist or not
-    const conversation = await this.conversationRepository.find({
+  async getConversation(conversationId: number, userId: number, limit: number, page: number): Promise<Conversation> {
+    const conversation = await this.conversationRepository
+      .createQueryBuilder('conversation')
+      .innerJoinAndSelect('conversation.messages', 'messages')
+      .where('messages.conversationId = :conversationId', { conversationId })
+      .andWhere(
+        new Brackets((qb) => {
+          qb.where('conversation.user1Id = :userId', { userId }).orWhere('conversation.user2Id = :userId', { userId });
+        })
+      )
+      .offset(limit * (page - 1))
+      .limit(limit)
+      .orderBy({ 'messages.updatedAt': 'ASC' })
+      .getOne();
+
+    return conversation ? conversation : this.conversationRepository.create({ messages: [] });
+  }
+
+  async createConversation(user1Id: number, user2Id: number): Promise<Conversation> {
+    if (user1Id === user2Id) throw new BadRequestException('Users should not be the same');
+
+    const partner = await this.userRepository.findOne(user2Id);
+    if (!partner) throw new BadRequestException('Partner not exist');
+
+    const conversations = await this.conversationRepository.find({
       where: [
         { user1Id: user1Id, user2Id: user2Id },
         { user1Id: user2Id, user2Id: user1Id }
       ]
     });
 
-    if (conversation.length > 0) {
-      throw new BadRequestException('conversation_pair_existed');
-    }
+    if (conversations.length > 0) throw new BadRequestException('Conversation existed');
 
-    await this.conversationRepository.insert({ user1Id, user2Id });
-
-    return { status: 'Success' };
-  }
-
-  async getConversationHistory(userId: number): Promise<Array<Conversation>> {
-    return this.conversationRepository.find({
-      where: [{ user1Id: userId }, { user2Id: userId }],
-      order: { updatedAt: 'DESC' }
-    });
+    return await this.conversationRepository.save({ user1Id, user2Id });
   }
 }

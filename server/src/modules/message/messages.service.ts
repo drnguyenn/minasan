@@ -12,23 +12,13 @@ export class MessagesService {
     @InjectRepository(Conversation) private conversationRepository: Repository<Conversation>
   ) {}
 
-  async getMessageHistory(conversationId: number, page: number, limit: number): Promise<Message[]> {
-    return await this.messageRepository.find({
-      where: { conversationId },
-      order: { createdAt: 'DESC' },
-      skip: limit * (page - 1),
-      take: limit
-    });
-  }
+  async saveMessage(conversationId: number, message: string, senderId: number): Promise<Message> {
+    const newMessage = await this.messageRepository.save({ conversationId, senderId, message });
 
-  async saveMessage(conversationId: number, senderId: number, message: string): Promise<any> {
-    await this.messageRepository.insert({ conversationId, senderId, message });
-
-    // Update conversation last message time.
     const conversation = await this.conversationRepository.findOne(conversationId);
-    conversation.updatedAt = new Date();
+    conversation.updatedAt = newMessage.updatedAt;
     await this.conversationRepository.save(conversation);
 
-    return { status: 'Success' };
+    return newMessage;
   }
 }
