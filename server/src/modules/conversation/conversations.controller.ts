@@ -28,7 +28,7 @@ export class ConversationsController {
   @UseGuards(AuthGuard())
   async getConversation(
     @Param('id', ParseIntPipe) id: number,
-    @Query('limit', new DefaultValuePipe(20)) limit: number,
+    @Query('limit', new DefaultValuePipe(1000)) limit: number,
     @Query('page', new DefaultValuePipe(1)) page: number,
     @UserInfo() user: User
   ): Promise<Conversation> {
