@@ -75,22 +75,27 @@ const chatReducer = (state = INITIAL_STATE, action) => {
       };
 
     case ChatActionTypes.SEND_MESSAGE_START:
-      return {
-        ...state,
-        isSending: true
-      };
+      const { senderId, message } = action.payload;
 
-    case ChatActionTypes.SEND_MESSAGE_SUCCESS:
-      const data = {
-        senderId: action.payload.senderId,
-        message: action.payload.message
-      };
       return {
         ...state,
         currentChat: {
           ...state.currentChat,
-          messages: [...state.currentChat.messages, data]
+          messages: [
+            ...state.currentChat.messages,
+            {
+              id: state.currentChat.messages.length + 1,
+              senderId,
+              message
+            }
+          ]
         },
+        isSending: true
+      };
+
+    case ChatActionTypes.SEND_MESSAGE_SUCCESS:
+      return {
+        ...state,
         isSending: false
       };
 

@@ -1,13 +1,13 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 
 import { MessageStyles, Content } from './message.styles';
 
-const Message = ({ sender, message, isMyMessage }) => {
+const Message = forwardRef(({ senderId, message, isMyMessage }, ref) => {
   return (
-    <MessageStyles isMyMessage={isMyMessage}>
+    <MessageStyles isMyMessage={isMyMessage} ref={ref}>
       <Content isMyMessage={isMyMessage}>{message}</Content>
     </MessageStyles>
   );
-};
+});
 
 export default Message;

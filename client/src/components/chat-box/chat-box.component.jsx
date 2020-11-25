@@ -7,7 +7,6 @@ import Conversation from '../conversation/conversation.component';
 import MessageEditor from '../message-editor/message-editor.component';
 
 import { fetchChatContentStart } from '../../redux/chat/chat.actions';
-import { fetchConversationsStart } from '../../redux/chat/chat.actions';
 import { sendMessageStart } from '../../redux/chat/chat.actions';
 
 import {
@@ -51,16 +50,16 @@ const ChatBox = () => {
     });
 
     // socket.on('new-room', fetchConversationsStart());
-  }, []);
+  }, [currChat.roomId, dispatch, roomIds, userId]);
 
   useEffect(() => {
     dispatch(
       fetchChatContentStart(
-        partner != null ? partner.name : 'No one here yet',
+        partner ? partner.name : 'No one here yet',
         history.length ? history[0].id : -1
       )
     );
-  }, [dispatch, partner]);
+  }, [dispatch, partner, history]);
 
   const sendMessage = mes => {
     const data = {
@@ -75,17 +74,10 @@ const ChatBox = () => {
   return (
     <ChatBoxStyles>
       <Header>
-        {currChat != null ? (
-          <AvatarAndTitle>
-            <Avatar alt={currChat.title} src='' />
-            <Title>{currChat.title}</Title>
-          </AvatarAndTitle>
-        ) : (
-          <AvatarAndTitle>
-            <Avatar alt='' src='' />
-            <Title>Sorry, no one here</Title>
-          </AvatarAndTitle>
-        )}
+        <AvatarAndTitle>
+          <Avatar alt={currChat.title} src='' />
+          <Title>{currChat.title}</Title>
+        </AvatarAndTitle>
       </Header>
       <Conversation />
       <MessageEditor sendEvent={sendMessage} />
