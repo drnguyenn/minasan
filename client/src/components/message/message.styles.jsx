@@ -1,13 +1,13 @@
 import styled, { css } from 'styled-components';
 
 const MyMessageStyles = css`
-  color: black;
-  background-color: lightgrey;
+  color: white;
+  background-color: #707bc4;
 `;
 
 const OthersMessageStyles = css`
-  color: white;
-  background-color: #707bc4;
+  color: black;
+  background-color: lightgrey;
 `;
 
 export const MessageStyles = styled.div`
