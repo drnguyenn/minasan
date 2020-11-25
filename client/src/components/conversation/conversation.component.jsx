@@ -50,11 +50,11 @@ const Conversation = () => {
           />
         ))}
       </FlipMove>
-      {messages.length ? (
+      {/* {messages.length ? (
         <MessageStatus>
           {isSending ? 'Sending...' : error ? 'Error' : 'Sent'}
         </MessageStatus>
-      ) : null}
+      ) : null} */}
       <div ref={conversationEndRef} />
     </ConversationStyles>
   );

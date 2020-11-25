@@ -23,7 +23,6 @@ const MessageEditor = ({ sendEvent }) => {
     event.preventDefault();
 
     sendEvent(text);
-    dispatch(sendMessageStart(currentUser.id, text));
 
     setText('');
   };
