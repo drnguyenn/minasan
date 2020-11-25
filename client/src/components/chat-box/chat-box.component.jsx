@@ -16,7 +16,7 @@ import {
   Title
 } from './chat-box.styles';
 
-import { socket } from '../../socket/socket';
+import { Socket } from '../../socket/socket';
 
 // import io from 'socket.io-client';
 
@@ -25,13 +25,15 @@ import { socket } from '../../socket/socket';
 
 const ChatBox = () => {
   const dispatch = useDispatch();
-  const history = useSelector(state => state.chat.chatHistory);
+  const history = useSelector(state => state.chat.connectedUser);
   const currChat = useSelector(state => state.chat.currentChat);
   const currentUser = useSelector(state => state.user.currentUser);
   const partner = useSelector(state => state.chat.currentPartner);
 
   const roomIds = history.map(h => h.id);
   const userId = currentUser.id;
+
+  const socket = Socket;
 
   useEffect(() => {
     socket.on('connect', () => {
@@ -43,32 +45,31 @@ const ChatBox = () => {
     );
 
     socket.on('broadcast-message', data => {
-      console.log(data);
       if (data.roomId === currChat.roomId) {
         dispatch(sendMessageStart(data.senderId, data.message));
       }
     });
-
-    // socket.on('new-room', fetchConversationsStart());
-  }, [currChat.roomId, dispatch, roomIds, userId]);
+    // }, [socket.connected, dispatch, currChat.roomId, roomIds, userId]);
+  }, [socket.connected, dispatch]);
 
   useEffect(() => {
     dispatch(
       fetchChatContentStart(
         partner ? partner.name : 'No one here yet',
-        history.length ? history[0].id : -1
+        history.length > 0 ? history[0].id : -1
       )
     );
   }, [dispatch, partner, history]);
 
-  const sendMessage = mes => {
+  const sendMessage = message => {
     const data = {
       roomId: currChat.roomId,
-      message: mes,
+      message: message,
       senderId: currentUser.id
     };
-
     socket.emit('send-message', data);
+
+    dispatch(sendMessageStart(currentUser.id, message));
   };
 
   return (

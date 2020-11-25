@@ -1,10 +1,15 @@
 import ChatActionTypes from './chat.types';
 
 const INITIAL_STATE = {
-  chatHistory: [],
+  connectedUser: [],
   suggestedUser: [],
   currentPartner: null,
-  currentChat: { conversationId: '', title: '', roomId: -1, messages: [] },
+  currentChat: {
+    conversationId: '',
+    recieverName: '',
+    roomId: -1,
+    messages: []
+  },
   isLoading: false,
   isSending: false,
   error: null
@@ -43,7 +48,7 @@ const chatReducer = (state = INITIAL_STATE, action) => {
       }
       return {
         ...state,
-        chatHistory: chat_list,
+        connectedUser: chat_list,
         currentPartner: currPartner,
         isLoading: false,
         error: null

@@ -12,7 +12,7 @@ import { fetchConversationsStart } from '../../redux/chat/chat.actions';
 const ChatHistory = () => {
   const dispatch = useDispatch();
   const user = useSelector(state => state.user.currentUser);
-  const { chatHistory, isLoading } = useSelector(state => state.chat);
+  const { connectedUser, isLoading } = useSelector(state => state.chat);
 
   const [currentChatId, setCurrentChatId] = useState();
 
@@ -21,8 +21,8 @@ const ChatHistory = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (chatHistory.length) setCurrentChatId(chatHistory[0].id);
-  }, [chatHistory]);
+    if (connectedUser.length) setCurrentChatId(connectedUser[0].id);
+  }, [connectedUser]);
 
   return (
     <ChatHistoryStyles>
@@ -31,18 +31,18 @@ const ChatHistory = () => {
         <Spinner />
       ) : (
         <ItemList>
-          {chatHistory.map(chatHistoryItem => {
+          {connectedUser.map(connectedSingleUser => {
             const partner =
-              user.id === chatHistoryItem.user1.id
-                ? chatHistoryItem.user2
-                : chatHistoryItem.user1;
+              user.id === connectedSingleUser.user1.id
+                ? connectedSingleUser.user2
+                : connectedSingleUser.user1;
             return (
               <ChatHistoryItem
-                key={chatHistoryItem.id}
+                key={connectedSingleUser.id}
                 title={partner.name}
-                roomId={chatHistoryItem.id}
-                handleClick={() => setCurrentChatId(chatHistoryItem.id)}
-                isSelected={currentChatId === chatHistoryItem.id}
+                roomId={connectedSingleUser.id}
+                handleClick={() => setCurrentChatId(connectedSingleUser.id)}
+                isSelected={currentChatId === connectedSingleUser.id}
               />
             );
           })}
