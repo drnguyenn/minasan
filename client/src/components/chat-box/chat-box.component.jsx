@@ -16,7 +16,7 @@ import {
   Title
 } from './chat-box.styles';
 
-import { Socket } from '../../socket/socket';
+import { socket } from '../../socket/socket';
 
 // import io from 'socket.io-client';
 
@@ -33,24 +33,21 @@ const ChatBox = () => {
   const roomIds = history.map(h => h.id);
   const userId = currentUser.id;
 
-  const socket = Socket;
+  // useEffect(() => {
+  //   socket.on('connect', () => {
+  //     socket.emit('join-rooms', { roomIds, userId });
+  //   });
 
-  useEffect(() => {
-    socket.on('connect', () => {
-      socket.emit('join-rooms', { roomIds, userId });
-    });
+  //   socket.on('joined-room', message =>
+  //     console.log(`joined room id: ${message}`)
+  //   );
 
-    socket.on('joined-room', message =>
-      console.log(`joined room id: ${message}`)
-    );
-
-    socket.on('broadcast-message', data => {
-      if (data.roomId === currChat.roomId) {
-        dispatch(sendMessageStart(data.senderId, data.message));
-      }
-    });
-    // }, [socket.connected, dispatch, currChat.roomId, roomIds, userId]);
-  }, [socket.connected, dispatch]);
+  //   socket.on('broadcast-message', data => {
+  //     if (data.roomId === currChat.roomId) {
+  //       dispatch(sendMessageStart(data.senderId, data.message));
+  //     }
+  //   });
+  // }, [socket.connected, dispatch, currChat.roomId, history, userId]);
 
   useEffect(() => {
     dispatch(
