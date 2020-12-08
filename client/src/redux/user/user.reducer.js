@@ -2,12 +2,13 @@ import UserActionTypes from './user.types';
 
 const INITIAL_STATE = {
   currentUser: null,
-  isLoading: false,
+  isLoading: true,
   error: null
 };
 
 const userReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case UserActionTypes.GET_CURRENT_USER:
     case UserActionTypes.EMAIL_SIGN_IN_START:
     case UserActionTypes.SIGN_OUT_START:
       return {
