@@ -17,8 +17,8 @@ export const UserAvatarAndUploadButton = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  border-top: solid gray 1px;
-  border-bottom: solid gray 1px;
+  border-top: solid white 1px;
+  border-bottom: solid white 1px;
 `;
 
 export const UserAvatar = styled.div`

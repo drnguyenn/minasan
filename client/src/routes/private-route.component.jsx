@@ -10,30 +10,15 @@ const PrivateRoute = ({
 }) => (
   <Route
     {...otherProps}
-    // render={props =>
-    //   isLoading ? (
-    //     <Spinner />
-    //   ) : currentUser ? (
-    //     <Component {...props} />
-    //   ) : (
-    //     <Redirect to='/' />
-    //   )
-    // }
-    render={props => {
-      console.log(isLoading);
-      if (isLoading) {
-        console.log('Loading');
-        return <Spinner />;
-      }
-
-      if (currentUser) {
-        console.log(currentUser);
-        return <Component {...props} />;
-      }
-
-      console.log('No current user');
-      return <Redirect to='/' />;
-    }}
+    render={props =>
+      isLoading ? (
+        <Spinner />
+      ) : currentUser ? (
+        <Component {...props} />
+      ) : (
+        <Redirect to='/' />
+      )
+    }
   />
 );
 

@@ -35,7 +35,7 @@ const ProfileAvatar = () => {
           onChange={handleUploadClick}
         />
         <label htmlFor='upload-button'>
-          <IconButton component='span'>
+          <IconButton component='span' color='inherit'>
             <PhotoCamera />
           </IconButton>
         </label>
