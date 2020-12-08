@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Avatar } from '@material-ui/core';
@@ -9,14 +9,14 @@ import MessageEditor from '../message-editor/message-editor.component';
 import { fetchChatContentStart } from '../../redux/chat/chat.actions';
 import { sendMessageStart } from '../../redux/chat/chat.actions';
 
+import socketObject from '../../socket/socket';
+
 import {
   ChatBoxStyles,
   Header,
   AvatarAndTitle,
   Title
 } from './chat-box.styles';
-
-import { socket } from '../../socket/socket';
 
 // import io from 'socket.io-client';
 
@@ -30,24 +30,53 @@ const ChatBox = () => {
   const currentUser = useSelector(state => state.user.currentUser);
   const partner = useSelector(state => state.chat.currentPartner);
 
+  const [joinRoomMessage, setJoinRoomMessage] = useState('not join room');
+  const [receivedMessage, setReceivedMessage] = useState('not received');
+  const [newRoomMessage, setNewRoomMessage] = useState('not received');
+
   const roomIds = history.map(h => h.id);
   const userId = currentUser.id;
 
-  // useEffect(() => {
-  //   socket.on('connect', () => {
-  //     socket.emit('join-rooms', { roomIds, userId });
-  //   });
+  useEffect(() => {
+    if (history.length > 0) {
+      let connectRoomData = { roomIds, userId };
+      socketObject.createConnectionEvent(
+        connectRoomData,
+        setJoinRoomMessage,
+        setReceivedMessage,
+        setNewRoomMessage
+      );
+    }
+    // return () => {
+    //   socketObject.onDisconnectEvent();
+    // };
+  }, [history]);
 
-  //   socket.on('joined-room', message =>
-  //     console.log(`joined room id: ${message}`)
-  //   );
+  // handling join room message
+  useEffect(() => {
+    if (joinRoomMessage != '') {
+      console.log(joinRoomMessage);
+    }
+  }, [joinRoomMessage]);
 
-  //   socket.on('broadcast-message', data => {
-  //     if (data.roomId === currChat.roomId) {
-  //       dispatch(sendMessageStart(data.senderId, data.message));
-  //     }
-  //   });
-  // }, [socket.connected, dispatch, currChat.roomId, history, userId]);
+  // handling new room message
+  useEffect(() => {
+    if (newRoomMessage != '') {
+      console.log(newRoomMessage);
+    }
+  }, [newRoomMessage]);
+
+  // handling receive message
+  useEffect(() => {
+    if (receivedMessage != '') {
+      console.log(receivedMessage);
+      if (receivedMessage.roomId === currChat.roomId) {
+        dispatch(
+          sendMessageStart(receivedMessage.senderId, receivedMessage.message)
+        );
+      }
+    }
+  }, [receivedMessage]);
 
   useEffect(() => {
     dispatch(
@@ -64,7 +93,8 @@ const ChatBox = () => {
       message: message,
       senderId: currentUser.id
     };
-    socket.emit('send-message', data);
+    // socket.emit('send-message', data);
+    socketObject.sendMessageEvent(data);
 
     dispatch(sendMessageStart(currentUser.id, message));
   };
