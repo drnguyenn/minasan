@@ -18,7 +18,10 @@ export function* getCurrentUser() {
   try {
     const accessToken = localStorage.getItem('accessToken');
 
-    if (!accessToken) return;
+    if (!accessToken) {
+      yield put(signInFailure(null));
+      return;
+    }
 
     const { user } = yield call(UserServices.getCurrentUser, accessToken);
 

@@ -16,6 +16,7 @@ import { GlobalStyle } from './global.styles';
 
 const LandingPage = lazy(() => import('./pages/landing/landing.component'));
 const HomePage = lazy(() => import('./pages/homepage/homepage.component'));
+const ProfilePage = lazy(() => import('./pages/profile/profile.component'));
 
 const App = () => {
   const { isLoading, currentUser } = useSelector(state => state.user);
@@ -51,6 +52,12 @@ const App = () => {
               exact
               path='/home'
               component={HomePage}
+              auth={{ isLoading, currentUser }}
+            />
+            <PrivateRoute
+              exact
+              path='/profile'
+              component={ProfilePage}
               auth={{ isLoading, currentUser }}
             />
           </Suspense>
