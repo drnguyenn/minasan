@@ -2,9 +2,9 @@ import io from 'socket.io-client';
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
-var socketObject = (function () {
+var socketInterface = (function () {
   // global socket, init only one
-  var socket;
+  let socket;
   const createSocket = (
     data,
     joinedRoomHandler,
@@ -12,8 +12,6 @@ var socketObject = (function () {
     newRoomHandler
   ) => {
     socket = io.connect(BASE_URL);
-
-    console.log(joinedRoomHandler);
 
     // catch error on connection
     socket.on('connect_failed', error => {
@@ -92,4 +90,4 @@ var socketObject = (function () {
     }
   };
 })();
-export default socketObject;
+export default socketInterface;

@@ -9,7 +9,7 @@ import MessageEditor from '../message-editor/message-editor.component';
 import { fetchChatContentStart } from '../../redux/chat/chat.actions';
 import { sendMessageStart } from '../../redux/chat/chat.actions';
 
-import socketObject from '../../socket/socket';
+import socketInterface from '../../socket/socket';
 
 import {
   ChatBoxStyles,
@@ -17,11 +17,6 @@ import {
   AvatarAndTitle,
   Title
 } from './chat-box.styles';
-
-// import io from 'socket.io-client';
-
-// const BASE_URL = process.env.REACT_APP_BASE_URL;
-// const socket = io(BASE_URL);
 
 const ChatBox = () => {
   const dispatch = useDispatch();
@@ -40,7 +35,7 @@ const ChatBox = () => {
   useEffect(() => {
     if (history.length > 0) {
       let connectRoomData = { roomIds, userId };
-      socketObject.createConnectionEvent(
+      socketInterface.createConnectionEvent(
         connectRoomData,
         setJoinRoomMessage,
         setReceivedMessage,
@@ -48,28 +43,28 @@ const ChatBox = () => {
       );
     }
     // remove socket when component dismount, may cause error
-    return () => {
-      socketObject.onDisconnectEvent();
-    };
+    // return () => {
+    //   socketInterface.onDisconnectEvent();
+    // };
   }, [history]);
 
   // handling join room message
   useEffect(() => {
-    if (joinRoomMessage != '') {
+    if (joinRoomMessage !== '') {
       console.log(joinRoomMessage);
     }
   }, [joinRoomMessage]);
 
   // handling new room message
   useEffect(() => {
-    if (newRoomMessage != '') {
+    if (newRoomMessage !== '') {
       console.log(newRoomMessage);
     }
   }, [newRoomMessage]);
 
   // handling receive message
   useEffect(() => {
-    if (receivedMessage != '') {
+    if (receivedMessage !== '') {
       console.log(receivedMessage);
       if (receivedMessage.roomId === currChat.roomId) {
         dispatch(
@@ -94,9 +89,8 @@ const ChatBox = () => {
       message: message,
       senderId: currentUser.id
     };
-    // socket.emit('send-message', data);
-    socketObject.sendMessageEvent(data);
 
+    socketInterface.sendMessageEvent(data);
     dispatch(sendMessageStart(currentUser.id, message));
   };
 
