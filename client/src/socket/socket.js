@@ -13,6 +13,8 @@ var socketObject = (function () {
   ) => {
     socket = io.connect(BASE_URL);
 
+    console.log(joinedRoomHandler);
+
     // catch error on connection
     socket.on('connect_failed', error => {
       console.error(error);
@@ -50,9 +52,19 @@ var socketObject = (function () {
     return socket;
   };
   return {
-    createConnectionEvent: function (data) {
+    createConnectionEvent: function (
+      data,
+      joinedRoomHandler,
+      broadcastHandler,
+      newRoomHandler
+    ) {
       if (!socket) {
-        socket = createSocket(data);
+        socket = createSocket(
+          data,
+          joinedRoomHandler,
+          broadcastHandler,
+          newRoomHandler
+        );
       }
       return socket;
     },
@@ -73,33 +85,6 @@ var socketObject = (function () {
         socket.emit('send-message', data);
       }
     },
-
-    // onJoinedRoomEvent: handler => {
-    //   let return_message = '';
-    //   socket.on('joined-room', message => {
-    //     return_message = message;
-    //     handler(message);
-    //   });
-    //   return return_message;
-    // },
-
-    // onReceiveMessageEvent: handler => {
-    //   let return_message = '';
-    //   socket.on('broadcast-message', message => {
-    //     handler(message);
-    //     return_message = message;
-    //   });
-    //   return return_message;
-    // },
-
-    // onNewRoomCreatedEvent: handler => {
-    //   let return_message = '';
-    //   socket.on('new-room', message => {
-    //     handler(message);
-    //     return_message = message;
-    //   });
-    //   return return_message;
-    // },
 
     onDisconnectEvent: () => {
       socket.disconect();
