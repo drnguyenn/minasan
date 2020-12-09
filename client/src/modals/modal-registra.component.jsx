@@ -6,7 +6,7 @@ import HobbiesModal from './hobbies-modal/hobbies-modal.component';
 const ModalRegistra = () => (
   <>
     <FindFriendsModal />
-    <HobbiesModal />)
+    <HobbiesModal />
   </>
 );
 export default ModalRegistra;
