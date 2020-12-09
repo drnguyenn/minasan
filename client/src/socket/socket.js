@@ -2,7 +2,7 @@ import io from 'socket.io-client';
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
-var socketInterface = (function () {
+const socketInterface = (function () {
   // global socket, init only one
   let socket;
   const createSocket = (
