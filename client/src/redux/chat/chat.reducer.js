@@ -39,7 +39,7 @@ const chatReducer = (state = INITIAL_STATE, action) => {
 
     case ChatActionTypes.FETCH_CONVERSATIONS_SUCCESS:
       const { chat_list, user } = action.payload;
-      var currPartner;
+      let currPartner;
       if (chat_list.length > 0) {
         currPartner =
           chat_list[0].user2.id === user.id

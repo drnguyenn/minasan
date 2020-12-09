@@ -1,14 +1,22 @@
-import { Avatar } from '@material-ui/core';
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { fetchChatContentStart, sendMessageStart } from '../../redux/chat/chat.actions';
-import { socket } from '../../socket/socket';
+import { Avatar } from '@material-ui/core';
+
 import Conversation from '../conversation/conversation.component';
 import MessageEditor from '../message-editor/message-editor.component';
-import { AvatarAndTitle, ChatBoxStyles, Header, Title } from './chat-box.styles';
 
-let joinedRoom = false;
+import { fetchChatContentStart } from '../../redux/chat/chat.actions';
+import { sendMessageStart } from '../../redux/chat/chat.actions';
+
+import socketInterface from '../../socket/socket';
+
+import {
+  ChatBoxStyles,
+  Header,
+  AvatarAndTitle,
+  Title
+} from './chat-box.styles';
 
 const ChatBox = () => {
   const dispatch = useDispatch();
@@ -17,24 +25,58 @@ const ChatBox = () => {
   const currentUser = useSelector(state => state.user.currentUser);
   const partner = useSelector(state => state.chat.currentPartner);
 
+  const [joinRoomMessage, setJoinRoomMessage] = useState('not join room');
+  const [receivedMessage, setReceivedMessage] = useState('not received');
+  const [newRoomMessage, setNewRoomMessage] = useState('not received');
+
   const roomIds = history.map(h => h.id);
   const userId = currentUser.id;
 
   useEffect(() => {
-    if (socket.connected && roomIds.length && !joinedRoom) {
-      socket.emit('join-rooms', { roomIds, userId });
-      joinedRoom = true;
-
-      socket.on('joined-room', message =>
-        console.log(`joined room id: ${message}`)
+    if (history.length > 0) {
+      // this will call the createConnection Event, which will get the instant of the singleton object socketInterface.
+      // the socketInterface will check the private instant socket if created or not. if created, will return the current socket instant.
+      // if not, will create a new instant and set all event listener.
+      // Becasue there will only be one instant of socketInterface object. there will be no duplicate listener on any event or multiple socket.io connection.
+      let connectRoomData = { roomIds, userId };
+      socketInterface.createConnectionEvent(
+        connectRoomData,
+        setJoinRoomMessage,
+        setReceivedMessage,
+        setNewRoomMessage
       );
-
-      socket.on('broadcast-message', data => {
-        console.log(currChat.roomId);
-        dispatch(sendMessageStart(data.senderId, data.message));
-      });
     }
-  }, [dispatch, currChat, roomIds, userId]);
+    // remove socket when component dismount, may cause error
+    // return () => {
+    //   socketInterface.onDisconnectEvent();
+    // };
+  }, [history]);
+
+  // handling join room message
+  useEffect(() => {
+    if (joinRoomMessage !== '') {
+      console.log(joinRoomMessage);
+    }
+  }, [joinRoomMessage]);
+
+  // handling new room message
+  useEffect(() => {
+    if (newRoomMessage !== '') {
+      console.log(newRoomMessage);
+    }
+  }, [newRoomMessage]);
+
+  // handling receive message
+  useEffect(() => {
+    if (receivedMessage !== '') {
+      console.log(receivedMessage);
+      if (receivedMessage.roomId === currChat.roomId) {
+        dispatch(
+          sendMessageStart(receivedMessage.senderId, receivedMessage.message)
+        );
+      }
+    }
+  }, [receivedMessage]);
 
   useEffect(() => {
     dispatch(
@@ -51,8 +93,8 @@ const ChatBox = () => {
       message: message,
       senderId: currentUser.id
     };
-    socket.emit('send-message', data);
 
+    socketInterface.sendMessageEvent(data);
     dispatch(sendMessageStart(currentUser.id, message));
   };
 
