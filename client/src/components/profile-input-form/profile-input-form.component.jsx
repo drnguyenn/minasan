@@ -13,7 +13,10 @@ import {
 } from '@material-ui/core';
 import { Edit } from '@material-ui/icons';
 
-import { toggleHobbiesModalOpened } from '../../redux/modal/modal.actions';
+import {
+  toggleHobbiesModalOpened,
+  toggleIssuesModalOpened
+} from '../../redux/modal/modal.actions';
 
 import {
   ProfileInputFormContainer,
@@ -145,6 +148,26 @@ const ProfileInputForm = () => {
           </HobbyList>
           <Tooltip title='Edit'>
             <Fab onClick={() => dispatch(toggleHobbiesModalOpened())}>
+              <Edit />
+            </Fab>
+          </Tooltip>
+        </HobbiesSecton>
+        <h3>Issues</h3>
+        <HobbiesSecton>
+          <HobbyList>
+            <Chip
+              label='Family'
+              color='secondary'
+              style={{ margin: '0 10px 10px 0' }}
+            />
+            <Chip
+              label='Work'
+              color='secondary'
+              style={{ margin: '0 10px 10px 0' }}
+            />
+          </HobbyList>
+          <Tooltip title='Edit'>
+            <Fab onClick={() => dispatch(toggleIssuesModalOpened())}>
               <Edit />
             </Fab>
           </Tooltip>

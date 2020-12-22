@@ -47,9 +47,9 @@ const ChatBox = () => {
       );
     }
     // remove socket when component dismount, may cause error
-    // return () => {
-    //   socketInterface.onDisconnectEvent();
-    // };
+    return () => {
+      socketInterface.onDisconnectEvent();
+    };
   }, [history]);
 
   // handling join room message

@@ -10,44 +10,45 @@ import {
   Checkbox,
   Fab
 } from '@material-ui/core';
-import { Favorite, FavoriteBorder } from '@material-ui/icons';
+import AnnouncementIcon from '@material-ui/icons/Announcement';
+import AnnouncementOutlinedIcon from '@material-ui/icons/AnnouncementOutlined';
 
-import { toggleHobbiesModalOpened } from '../../redux/modal/modal.actions';
+import { toggleIssuesModalOpened } from '../../redux/modal/modal.actions';
 
-const HobbiesModal = () => {
-  const { isHobbiesModalOpened } = useSelector(state => state.modal);
+const IssuesModal = () => {
+  const { isIssuesModalOpened } = useSelector(state => state.modal);
 
   const dispatch = useDispatch();
 
-  const handleClose = () => dispatch(toggleHobbiesModalOpened());
+  const handleClose = () => dispatch(toggleIssuesModalOpened());
 
   const handleSubmit = () => {
     console.log('submit');
-    dispatch(toggleHobbiesModalOpened());
+    dispatch(toggleIssuesModalOpened());
   };
-  const hobbiesList = [
-    'gaming',
-    'liturature',
-    'puzzle',
-    'movie',
-    'art',
-    'photograph'
-  ];
 
+  const issuesList = [
+    'friend',
+    'family',
+    'work',
+    'love',
+    'passion',
+    'anger_management'
+  ];
   return (
-    <Dialog open={isHobbiesModalOpened} onClose={handleClose}>
-      <DialogTitle>Choose your hobbies</DialogTitle>
+    <Dialog open={isIssuesModalOpened} onClose={handleClose}>
+      <DialogTitle>What problem do you face?</DialogTitle>
       <DialogContent>
-        {hobbiesList.map(hobby => (
+        {issuesList.map(issue => (
           <FormControlLabel
             control={
               <Checkbox
-                icon={<FavoriteBorder />}
-                checkedIcon={<Favorite />}
-                name={hobby}
+                icon={<AnnouncementOutlinedIcon />}
+                checkedIcon={<AnnouncementIcon />}
+                name={issue}
               />
             }
-            label={hobby
+            label={issue
               .toLowerCase()
               .split(' ')
               .map(word => word.charAt(0).toUpperCase() + word.substring(1))
@@ -67,4 +68,4 @@ const HobbiesModal = () => {
   );
 };
 
-export default HobbiesModal;
+export default IssuesModal;
