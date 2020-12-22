@@ -7,6 +7,7 @@ import { OrmConfig } from './core/Config/orm.config';
 import { HttpRequestLogger } from './core/Loggers/http-request.logger';
 import { AuthModule } from './modules/auth/auth.module';
 import { ConversationModule } from './modules/conversation/conversations.module';
+import { HobbiesModule } from './modules/hobbies/hobbies.module';
 import { MessagesModule } from './modules/message/messages.module';
 import { UsersModule } from './modules/users/users.module';
 import { WsModule } from './modules/ws/ws.module';
@@ -15,10 +16,11 @@ import { WsModule } from './modules/ws/ws.module';
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot(OrmConfig),
-    UsersModule,
     AuthModule,
-    MessagesModule,
     ConversationModule,
+    HobbiesModule,
+    MessagesModule,
+    UsersModule,
     WsModule
   ],
   controllers: [],

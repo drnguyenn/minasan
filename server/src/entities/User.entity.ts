@@ -1,8 +1,9 @@
 import { Exclude } from 'class-transformer';
-import { Column, Entity, OneToMany } from 'typeorm';
+import { Column, Entity, JoinTable, ManyToMany, OneToMany } from 'typeorm';
 
 import { BaseEntity } from './Base.entity';
 import { Conversation } from './Conversation.entity';
+import { Hobby } from './Hobby.entity';
 import { Message } from './Message.entity';
 
 @Entity()
@@ -25,4 +26,8 @@ export class User extends BaseEntity {
 
   @OneToMany(() => Conversation, (conversation) => conversation.user2)
   conversations2: Conversation[];
+
+  @ManyToMany(() => Hobby, (hobby) => hobby.users, { eager: true })
+  @JoinTable({ name: 'users_hobbies' })
+  hobbies: Hobby[];
 }

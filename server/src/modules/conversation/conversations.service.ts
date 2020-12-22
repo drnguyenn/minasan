@@ -13,7 +13,7 @@ export class ConversationsService {
   ) {}
 
   async getConversations(userId: number): Promise<Array<Conversation>> {
-    return this.conversationRepository.find({
+    return await this.conversationRepository.find({
       where: [{ user1Id: userId }, { user2Id: userId }],
       order: { updatedAt: 'DESC' }
     });

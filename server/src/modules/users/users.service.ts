@@ -1,9 +1,10 @@
-import { ConflictException, Injectable, InternalServerErrorException } from '@nestjs/common';
+import { BadRequestException, ConflictException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { plainToClass } from 'class-transformer';
 import { Repository } from 'typeorm';
 
 import { Conversation } from '../../entities/Conversation.entity';
+import { Hobby } from '../../entities/Hobby.entity';
 import { User } from '../../entities/User.entity';
 import { AuthService } from '../auth/auth.service';
 import { CreateUserDto, UpdateUserDto } from './users.dto';
@@ -15,6 +16,7 @@ export class UsersService {
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
     @InjectRepository(Conversation) private conversationRepository: Repository<Conversation>,
+    @InjectRepository(Hobby) private hobbyRepository: Repository<Hobby>,
     private authService: AuthService
   ) {}
 
@@ -30,9 +32,18 @@ export class UsersService {
 
   async updateUser(id: number, dto: UpdateUserDto): Promise<User> {
     let hashedPassword: string;
-    const { password, ...others } = dto;
+    const { password, hobbyIds, ...others } = dto;
+
     const user = await this.userRepository.findOne(id);
+
     if (password) hashedPassword = this.authService.hashPassword(dto.password);
+
+    if (hobbyIds.length) {
+      const hobbies = await this.hobbyRepository.findByIds(hobbyIds);
+      if (hobbies.length !== hobbyIds.length) throw new BadRequestException('Hobbies not exist');
+      else user.hobbies = hobbies;
+    }
+
     try {
       return await this.userRepository.save({ ...user, ...others, ...(password && { hashedPassword }) });
     } catch (error) {
