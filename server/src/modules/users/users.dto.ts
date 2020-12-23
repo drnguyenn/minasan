@@ -1,5 +1,5 @@
-import { ApiProperty, PartialType, PickType } from '@nestjs/swagger';
-import { IsDefined, IsEmail, IsString, Matches, MinLength } from 'class-validator';
+import { ApiProperty, ApiPropertyOptional, PartialType, PickType } from '@nestjs/swagger';
+import { IsDefined, IsEmail, IsNumber, IsOptional, IsString, Matches, MinLength } from 'class-validator';
 
 export class CreateUserDto {
   @ApiProperty()
@@ -23,4 +23,9 @@ export class CreateUserDto {
   password: string;
 }
 
-export class UpdateUserDto extends PartialType(PickType(CreateUserDto, ['name', 'password'] as const)) {}
+export class UpdateUserDto extends PartialType(PickType(CreateUserDto, ['name', 'password'] as const)) {
+  @ApiPropertyOptional({ type: [Number] })
+  @IsOptional()
+  @IsNumber({}, { each: true })
+  hobbyIds: number[];
+}
