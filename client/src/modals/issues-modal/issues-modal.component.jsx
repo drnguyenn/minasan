@@ -14,9 +14,11 @@ import AnnouncementIcon from '@material-ui/icons/Announcement';
 import AnnouncementOutlinedIcon from '@material-ui/icons/AnnouncementOutlined';
 
 import { toggleIssuesModalOpened } from '../../redux/modal/modal.actions';
+// import fetchIssuesStart from '../../redux/profile/profile.action';
 
 const IssuesModal = () => {
   const { isIssuesModalOpened } = useSelector(state => state.modal);
+  const issuesList = [];
 
   const dispatch = useDispatch();
 
@@ -27,14 +29,6 @@ const IssuesModal = () => {
     dispatch(toggleIssuesModalOpened());
   };
 
-  const issuesList = [
-    'friend',
-    'family',
-    'work',
-    'love',
-    'passion',
-    'anger_management'
-  ];
   return (
     <Dialog open={isIssuesModalOpened} onClose={handleClose}>
       <DialogTitle>What problem do you face?</DialogTitle>

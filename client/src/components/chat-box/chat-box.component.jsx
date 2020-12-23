@@ -103,9 +103,9 @@ const ChatBox = () => {
 
   const handleClose = roomId => {
     setSnackbarStatus(false);
-    if (roomId) {
-      dispatchEvent(fetchChatContentStart(roomId));
-    }
+    // if (roomId) {
+    //   dispatchEvent(fetchChatContentStart(roomId));
+    // }
   };
 
   return (
@@ -127,14 +127,25 @@ const ChatBox = () => {
           <Button
             color='secondary'
             size='small'
-            onClick={handleClose(receivedMessage.roomId)}
+            onClick={() => {
+              setSnackbarStatus(false);
+              dispatch(
+                fetchChatContentStart(
+                  receivedMessage.userId,
+                  receivedMessage.roomId
+                )
+              );
+              console.log(receivedMessage);
+            }}
           >
             View
           </Button>
         }
         autoHideDuration={2000}
         open={snackbarStatus}
-        onClose={handleClose(null)}
+        onClose={() => {
+          setSnackbarStatus(false);
+        }}
         message={receivedMessage ? receivedMessage.message : ''}
       ></Snackbar>
     </React.Fragment>

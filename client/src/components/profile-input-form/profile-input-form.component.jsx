@@ -61,16 +61,6 @@ const ProfileInputForm = () => {
       <ProfileInputFormTitle>Profile</ProfileInputFormTitle>
       <form onSubmit={handleSubmit}>
         <TextField
-          name='email'
-          type='email'
-          value={currentUser.email}
-          onChange={handleChange}
-          label='Email'
-          margin='normal'
-          fullWidth
-          disabled
-        />
-        <TextField
           required
           name='username'
           type='text'
@@ -80,53 +70,6 @@ const ProfileInputForm = () => {
           margin='normal'
           fullWidth
         />
-        <FirstNameAndLastNameInput>
-          <TextField
-            name='firstName'
-            type='text'
-            value={firstName}
-            onChange={handleChange}
-            label='First name'
-            margin='normal'
-          />
-          <TextField
-            name='lastName'
-            type='text'
-            value={lastName}
-            onChange={handleChange}
-            label='Last name'
-            margin='normal'
-          />
-        </FirstNameAndLastNameInput>
-        <TextField
-          name='phoneNumber'
-          type='text'
-          value={phoneNumber}
-          onChange={handleChange}
-          label='Phone number'
-          margin='normal'
-        />
-        <AgeAndGenderInput>
-          <TextField
-            name='age'
-            type='number'
-            value={age}
-            onChange={handleChange}
-            label='Age'
-            margin='normal'
-          />
-          <FormControl margin='normal' style={{ minWidth: 120 }}>
-            <InputLabel>Gender</InputLabel>
-            <Select name='gender' value={gender || ''} onChange={handleChange}>
-              <MenuItem value={''}>
-                <em>None</em>
-              </MenuItem>
-              <MenuItem value={'male'}>Male</MenuItem>
-              <MenuItem value={'female'}>Female</MenuItem>
-              <MenuItem value={'other'}>Other</MenuItem>
-            </Select>
-          </FormControl>
-        </AgeAndGenderInput>
         <h3>Hobbies</h3>
         <HobbiesSecton>
           <HobbyList>
