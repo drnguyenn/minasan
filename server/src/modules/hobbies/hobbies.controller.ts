@@ -1,10 +1,13 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 import { Hobby } from '../../entities/Hobby.entity';
 import { CreateHobbyDto, UpdateHobbyDto } from './hobbies.dto';
 import { HobbiesService } from './hobbies.service';
 
+@ApiBearerAuth()
+@UseGuards(AuthGuard())
 @ApiTags('Hobbies')
 @Controller('hobbies')
 export class HobbiesController {
