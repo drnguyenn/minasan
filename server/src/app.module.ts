@@ -9,6 +9,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { ConversationModule } from './modules/conversation/conversations.module';
 import { HobbiesModule } from './modules/hobbies/hobbies.module';
 import { MessagesModule } from './modules/message/messages.module';
+import { TopicsModule } from './modules/topics/topics.module';
 import { UsersModule } from './modules/users/users.module';
 import { WsModule } from './modules/ws/ws.module';
 
@@ -20,6 +21,7 @@ import { WsModule } from './modules/ws/ws.module';
     ConversationModule,
     HobbiesModule,
     MessagesModule,
+    TopicsModule,
     UsersModule,
     WsModule
   ],

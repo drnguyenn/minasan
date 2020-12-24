@@ -9,6 +9,7 @@ import { CreateConversationDto } from './conversation.dto';
 import { ConversationsService } from './conversations.service';
 
 @ApiBearerAuth()
+@UseGuards(AuthGuard())
 @ApiTags('Conversations')
 @Controller('conversations')
 export class ConversationsController {
@@ -16,7 +17,6 @@ export class ConversationsController {
 
   @ApiOperation({ summary: 'Retrieve many conversations' })
   @Get()
-  @UseGuards(AuthGuard())
   async getConversations(@UserInfo() user: User): Promise<Array<Conversation>> {
     return this.conversationService.getConversations(user.id);
   }
@@ -25,7 +25,6 @@ export class ConversationsController {
   @ApiQuery({ name: 'limit', required: false, type: Number })
   @ApiQuery({ name: 'page', required: false, type: Number })
   @Get(':id')
-  @UseGuards(AuthGuard())
   async getConversation(
     @Param('id', ParseIntPipe) id: number,
     @Query('limit', new DefaultValuePipe(1000)) limit: number,
@@ -37,7 +36,6 @@ export class ConversationsController {
 
   @ApiOperation({ summary: 'Create conversation' })
   @Post()
-  @UseGuards(AuthGuard())
   async createConversation(@UserInfo() user: User, @Body() dto: CreateConversationDto): Promise<Conversation> {
     return this.conversationService.createConversation(user.id, dto.userId);
   }

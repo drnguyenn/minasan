@@ -28,4 +28,9 @@ export class UpdateUserDto extends PartialType(PickType(CreateUserDto, ['name', 
   @IsOptional()
   @IsNumber({}, { each: true })
   hobbyIds: number[];
+
+  @ApiPropertyOptional({ type: [Number] })
+  @IsOptional()
+  @IsNumber({}, { each: true })
+  topicIds: number[];
 }

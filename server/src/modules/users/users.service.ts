@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 
 import { Conversation } from '../../entities/Conversation.entity';
 import { Hobby } from '../../entities/Hobby.entity';
+import { Topic } from '../../entities/Topic.entity';
 import { User } from '../../entities/User.entity';
 import { AuthService } from '../auth/auth.service';
 import { CreateUserDto, UpdateUserDto } from './users.dto';
@@ -17,6 +18,7 @@ export class UsersService {
     @InjectRepository(User) private userRepository: Repository<User>,
     @InjectRepository(Conversation) private conversationRepository: Repository<Conversation>,
     @InjectRepository(Hobby) private hobbyRepository: Repository<Hobby>,
+    @InjectRepository(Topic) private topicRepository: Repository<Topic>,
     private authService: AuthService
   ) {}
 
@@ -32,7 +34,7 @@ export class UsersService {
 
   async updateUser(id: number, dto: UpdateUserDto): Promise<User> {
     let hashedPassword: string;
-    const { password, hobbyIds, ...others } = dto;
+    const { password, hobbyIds, topicIds, ...others } = dto;
 
     const user = await this.userRepository.findOne(id);
 
@@ -42,6 +44,12 @@ export class UsersService {
       const hobbies = await this.hobbyRepository.findByIds(hobbyIds);
       if (hobbies.length !== hobbyIds.length) throw new BadRequestException('Hobbies not exist');
       else user.hobbies = hobbies;
+    }
+
+    if (topicIds.length) {
+      const topics = await this.topicRepository.findByIds(topicIds);
+      if (topics.length !== topicIds.length) throw new BadRequestException('Topics not exist');
+      else user.topics = topics;
     }
 
     try {
