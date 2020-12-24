@@ -21,7 +21,7 @@ export const fetchIssuesStart = () => ({
 
 export const fetchIssuesSuccess = issuesList => ({
   type: ProfileActionTypes.FETCH_ISSUES_SUCCESS,
-  payload: { issuesList }
+  payload: issuesList
 });
 
 export const fetchIssuesFailure = error => ({

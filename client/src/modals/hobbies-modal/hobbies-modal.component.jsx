@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
@@ -13,9 +13,11 @@ import {
 import { Favorite, FavoriteBorder } from '@material-ui/icons';
 
 import { toggleHobbiesModalOpened } from '../../redux/modal/modal.actions';
+import { fetchHobbyStart } from '../../redux/profile/profile.action';
 
 const HobbiesModal = () => {
   const { isHobbiesModalOpened } = useSelector(state => state.modal);
+  const { hobbyList } = useSelector(state => state.profile);
 
   const dispatch = useDispatch();
 
@@ -25,14 +27,11 @@ const HobbiesModal = () => {
     console.log('submit');
     dispatch(toggleHobbiesModalOpened());
   };
-  const hobbiesList = [
-    'gaming',
-    'liturature',
-    'puzzle',
-    'movie',
-    'art',
-    'photograph'
-  ];
+
+  useEffect(() => {
+    dispatch(fetchHobbyStart());
+  }, []);
+  const hobbiesList = hobbyList;
 
   return (
     <Dialog open={isHobbiesModalOpened} onClose={handleClose}>

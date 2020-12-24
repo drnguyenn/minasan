@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
@@ -14,12 +14,11 @@ import AnnouncementIcon from '@material-ui/icons/Announcement';
 import AnnouncementOutlinedIcon from '@material-ui/icons/AnnouncementOutlined';
 
 import { toggleIssuesModalOpened } from '../../redux/modal/modal.actions';
-// import fetchIssuesStart from '../../redux/profile/profile.action';
+import { fetchIssuesStart } from '../../redux/profile/profile.action';
 
 const IssuesModal = () => {
   const { isIssuesModalOpened } = useSelector(state => state.modal);
-  const issuesList = [];
-
+  const { issuesList } = useSelector(state => state.profile);
   const dispatch = useDispatch();
 
   const handleClose = () => dispatch(toggleIssuesModalOpened());
@@ -28,6 +27,9 @@ const IssuesModal = () => {
     console.log('submit');
     dispatch(toggleIssuesModalOpened());
   };
+  useEffect(() => {
+    dispatch(fetchIssuesStart());
+  }, []);
 
   return (
     <Dialog open={isIssuesModalOpened} onClose={handleClose}>

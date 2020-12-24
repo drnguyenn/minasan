@@ -19,7 +19,7 @@ import ChatActionTypes from './chat.types';
 export function* fetchChatContent({ payload }) {
   try {
     const accessToken = localStorage.getItem('accessToken');
-    console.log(payload);
+
     const { recieverName, roomId } = payload;
     const { chat } = yield call(
       ChatServices.fetchChatContent,

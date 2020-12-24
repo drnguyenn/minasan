@@ -5,7 +5,7 @@ import * as profileAction from './profile.action';
 import * as profileService from '../../services/profile.services';
 import ProfileActionTypes from './profile.types';
 
-export function* fetchIssues({ payload }) {
+export function* fetchIssues() {
   try {
     const accessToken = localStorage.getItem('accessToken');
     const { issuesList } = yield call(profileService.fetchIssues, accessToken);
@@ -57,7 +57,7 @@ export function* onFetchHobbyStart() {
 }
 
 export function* onFetchIssuesStart() {
-  yield takeLatest(ProfileActionTypes.FETCH_ISSUES_START, fetchHobbies);
+  yield takeLatest(ProfileActionTypes.FETCH_ISSUES_START, fetchIssues);
 }
 
 export function* onUpdateProfileStart() {
