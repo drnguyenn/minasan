@@ -10,6 +10,8 @@ RUN yarn install
 
 COPY . ./
 
+ENV REACT_APP_BASE_URL=https://minasan-server-2l3tbfnjkq-as.a.run.app
+
 RUN yarn build
 
 FROM nginx:alpine
@@ -18,7 +20,7 @@ COPY ./nginx.conf /etc/nginx/nginx.conf
 
 RUN rm -rf /usr/share/nginx/html/*
 
-COPY --from=development /usr/src/app/dist/dashboard /usr/share/nginx/html
+COPY --from=development /usr/src/app/build /usr/share/nginx/html
 
 EXPOSE 8080
 

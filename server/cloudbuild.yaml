@@ -11,7 +11,7 @@ steps:
     args:
       - "run"
       - "deploy"
-      - "server"
+      - "minasan-server"
       - "--image"
       - "gcr.io/duongle-279811/minasan-server"
       - "--region"

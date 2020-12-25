@@ -11,7 +11,7 @@ steps:
     args:
       - "run"
       - "deploy"
-      - "client"
+      - "minasan-client"
       - "--image"
       - "gcr.io/duongle-279811/minasan-client"
       - "--region"
