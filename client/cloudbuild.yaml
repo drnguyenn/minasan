@@ -1,0 +1,23 @@
+steps:
+  # Build the container image
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["build", "-t", "gcr.io/duongle-279811/minasan-client", "."]
+    dir: "client"
+  # Push the image to Container Registry
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["push", "gcr.io/duongle-279811/minasan-client"]
+  # Deploy image to Cloud Run
+  - name: "gcr.io/cloud-builders/gcloud"
+    args:
+      - "run"
+      - "deploy"
+      - "client"
+      - "--image"
+      - "gcr.io/duongle-279811/minasan-client"
+      - "--region"
+      - "asia-southeast1"
+      - "--platform"
+      - "managed"
+images:
+  - gcr.io/duongle-279811/minasan-client
+timeout: 1200s
