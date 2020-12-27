@@ -28,7 +28,6 @@ const socketInterface = (function () {
 
     // connect success
     socket.on('connect', () => {
-      console.log('connected');
       socket.emit('join-rooms', data);
     });
 
