@@ -1,5 +1,5 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { IconButton } from '@material-ui/core';
 import { PhotoCamera } from '@material-ui/icons';
@@ -12,14 +12,32 @@ import {
   FileInput
 } from './profile-avatar.styles';
 
+import { updateProfileAvaStart } from '../../redux/profile/profile.action';
+import { getCurrentUser } from '../../redux/user/user.actions';
+
 const ProfileAvatar = () => {
   const { currentUser } = useSelector(state => state.user);
 
+  const dispatch = useDispatch();
+
   const handleUploadClick = async event => {
     const file = event.target.files[0];
-    console.log(file);
-    // uploadAvatarStart(id, file);
+
+    const hobbyIds = currentUser.hobbies.map(hobby => hobby.id);
+    const topicIds = currentUser.issues.map(issue => issue.id);
+
+    let data = new FormData();
+    data.append('name', currentUser.username);
+    data.append('topicIds', topicIds);
+    data.append('hobbyIds', hobbyIds);
+    data.append('avatar', file);
+
+    dispatch(getCurrentUser());
+    dispatch(updateProfileAvaStart(data));
   };
+
+  // useEffect(() => {
+  // }, [currentUser]);
 
   return (
     <ProfileAvatarContainer>

@@ -51,9 +51,22 @@ const profileReducer = (state = INITIAL_STATE, action) => {
         isLoading: false
       };
 
+    case ProfileActionTypes.UPDATE_PROFILE_AVATAR_START:
+      return {
+        ...state,
+        isLoading: true
+      };
+
+    case ProfileActionTypes.UPDATE_PROFILE_AVATAR_SUCCESS:
+      return {
+        ...state,
+        isLoading: false
+      };
+
     case ProfileActionTypes.FETCH_HOBBY_FAILURE:
     case ProfileActionTypes.FETCH_ISSUES_FAILURE:
     case ProfileActionTypes.UPDATE_PROFILE_FAILURE:
+    case ProfileActionTypes.UPDATE_PROFILE_AVATAR_FAILURE:
       return {
         ...state,
         isLoading: false,

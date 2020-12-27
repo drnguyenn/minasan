@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
@@ -46,7 +46,7 @@ const ProfileInputForm = () => {
 
     dispatch(
       updateProfileStart({
-        username: event.target.username.value,
+        name: event.target.username.value,
         // email: event.target.email.value
         password: event.target.password.value,
         topicIds: topicIds,
