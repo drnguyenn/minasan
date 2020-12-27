@@ -34,12 +34,27 @@ export const updateProfileStart = userProfile => ({
   payload: userProfile
 });
 
-export const updateProfileUpdate = userList => ({
+export const updateProfileSuccess = userList => ({
   type: ProfileActionTypes.UPDATE_PROFILE_SUCCESS,
   payload: userList
 });
 
 export const updateProfileFailure = error => ({
-  type: ProfileActionTypes.UPDATE_PROFILE_FAILURE,
+  type: ProfileActionTypes.UPDATE_PROFILE_AVATAR_FAILURE,
+  payload: error
+});
+
+export const updateProfileAvaStart = userProfile => ({
+  type: ProfileActionTypes.UPDATE_PROFILE_AVATAR_START,
+  payload: userProfile
+});
+
+export const updateProfileAvaSuccess = userList => ({
+  type: ProfileActionTypes.UPDATE_PROFILE_AVATAR_SUCCESS,
+  payload: userList
+});
+
+export const updateProfileAvaFailure = error => ({
+  type: ProfileActionTypes.UPDATE_PROFILE_AVATAR_FAILURE,
   payload: error
 });

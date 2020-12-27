@@ -27,7 +27,7 @@ const AvatarDropdown = () => {
     <div>
       <IconButton onClick={handleMenu} color='inherit' size='small'>
         {currentUser ? (
-          <Avatar alt={currentUser.username} src={currentUser.photoURL} />
+          <Avatar alt={currentUser.username} src={currentUser.avatarUrl} />
         ) : null}
       </IconButton>
       <Menu anchorEl={anchorEl} keepMounted open={open} onClose={handleClose}>

@@ -34,9 +34,22 @@ export function* updateProfile({ payload }) {
 
     yield call(profileService.updateProfile, accessToken, payload);
 
-    yield put(profileAction.updateProfileUpdate());
+    yield put(profileAction.updateProfileSuccess());
   } catch (error) {
     yield put(profileAction.updateProfileFailure(error));
+  }
+}
+
+export function* updateAvatar({ payload }) {
+  try {
+    const accessToken = localStorage.getItem('accessToken');
+    // console.log(payload);
+
+    yield call(profileService.updateAvatar, accessToken, payload);
+
+    yield put(profileAction.updateProfileAvaSuccess());
+  } catch (error) {
+    yield put(profileAction.updateProfileAvaFailure(error));
   }
 }
 
@@ -52,10 +65,18 @@ export function* onUpdateProfileStart() {
   yield takeLatest(ProfileActionTypes.UPDATE_PROFILE_START, updateProfile);
 }
 
+export function* onUpdateProfileAvaStart() {
+  yield takeLatest(
+    ProfileActionTypes.UPDATE_PROFILE_AVATAR_START,
+    updateAvatar
+  );
+}
+
 export function* profileSagas() {
   yield all([
     call(onFetchHobbyStart),
     call(onFetchIssuesStart),
-    call(onUpdateProfileStart)
+    call(onUpdateProfileStart),
+    call(onUpdateProfileAvaStart)
   ]);
 }

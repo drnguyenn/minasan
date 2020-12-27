@@ -36,7 +36,7 @@ const HobbiesModal = () => {
 
     dispatch(
       updateProfileStart({
-        username: username,
+        name: username,
         // email: event.target.email.value
         topicIds: topicIds,
         hobbyIds: chosenList

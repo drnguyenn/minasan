@@ -37,28 +37,37 @@ export const fetchIssues = async accessToken => {
 
 export const updateProfile = async (accessToken, userProfile) => {
   try {
-    const updateData = {
-      name: userProfile.username,
-      // email: userProfile.email,
-      password: userProfile.password,
-      hobbyIds: userProfile.hobbyIds,
-      topicIds: userProfile.topicIds
-    };
-
     let response = await fetch(`${BASE_URL}/api/users/me`, {
       method: 'PATCH',
       headers: {
         Authorization: `Bearer ${accessToken}`,
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(updateData)
+      body: JSON.stringify(userProfile)
     });
 
     const message = await response.json();
-
     return response.status === 201 ? {} : {};
   } catch (error) {
-    console.error(error);
+    console.error(error.response);
+    throw new Error(error.message);
+  }
+};
+
+export const updateAvatar = async (accessToken, userProfile) => {
+  try {
+    let response = await fetch(`${BASE_URL}/api/users/me`, {
+      method: 'PATCH',
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      },
+      body: userProfile
+    });
+
+    const message = await response.json();
+    return response.status === 201 ? {} : {};
+  } catch (error) {
+    console.error(error.response);
     throw new Error(error.message);
   }
 };

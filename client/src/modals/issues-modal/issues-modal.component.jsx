@@ -37,7 +37,7 @@ const IssuesModal = () => {
 
     dispatch(
       updateProfileStart({
-        username: username,
+        name: username,
         // email: event.target.email.value
         topicIds: chosenList,
         hobbyIds: hobbyIds
