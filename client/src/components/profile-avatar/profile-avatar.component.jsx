@@ -13,10 +13,11 @@ import {
 } from './profile-avatar.styles';
 
 const ProfileAvatar = () => {
-  const { photoURL } = useSelector(state => state.user.currentUser);
+  const { currentUser } = useSelector(state => state.user);
 
   const handleUploadClick = async event => {
-    // const file = event.target.files[0];
+    const file = event.target.files[0];
+    console.log(file);
     // uploadAvatarStart(id, file);
   };
 
@@ -25,7 +26,7 @@ const ProfileAvatar = () => {
       <ProfileAvatarTitle>Avatar</ProfileAvatarTitle>
       <UserAvatarAndUploadButton>
         <UserAvatar
-          style={{ backgroundImage: `url(${photoURL})` }}
+          style={{ backgroundImage: `url(${currentUser.avatarUrl})` }}
         ></UserAvatar>
         <FileInput
           id='upload-button'

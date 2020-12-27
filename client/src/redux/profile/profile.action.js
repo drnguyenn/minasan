@@ -29,20 +29,6 @@ export const fetchIssuesFailure = error => ({
   payload: error
 });
 
-export const fetchProfileStart = () => ({
-  type: ProfileActionTypes.FETCH_PROFILE_START
-});
-
-export const fetchProfileSuccess = userProfile => ({
-  type: ProfileActionTypes.FETCH_PROFILE_SUCCESS,
-  payload: userProfile
-});
-
-export const fetchProfileFailure = error => ({
-  type: ProfileActionTypes.FETCH_PROFILE_FAILURE,
-  payload: error
-});
-
 export const updateProfileStart = userProfile => ({
   type: ProfileActionTypes.UPDATE_PROFILE_START,
   payload: userProfile

@@ -27,22 +27,10 @@ export function* fetchHobbies() {
   }
 }
 
-export function* fetchProfile() {
-  try {
-    const accessToken = localStorage.getItem('accessToken');
-    const { userProfile } = yield call(
-      profileService.fetchProfile,
-      accessToken
-    );
-    yield put(profileAction.fetchProfileSuccess(userProfile));
-  } catch (error) {
-    yield put(profileAction.fetchProfileFailure(error));
-  }
-}
-
 export function* updateProfile({ payload }) {
   try {
     const accessToken = localStorage.getItem('accessToken');
+    // console.log(payload);
 
     yield call(profileService.updateProfile, accessToken, payload);
 
@@ -64,15 +52,10 @@ export function* onUpdateProfileStart() {
   yield takeLatest(ProfileActionTypes.UPDATE_PROFILE_START, updateProfile);
 }
 
-export function* onFetchProfileStart() {
-  yield takeLatest(ProfileActionTypes.FETCH_PROFILE_START, fetchProfile);
-}
-
 export function* profileSagas() {
   yield all([
     call(onFetchHobbyStart),
     call(onFetchIssuesStart),
-    call(onUpdateProfileStart),
-    call(onFetchProfileStart)
+    call(onUpdateProfileStart)
   ]);
 }

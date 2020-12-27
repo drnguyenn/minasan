@@ -2,7 +2,6 @@ const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 export const fetchHobbies = async accessToken => {
   try {
-    console.log('here');
     const response = await fetch(`${BASE_URL}/api/hobbies`, {
       method: 'GET',
       headers: {
@@ -10,18 +9,11 @@ export const fetchHobbies = async accessToken => {
       }
     });
 
-    const messages = await response.json();
-    console.log(messages);
+    const message = await response.json();
     return {
-      hobbyList: [
-        'gaming',
-        'liturature',
-        'puzzle',
-        'movie',
-        'art',
-        'photograph',
-        'literature'
-      ]
+      hobbyList: message.map(mes => {
+        return { id: mes.id, name: mes.name };
+      })
     };
   } catch (err) {
     console.error(err);
@@ -29,48 +21,44 @@ export const fetchHobbies = async accessToken => {
   }
 };
 export const fetchIssues = async accessToken => {
-  //   const response = await fetch(`${BASE_URL}/api/conversations/${roomId}`, {
-  //     method: 'GET',
-  //     headers: {
-  //       Authorization: `Bearer ${accessToken}`
-  //     }
-  //   });
-
-  //   const { messages } = await response.json();
+  const response = await fetch(`${BASE_URL}/api/topics`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${accessToken}`
+    }
+  });
+  const message = await response.json();
   return {
-    issuesList: [
-      'friend',
-      'family',
-      'work',
-      'love',
-      'passion',
-      'anger_management'
-    ]
-  };
-};
-
-export const fetchProfile = async accessToken => {
-  //   const response = await fetch(`${BASE_URL}/api/conversations/${roomId}`, {
-  //     method: 'GET',
-  //     headers: {
-  //       Authorization: `Bearer ${accessToken}`
-  //     }
-  //   });
-
-  //   const { messages } = await response.json();
-  return {
-    userProfile: {}
+    issuesList: message.map(mes => {
+      return { id: mes.id, name: mes.name };
+    })
   };
 };
 
 export const updateProfile = async (accessToken, userProfile) => {
-  //   const response = await fetch(`${BASE_URL}/api/conversations/${roomId}`, {
-  //     method: 'GET',
-  //     headers: {
-  //       Authorization: `Bearer ${accessToken}`
-  //     }
-  //   });
+  try {
+    const updateData = {
+      name: userProfile.username,
+      // email: userProfile.email,
+      password: userProfile.password,
+      hobbyIds: userProfile.hobbyIds,
+      topicIds: userProfile.topicIds
+    };
 
-  //   const { messages } = await response.json();
-  return {};
+    let response = await fetch(`${BASE_URL}/api/users/me`, {
+      method: 'PATCH',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(updateData)
+    });
+
+    const message = await response.json();
+
+    return response.status === 201 ? {} : {};
+  } catch (error) {
+    console.error(error);
+    throw new Error(error.message);
+  }
 };

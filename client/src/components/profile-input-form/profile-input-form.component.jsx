@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
@@ -18,6 +18,8 @@ import {
   toggleIssuesModalOpened
 } from '../../redux/modal/modal.actions';
 
+import { updateProfileStart } from '../../redux/profile/profile.action';
+
 import {
   ProfileInputFormContainer,
   ProfileInputFormTitle,
@@ -30,24 +32,34 @@ import {
 
 const ProfileInputForm = () => {
   const { currentUser } = useSelector(state => state.user);
+  const dispatch = useDispatch();
 
   const [userInfo, setUserInfo] = useState(currentUser);
 
-  const { username, firstName, lastName, phoneNumber, gender, age } = userInfo;
-
-  const dispatch = useDispatch();
+  const { username, email, hobbies, issues } = userInfo;
 
   const handleSubmit = async event => {
     event.preventDefault();
 
+    const hobbyIds = hobbies.map(hobby => hobby.id);
+    const topicIds = issues.map(issue => issue.id);
+
+    dispatch(
+      updateProfileStart({
+        username: event.target.username.value,
+        // email: event.target.email.value
+        password: event.target.password.value,
+        topicIds: topicIds,
+        hobbyIds: hobbyIds
+      })
+    );
+
     setUserInfo({
       ...userInfo,
-      username: '',
-      firstName: '',
-      lastName: '',
-      phoneNumber: '',
-      gender: '',
-      age: 0
+      username: currentUser.name,
+      // email: currentUser.email,
+      hobbies: currentUser.hobbies,
+      issues: currentUser.issues
     });
   };
 
@@ -64,30 +76,50 @@ const ProfileInputForm = () => {
           required
           name='username'
           type='text'
-          value={username}
+          defaultValue={username}
           onChange={handleChange}
           label='Username'
+          margin='normal'
+          fullWidth
+        />
+        {/* <TextField
+          required
+          name='email'
+          type='text'
+          defaultValue={email}
+          onChange={handleChange}
+          label='Email'
+          margin='normal'
+          fullWidth
+        /> */}
+        <TextField
+          required
+          name='password'
+          type='password'
+          defaultValue=''
+          onChange={handleChange}
+          label='Password'
           margin='normal'
           fullWidth
         />
         <h3>Hobbies</h3>
         <HobbiesSecton>
           <HobbyList>
-            <Chip
-              label='Book'
-              color='secondary'
-              style={{ margin: '0 10px 10px 0' }}
-            />
-            <Chip
-              label='Music'
-              color='secondary'
-              style={{ margin: '0 10px 10px 0' }}
-            />
-            <Chip
-              label='Travel'
-              color='secondary'
-              style={{ margin: '0 10px 10px 0' }}
-            />
+            {currentUser.hobbies.map(hobby => {
+              return (
+                <Chip
+                  label={hobby.name
+                    .toLowerCase()
+                    .split(' ')
+                    .map(
+                      word => word.charAt(0).toUpperCase() + word.substring(1)
+                    )
+                    .join(' ')}
+                  color='secondary'
+                  style={{ margin: '0 10px 10px 0' }}
+                />
+              );
+            })}
           </HobbyList>
           <Tooltip title='Edit'>
             <Fab onClick={() => dispatch(toggleHobbiesModalOpened())}>
@@ -98,16 +130,21 @@ const ProfileInputForm = () => {
         <h3>Issues</h3>
         <HobbiesSecton>
           <HobbyList>
-            <Chip
-              label='Family'
-              color='secondary'
-              style={{ margin: '0 10px 10px 0' }}
-            />
-            <Chip
-              label='Work'
-              color='secondary'
-              style={{ margin: '0 10px 10px 0' }}
-            />
+            {currentUser.issues.map(issue => {
+              return (
+                <Chip
+                  label={issue.name
+                    .toLowerCase()
+                    .split(' ')
+                    .map(
+                      word => word.charAt(0).toUpperCase() + word.substring(1)
+                    )
+                    .join(' ')}
+                  color='secondary'
+                  style={{ margin: '0 10px 10px 0' }}
+                />
+              );
+            })}
           </HobbyList>
           <Tooltip title='Edit'>
             <Fab onClick={() => dispatch(toggleIssuesModalOpened())}>
@@ -116,7 +153,7 @@ const ProfileInputForm = () => {
           </Tooltip>
         </HobbiesSecton>
         <ButtonsGroupContainer>
-          <Fab variant='extended' color='primary'>
+          <Fab variant='extended' color='primary' type='submit'>
             Save
           </Fab>
         </ButtonsGroupContainer>

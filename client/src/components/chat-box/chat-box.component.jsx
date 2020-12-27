@@ -101,13 +101,6 @@ const ChatBox = () => {
     dispatch(sendMessageStart(currentUser.id, message));
   };
 
-  const handleClose = roomId => {
-    setSnackbarStatus(false);
-    // if (roomId) {
-    //   dispatchEvent(fetchChatContentStart(roomId));
-    // }
-  };
-
   return (
     <React.Fragment>
       <ChatBoxStyles>

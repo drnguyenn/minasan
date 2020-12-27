@@ -39,19 +39,6 @@ const profileReducer = (state = INITIAL_STATE, action) => {
         error: null
       };
 
-    case ProfileActionTypes.FETCH_PROFILE_START:
-      return {
-        ...state,
-        isLoading: true
-      };
-
-    case ProfileActionTypes.FETCH_PROFILE_SUCCESS:
-      return {
-        ...state,
-        userProfile: action.payload,
-        isLoading: false
-      };
-
     case ProfileActionTypes.UPDATE_PROFILE_START:
       return {
         ...state,
@@ -66,7 +53,6 @@ const profileReducer = (state = INITIAL_STATE, action) => {
 
     case ProfileActionTypes.FETCH_HOBBY_FAILURE:
     case ProfileActionTypes.FETCH_ISSUES_FAILURE:
-    case ProfileActionTypes.FETCH_PROFILE_FAILURE:
     case ProfileActionTypes.UPDATE_PROFILE_FAILURE:
       return {
         ...state,
