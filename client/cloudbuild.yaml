@@ -1,11 +1,19 @@
 steps:
   # Build the container image
   - name: "gcr.io/cloud-builders/docker"
-    args: ["build", "-t", "gcr.io/duongle-279811/minasan-client", "."]
+    args: 
+      - "build"
+      - "-t"
+      - "gcr.io/duongle-279811/minasan-client"
+      - "--build-arg"
+      - "API_URL=https://minasan-server-2l3tbfnjkq-as.a.run.app"
+      - "."
     dir: "client"
   # Push the image to Container Registry
   - name: "gcr.io/cloud-builders/docker"
-    args: ["push", "gcr.io/duongle-279811/minasan-client"]
+    args: 
+      - "push"
+      - "gcr.io/duongle-279811/minasan-client"
   # Deploy image to Cloud Run
   - name: "gcr.io/cloud-builders/gcloud"
     args:

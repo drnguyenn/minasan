@@ -10,7 +10,9 @@ RUN yarn install
 
 COPY . ./
 
-ENV REACT_APP_BASE_URL=https://minasan-server-2l3tbfnjkq-as.a.run.app
+ARG API_URL=http://localhost:4000
+
+ENV REACT_APP_BASE_URL=$API_URL
 
 RUN yarn build
 
