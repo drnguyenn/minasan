@@ -3,10 +3,12 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { plainToClass } from 'class-transformer';
 import { Repository } from 'typeorm';
 
+import { CloudStorageService } from '../../core/Services/cloud-storage.service';
 import { Conversation } from '../../entities/Conversation.entity';
 import { Hobby } from '../../entities/Hobby.entity';
 import { Topic } from '../../entities/Topic.entity';
 import { User } from '../../entities/User.entity';
+import { File } from '../../shared/Interfaces/file.interface';
 import { AuthService } from '../auth/auth.service';
 import { CreateUserDto, UpdateUserDto } from './users.dto';
 
@@ -19,7 +21,8 @@ export class UsersService {
     @InjectRepository(Conversation) private conversationRepository: Repository<Conversation>,
     @InjectRepository(Hobby) private hobbyRepository: Repository<Hobby>,
     @InjectRepository(Topic) private topicRepository: Repository<Topic>,
-    private authService: AuthService
+    private authService: AuthService,
+    private cloudStorageService: CloudStorageService
   ) {}
 
   async createUser(dto: CreateUserDto): Promise<User> {
@@ -32,24 +35,29 @@ export class UsersService {
     }
   }
 
-  async updateUser(id: number, dto: UpdateUserDto): Promise<User> {
+  async updateUser(user: User, dto: UpdateUserDto, avatar: File): Promise<User> {
     let hashedPassword: string;
     const { password, hobbyIds, topicIds, ...others } = dto;
 
-    const user = await this.userRepository.findOne(id);
-
     if (password) hashedPassword = this.authService.hashPassword(dto.password);
 
-    if (hobbyIds.length) {
+    if (hobbyIds?.length) {
       const hobbies = await this.hobbyRepository.findByIds(hobbyIds);
       if (hobbies.length !== hobbyIds.length) throw new BadRequestException('Hobbies not exist');
       else user.hobbies = hobbies;
     }
 
-    if (topicIds.length) {
+    if (topicIds?.length) {
       const topics = await this.topicRepository.findByIds(topicIds);
       if (topics.length !== topicIds.length) throw new BadRequestException('Topics not exist');
       else user.topics = topics;
+    }
+
+    if (avatar) {
+      if (user.avatarName) await this.cloudStorageService.removeFile(user.avatarName);
+      const file = await this.cloudStorageService.uploadFile(avatar, '');
+      user.avatarUrl = file.publicUrl;
+      user.avatarName = file.name;
     }
 
     try {

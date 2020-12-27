@@ -1,0 +1,31 @@
+steps:
+  # Build the container image
+  - name: "gcr.io/cloud-builders/docker"
+    args: 
+      - "build"
+      - "-t"
+      - "gcr.io/duongle-279811/minasan-client"
+      - "--build-arg"
+      - "API_URL=https://minasan-server-2l3tbfnjkq-as.a.run.app"
+      - "."
+    dir: "client"
+  # Push the image to Container Registry
+  - name: "gcr.io/cloud-builders/docker"
+    args: 
+      - "push"
+      - "gcr.io/duongle-279811/minasan-client"
+  # Deploy image to Cloud Run
+  - name: "gcr.io/cloud-builders/gcloud"
+    args:
+      - "run"
+      - "deploy"
+      - "minasan-client"
+      - "--image"
+      - "gcr.io/duongle-279811/minasan-client"
+      - "--region"
+      - "asia-southeast1"
+      - "--platform"
+      - "managed"
+images:
+  - gcr.io/duongle-279811/minasan-client
+timeout: 1200s

@@ -1,4 +1,5 @@
 import { ApiProperty, ApiPropertyOptional, PartialType, PickType } from '@nestjs/swagger';
+import { Transform } from 'class-transformer';
 import { IsDefined, IsEmail, IsNumber, IsOptional, IsString, Matches, MinLength } from 'class-validator';
 
 export class CreateUserDto {
@@ -26,11 +27,16 @@ export class CreateUserDto {
 export class UpdateUserDto extends PartialType(PickType(CreateUserDto, ['name', 'password'] as const)) {
   @ApiPropertyOptional({ type: [Number] })
   @IsOptional()
+  @Transform((value: string) => (typeof value === 'string' ? value.split(',').map((id) => Number(id)) : value))
   @IsNumber({}, { each: true })
   hobbyIds: number[];
 
   @ApiPropertyOptional({ type: [Number] })
   @IsOptional()
+  @Transform((value: string) => (typeof value === 'string' ? value.split(',').map((id) => Number(id)) : value))
   @IsNumber({}, { each: true })
   topicIds: number[];
+
+  @ApiPropertyOptional({ type: 'string', format: 'binary' })
+  avatar: any;
 }
