@@ -33,4 +33,6 @@ lerna-debug.log*
 !.vscode/launch.json
 !.vscode/extensions.json
 
+# Environment variables
 .env
+gcp-key.json

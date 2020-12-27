@@ -19,6 +19,12 @@ export class User extends BaseEntity {
   @Exclude()
   hashedPassword: string;
 
+  @Column({ nullable: true })
+  avatarUrl: string;
+
+  @Column({ nullable: true })
+  avatarName: string;
+
   @OneToMany(() => Message, (message) => message.sender)
   messages: Message[];
 
