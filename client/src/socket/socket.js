@@ -28,7 +28,6 @@ const socketInterface = (function () {
 
     // connect success
     socket.on('connect', () => {
-      console.log('connected');
       socket.emit('join-rooms', data);
     });
 
@@ -85,8 +84,12 @@ const socketInterface = (function () {
     },
 
     onDisconnectEvent: () => {
-      socket.disconect();
-      socket = null;
+      if (!socket) {
+        console.error('Socket not created');
+      } else {
+        socket.close();
+        socket = null;
+      }
     }
   };
 })();

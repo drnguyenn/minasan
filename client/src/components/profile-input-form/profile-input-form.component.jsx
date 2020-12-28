@@ -13,7 +13,12 @@ import {
 } from '@material-ui/core';
 import { Edit } from '@material-ui/icons';
 
-import { toggleHobbiesModalOpened } from '../../redux/modal/modal.actions';
+import {
+  toggleHobbiesModalOpened,
+  toggleIssuesModalOpened
+} from '../../redux/modal/modal.actions';
+
+import { updateProfileStart } from '../../redux/profile/profile.action';
 
 import {
   ProfileInputFormContainer,
@@ -27,24 +32,27 @@ import {
 
 const ProfileInputForm = () => {
   const { currentUser } = useSelector(state => state.user);
+  const dispatch = useDispatch();
 
   const [userInfo, setUserInfo] = useState(currentUser);
 
-  const { username, firstName, lastName, phoneNumber, gender, age } = userInfo;
-
-  const dispatch = useDispatch();
+  const { username, email } = userInfo;
 
   const handleSubmit = async event => {
     event.preventDefault();
 
+    dispatch(
+      updateProfileStart({
+        name: event.target.username.value,
+        // email: event.target.email.value
+        password: event.target.password.value
+      })
+    );
+
     setUserInfo({
       ...userInfo,
-      username: '',
-      firstName: '',
-      lastName: '',
-      phoneNumber: '',
-      gender: '',
-      age: 0
+      username: currentUser.name
+      // email: currentUser.email,
     });
   };
 
@@ -58,90 +66,53 @@ const ProfileInputForm = () => {
       <ProfileInputFormTitle>Profile</ProfileInputFormTitle>
       <form onSubmit={handleSubmit}>
         <TextField
-          name='email'
-          type='email'
-          value={currentUser.email}
-          onChange={handleChange}
-          label='Email'
-          margin='normal'
-          fullWidth
-          disabled
-        />
-        <TextField
           required
           name='username'
           type='text'
-          value={username}
+          defaultValue={username}
           onChange={handleChange}
           label='Username'
           margin='normal'
           fullWidth
         />
-        <FirstNameAndLastNameInput>
-          <TextField
-            name='firstName'
-            type='text'
-            value={firstName}
-            onChange={handleChange}
-            label='First name'
-            margin='normal'
-          />
-          <TextField
-            name='lastName'
-            type='text'
-            value={lastName}
-            onChange={handleChange}
-            label='Last name'
-            margin='normal'
-          />
-        </FirstNameAndLastNameInput>
-        <TextField
-          name='phoneNumber'
+        {/* <TextField
+          required
+          name='email'
           type='text'
-          value={phoneNumber}
+          defaultValue={email}
           onChange={handleChange}
-          label='Phone number'
+          label='Email'
           margin='normal'
+          fullWidth
+        /> */}
+        <TextField
+          required
+          name='password'
+          type='password'
+          defaultValue=''
+          onChange={handleChange}
+          label='Password'
+          margin='normal'
+          fullWidth
         />
-        <AgeAndGenderInput>
-          <TextField
-            name='age'
-            type='number'
-            value={age}
-            onChange={handleChange}
-            label='Age'
-            margin='normal'
-          />
-          <FormControl margin='normal' style={{ minWidth: 120 }}>
-            <InputLabel>Gender</InputLabel>
-            <Select name='gender' value={gender || ''} onChange={handleChange}>
-              <MenuItem value={''}>
-                <em>None</em>
-              </MenuItem>
-              <MenuItem value={'male'}>Male</MenuItem>
-              <MenuItem value={'female'}>Female</MenuItem>
-              <MenuItem value={'other'}>Other</MenuItem>
-            </Select>
-          </FormControl>
-        </AgeAndGenderInput>
         <h3>Hobbies</h3>
         <HobbiesSecton>
           <HobbyList>
-            <Chip
-              label='Book'
-              color='secondary'
-              style={{ margin: '0 10px 10px 0' }}
-            />
-            <Chip
-              label='Music'
-              color='secondary'
-              style={{ margin: '0 10px 10px 0' }}
-            />
-            <Chip
-              label='Travel'
-              color='secondary'
-              style={{ margin: '0 10px 10px 0' }}
-            />
+            {currentUser.hobbies.map(hobby => {
+              return (
+                <Chip
+                  label={hobby.name
+                    .toLowerCase()
+                    .split(' ')
+                    .map(
+                      word => word.charAt(0).toUpperCase() + word.substring(1)
+                    )
+                    .join(' ')}
+                  color='secondary'
+                  style={{ margin: '0 10px 10px 0' }}
+                />
+              );
+            })}
           </HobbyList>
           <Tooltip title='Edit'>
             <Fab onClick={() => dispatch(toggleHobbiesModalOpened())}>
@@ -149,8 +120,33 @@ const ProfileInputForm = () => {
             </Fab>
           </Tooltip>
         </HobbiesSecton>
+        <h3>Issues</h3>
+        <HobbiesSecton>
+          <HobbyList>
+            {currentUser.issues.map(issue => {
+              return (
+                <Chip
+                  label={issue.name
+                    .toLowerCase()
+                    .split(' ')
+                    .map(
+                      word => word.charAt(0).toUpperCase() + word.substring(1)
+                    )
+                    .join(' ')}
+                  color='secondary'
+                  style={{ margin: '0 10px 10px 0' }}
+                />
+              );
+            })}
+          </HobbyList>
+          <Tooltip title='Edit'>
+            <Fab onClick={() => dispatch(toggleIssuesModalOpened())}>
+              <Edit />
+            </Fab>
+          </Tooltip>
+        </HobbiesSecton>
         <ButtonsGroupContainer>
-          <Fab variant='extended' color='primary'>
+          <Fab variant='extended' color='primary' type='submit'>
             Save
           </Fab>
         </ButtonsGroupContainer>

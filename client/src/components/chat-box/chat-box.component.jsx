@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Avatar } from '@material-ui/core';
+import { Avatar, Button, Snackbar } from '@material-ui/core';
 
 import Conversation from '../conversation/conversation.component';
 import MessageEditor from '../message-editor/message-editor.component';
@@ -28,6 +28,7 @@ const ChatBox = () => {
   const [joinRoomMessage, setJoinRoomMessage] = useState('not join room');
   const [receivedMessage, setReceivedMessage] = useState('not received');
   const [newRoomMessage, setNewRoomMessage] = useState('not received');
+  const [snackbarStatus, setSnackbarStatus] = useState(false);
 
   const roomIds = history.map(h => h.id);
   const userId = currentUser.id;
@@ -47,33 +48,34 @@ const ChatBox = () => {
       );
     }
     // remove socket when component dismount, may cause error
-    // return () => {
-    //   socketInterface.onDisconnectEvent();
-    // };
+    return () => {
+      socketInterface.onDisconnectEvent();
+    };
   }, [history]);
 
   // handling join room message
   useEffect(() => {
-    if (joinRoomMessage !== '') {
+    if (joinRoomMessage) {
       console.log(joinRoomMessage);
     }
   }, [joinRoomMessage]);
 
   // handling new room message
   useEffect(() => {
-    if (newRoomMessage !== '') {
+    if (newRoomMessage) {
       console.log(newRoomMessage);
     }
   }, [newRoomMessage]);
 
   // handling receive message
   useEffect(() => {
-    if (receivedMessage !== '') {
-      console.log(receivedMessage);
+    if (receivedMessage.message) {
       if (receivedMessage.roomId === currChat.roomId) {
         dispatch(
           sendMessageStart(receivedMessage.senderId, receivedMessage.message)
         );
+      } else {
+        setSnackbarStatus(true);
       }
     }
   }, [receivedMessage]);
@@ -99,16 +101,45 @@ const ChatBox = () => {
   };
 
   return (
-    <ChatBoxStyles>
-      <Header>
-        <AvatarAndTitle>
-          <Avatar alt={currChat.title} src='' />
-          <Title>{currChat.title}</Title>
-        </AvatarAndTitle>
-      </Header>
-      <Conversation />
-      <MessageEditor sendEvent={sendMessage} />
-    </ChatBoxStyles>
+    <React.Fragment>
+      <ChatBoxStyles>
+        <Header>
+          <AvatarAndTitle>
+            <Avatar alt={currChat.title} src='' />
+            <Title>{currChat.title}</Title>
+          </AvatarAndTitle>
+        </Header>
+        <Conversation />
+        <MessageEditor sendEvent={sendMessage} />
+      </ChatBoxStyles>
+
+      <Snackbar
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        action={
+          <Button
+            color='secondary'
+            size='small'
+            onClick={() => {
+              setSnackbarStatus(false);
+              dispatch(
+                fetchChatContentStart(
+                  receivedMessage.userId,
+                  receivedMessage.roomId
+                )
+              );
+            }}
+          >
+            View
+          </Button>
+        }
+        autoHideDuration={2000}
+        open={snackbarStatus}
+        onClose={() => {
+          setSnackbarStatus(false);
+        }}
+        message={receivedMessage ? receivedMessage.message : ''}
+      ></Snackbar>
+    </React.Fragment>
   );
 };
 

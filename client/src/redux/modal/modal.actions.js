@@ -7,3 +7,7 @@ export const toggleFindFriendsModalOpened = () => ({
 export const toggleHobbiesModalOpened = () => ({
   type: ModalActionTypes.TOGGLE_HOBBIES_MODAL_OPENED
 });
+
+export const toggleIssuesModalOpened = () => ({
+  type: ModalActionTypes.TOGGLE_ISSUES_MODAL_OPENED
+});

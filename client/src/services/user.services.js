@@ -38,10 +38,27 @@ export const getCurrentUser = async accessToken => {
         Authorization: `Bearer ${accessToken}`
       }
     });
-    const { id, name: username, email: userEmail } = await response.json();
+
+    const {
+      id,
+      name: username,
+      email,
+      hobbies,
+      topics: issues,
+      avatarUrl
+    } = await response.json();
 
     return response.status === 200
-      ? { user: { id, username, email: userEmail } }
+      ? {
+          user: {
+            id,
+            username,
+            email,
+            hobbies,
+            issues,
+            avatarUrl
+          }
+        }
       : {};
   } catch (error) {
     console.error(error);
