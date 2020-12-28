@@ -41,8 +41,8 @@ const IssuesModal = () => {
   };
 
   useEffect(() => {
-    dispatch(fetchIssuesStart());
-  }, [dispatch]);
+    if (isIssuesModalOpened && !issuesList.length) dispatch(fetchIssuesStart());
+  }, [dispatch, isIssuesModalOpened, issuesList.length]);
 
   return (
     <Dialog open={isIssuesModalOpened} onClose={handleClose}>

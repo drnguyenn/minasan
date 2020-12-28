@@ -10,7 +10,6 @@ import {
   Checkbox,
   Fab
 } from '@material-ui/core';
-import { Favorite, FavoriteBorder } from '@material-ui/icons';
 
 import { toggleHobbiesModalOpened } from '../../redux/modal/modal.actions';
 import {
@@ -20,10 +19,13 @@ import {
 
 const HobbiesModal = () => {
   const [chosenList, setChosenList] = useState([]);
+
   const { isHobbiesModalOpened } = useSelector(state => state.modal);
+
   const { hobbyList } = useSelector(state => state.user);
 
   const dispatch = useDispatch();
+
   const handleClose = () => dispatch(toggleHobbiesModalOpened());
 
   const handleSubmit = async event => {
@@ -39,8 +41,8 @@ const HobbiesModal = () => {
   };
 
   useEffect(() => {
-    dispatch(fetchHobbyStart());
-  }, [dispatch]);
+    if (isHobbiesModalOpened && !hobbyList.length) dispatch(fetchHobbyStart());
+  }, [dispatch, isHobbiesModalOpened, hobbyList.length]);
 
   return (
     <Dialog open={isHobbiesModalOpened} onClose={handleClose}>
@@ -51,9 +53,8 @@ const HobbiesModal = () => {
             <FormControlLabel
               control={
                 <Checkbox
-                  icon={<FavoriteBorder />}
-                  checkedIcon={<Favorite />}
                   name={hobby.name}
+                  checked={chosenList.includes(hobby.id)}
                   onClick={() => {
                     let chosen = chosenList;
                     const index = chosen.indexOf(hobby.id);
