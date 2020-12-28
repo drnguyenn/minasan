@@ -1,16 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import {
-  Chip,
-  TextField,
-  Select,
-  MenuItem,
-  FormControl,
-  InputLabel,
-  Fab,
-  Tooltip
-} from '@material-ui/core';
+import { Chip, TextField, Fab, Tooltip } from '@material-ui/core';
 import { Edit } from '@material-ui/icons';
 
 import {
@@ -18,13 +9,11 @@ import {
   toggleIssuesModalOpened
 } from '../../redux/modal/modal.actions';
 
-import { updateProfileStart } from '../../redux/profile/profile.action';
+import { updateProfileStart } from '../../redux/user/user.actions';
 
 import {
   ProfileInputFormContainer,
   ProfileInputFormTitle,
-  FirstNameAndLastNameInput,
-  AgeAndGenderInput,
   HobbiesSecton,
   HobbyList,
   ButtonsGroupContainer

@@ -62,6 +62,8 @@ export const updateAvatar = async (accessToken, userProfile) => {
       },
       body: userProfile
     });
+    let return_mes = await response.json();
+    console.log(return_mes);
 
     return response.status === 201 ? {} : {};
   } catch (error) {

@@ -12,8 +12,10 @@ import {
   FileInput
 } from './profile-avatar.styles';
 
-import { updateProfileAvaStart } from '../../redux/profile/profile.action';
-import { getCurrentUser } from '../../redux/user/user.actions';
+import {
+  getCurrentUser,
+  updateProfileAvaStart
+} from '../../redux/user/user.actions';
 
 const ProfileAvatar = () => {
   const { currentUser } = useSelector(state => state.user);
@@ -32,7 +34,7 @@ const ProfileAvatar = () => {
     let data = new FormData();
     data.append('avatar', file);
 
-    updatePicture(data).then(() => {
+    updatePicture(data).finally(() => {
       dispatch(getCurrentUser());
     });
   };

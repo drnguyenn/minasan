@@ -46,3 +46,62 @@ export const signUpFailure = error => ({
   type: UserActionTypes.SIGN_UP_FAILURE,
   payload: error
 });
+
+export const fetchHobbyStart = payload => ({
+  type: UserActionTypes.FETCH_HOBBY_START,
+  payload: { payload }
+});
+
+export const fetchHobbySuccess = hobbyList => ({
+  type: UserActionTypes.FETCH_HOBBY_SUCCESS,
+  payload: hobbyList
+});
+
+export const fetchHobbyFailure = error => ({
+  type: UserActionTypes.FETCH_HOBBY_FAILURE,
+  payload: error
+});
+
+export const fetchIssuesStart = () => ({
+  type: UserActionTypes.FETCH_ISSUES_START
+});
+
+export const fetchIssuesSuccess = issuesList => ({
+  type: UserActionTypes.FETCH_ISSUES_SUCCESS,
+  payload: issuesList
+});
+
+export const fetchIssuesFailure = error => ({
+  type: UserActionTypes.FETCH_ISSUES_FAILURE,
+  payload: error
+});
+
+export const updateProfileStart = userProfile => ({
+  type: UserActionTypes.UPDATE_PROFILE_START,
+  payload: userProfile
+});
+
+export const updateProfileSuccess = userList => ({
+  type: UserActionTypes.UPDATE_PROFILE_SUCCESS,
+  payload: userList
+});
+
+export const updateProfileFailure = error => ({
+  type: UserActionTypes.UPDATE_PROFILE_AVATAR_FAILURE,
+  payload: error
+});
+
+export const updateProfileAvaStart = userProfile => ({
+  type: UserActionTypes.UPDATE_PROFILE_AVATAR_START,
+  payload: userProfile
+});
+
+export const updateProfileAvaSuccess = userList => ({
+  type: UserActionTypes.UPDATE_PROFILE_AVATAR_SUCCESS,
+  payload: userList
+});
+
+export const updateProfileAvaFailure = error => ({
+  type: UserActionTypes.UPDATE_PROFILE_AVATAR_FAILURE,
+  payload: error
+});

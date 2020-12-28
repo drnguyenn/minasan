@@ -6,9 +6,19 @@ import {
   signOutSuccess,
   signOutFailure,
   signUpSuccess,
-  signUpFailure
+  signUpFailure,
+  fetchHobbySuccess,
+  fetchHobbyFailure,
+  fetchIssuesSuccess,
+  fetchIssuesFailure,
+  updateProfileAvaSuccess,
+  updateProfileAvaFailure,
+  updateProfileSuccess,
+  updateProfileFailure
 } from './user.actions';
+
 import * as UserServices from '../../services/user.services';
+import * as profileService from '../../services/profile.services';
 
 import { fetchConversations } from '../../services/chat.services';
 import { fetchConversationsSuccess } from '../chat/chat.actions';
@@ -71,6 +81,52 @@ export function* signUp({ payload: { username, email, password } }) {
   }
 }
 
+export function* fetchIssues() {
+  try {
+    const accessToken = localStorage.getItem('accessToken');
+    const { issuesList } = yield call(profileService.fetchIssues, accessToken);
+
+    yield put(fetchIssuesSuccess(issuesList));
+  } catch (error) {
+    yield put(fetchIssuesFailure(error));
+  }
+}
+
+export function* fetchHobbies() {
+  try {
+    const accessToken = localStorage.getItem('accessToken');
+    const { hobbyList } = yield call(profileService.fetchHobbies, accessToken);
+
+    yield put(fetchHobbySuccess(hobbyList));
+  } catch (error) {
+    yield put(fetchHobbyFailure(error));
+  }
+}
+
+export function* updateProfile({ payload }) {
+  try {
+    const accessToken = localStorage.getItem('accessToken');
+
+    yield call(profileService.updateProfile, accessToken, payload);
+
+    yield put(updateProfileSuccess());
+  } catch (error) {
+    yield put(updateProfileFailure(error));
+  }
+}
+
+export function* updateAvatar({ payload }) {
+  try {
+    const accessToken = localStorage.getItem('accessToken');
+
+    yield call(profileService.updateAvatar, accessToken, payload);
+
+    yield put(updateProfileAvaSuccess());
+  } catch (error) {
+    yield put(updateProfileAvaFailure(error));
+  }
+}
+
 export function* onGetCurrentUser() {
   yield takeLatest(UserActionTypes.GET_CURRENT_USER, getCurrentUser);
 }
@@ -87,11 +143,31 @@ export function* onSignUpStart() {
   yield takeLatest(UserActionTypes.SIGN_UP_START, signUp);
 }
 
+export function* onFetchHobbyStart() {
+  yield takeLatest(UserActionTypes.FETCH_HOBBY_START, fetchHobbies);
+}
+
+export function* onFetchIssuesStart() {
+  yield takeLatest(UserActionTypes.FETCH_ISSUES_START, fetchIssues);
+}
+
+export function* onUpdateProfileStart() {
+  yield takeLatest(UserActionTypes.UPDATE_PROFILE_START, updateProfile);
+}
+
+export function* onUpdateProfileAvaStart() {
+  yield takeLatest(UserActionTypes.UPDATE_PROFILE_AVATAR_START, updateAvatar);
+}
+
 export function* userSagas() {
   yield all([
     call(onGetCurrentUser),
     call(onEmailSignInStart),
     call(onSignOutStart),
-    call(onSignUpStart)
+    call(onSignUpStart),
+    call(onFetchHobbyStart),
+    call(onFetchIssuesStart),
+    call(onUpdateProfileStart),
+    call(onUpdateProfileAvaStart)
   ]);
 }

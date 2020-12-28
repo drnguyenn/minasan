@@ -1,6 +1,8 @@
 import UserActionTypes from './user.types';
 
 const INITIAL_STATE = {
+  hobbyList: [],
+  issuesList: [],
   currentUser: null,
   isLoading: true,
   error: null
@@ -32,9 +34,65 @@ const userReducer = (state = INITIAL_STATE, action) => {
         error: null
       };
 
+    case UserActionTypes.FETCH_HOBBY_START:
+      return {
+        ...state,
+        isLoading: true
+      };
+
+    case UserActionTypes.FETCH_HOBBY_SUCCESS:
+      return {
+        ...state,
+        hobbyList: action.payload,
+        isLoading: false,
+        error: null
+      };
+
+    case UserActionTypes.FETCH_ISSUES_START:
+      return {
+        ...state,
+        isLoading: true
+      };
+
+    case UserActionTypes.FETCH_ISSUES_SUCCESS:
+      return {
+        ...state,
+        issuesList: action.payload,
+        isLoading: false,
+        error: null
+      };
+
+    case UserActionTypes.UPDATE_PROFILE_START:
+      return {
+        ...state,
+        isLoading: true
+      };
+
+    case UserActionTypes.UPDATE_PROFILE_SUCCESS:
+      return {
+        ...state,
+        isLoading: false
+      };
+
+    case UserActionTypes.UPDATE_PROFILE_AVATAR_START:
+      return {
+        ...state,
+        isLoading: true
+      };
+
+    case UserActionTypes.UPDATE_PROFILE_AVATAR_SUCCESS:
+      return {
+        ...state,
+        isLoading: false
+      };
+
     case UserActionTypes.SIGN_IN_FAILURE:
     case UserActionTypes.SIGN_OUT_FAILURE:
     case UserActionTypes.SIGN_UP_FAILURE:
+    case UserActionTypes.FETCH_HOBBY_FAILURE:
+    case UserActionTypes.FETCH_ISSUES_FAILURE:
+    case UserActionTypes.UPDATE_PROFILE_FAILURE:
+    case UserActionTypes.UPDATE_PROFILE_AVATAR_FAILURE:
       return {
         ...state,
         isLoading: false,

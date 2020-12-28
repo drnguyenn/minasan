@@ -15,15 +15,15 @@ import AnnouncementOutlinedIcon from '@material-ui/icons/AnnouncementOutlined';
 
 import { toggleIssuesModalOpened } from '../../redux/modal/modal.actions';
 import {
+  getCurrentUser,
   fetchIssuesStart,
   updateProfileStart
-} from '../../redux/profile/profile.action';
-import { getCurrentUser } from '../../redux/user/user.actions';
+} from '../../redux/user/user.actions';
 
 const IssuesModal = () => {
   const [chosenList, setChosenList] = useState([]);
   const { isIssuesModalOpened } = useSelector(state => state.modal);
-  const { issuesList } = useSelector(state => state.profile);
+  const { issuesList } = useSelector(state => state.user);
   const dispatch = useDispatch();
 
   const handleClose = () => dispatch(toggleIssuesModalOpened());
