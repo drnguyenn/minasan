@@ -9,8 +9,8 @@ import {
   signUpFailure,
   fetchHobbySuccess,
   fetchHobbyFailure,
-  fetchIssuesSuccess,
-  fetchIssuesFailure,
+  fetchTopicsSuccess,
+  fetchTopicsFailure,
   updateProfileSuccess,
   updateProfileFailure,
   updateProfileAvatarSuccess,
@@ -80,14 +80,14 @@ export function* signUp({ payload: { username, email, password } }) {
   }
 }
 
-export function* fetchIssues() {
+export function* fetchTopics() {
   try {
     const accessToken = localStorage.getItem('accessToken');
-    const { issuesList } = yield call(UserServices.fetchIssues, accessToken);
+    const { topicList } = yield call(UserServices.fetchTopics, accessToken);
 
-    yield put(fetchIssuesSuccess(issuesList));
+    yield put(fetchTopicsSuccess(topicList));
   } catch (error) {
-    yield put(fetchIssuesFailure(error));
+    yield put(fetchTopicsFailure(error));
   }
 }
 
@@ -151,11 +151,11 @@ export function* onSignUpStart() {
 }
 
 export function* onFetchHobbyStart() {
-  yield takeLatest(UserActionTypes.FETCH_HOBBY_START, fetchHobbies);
+  yield takeLatest(UserActionTypes.FETCH_HOBBIES_START, fetchHobbies);
 }
 
-export function* onFetchIssuesStart() {
-  yield takeLatest(UserActionTypes.FETCH_ISSUES_START, fetchIssues);
+export function* onFetchTopicsStart() {
+  yield takeLatest(UserActionTypes.FETCH_TOPICS_START, fetchTopics);
 }
 
 export function* onUpdateProfileStart() {
@@ -173,7 +173,7 @@ export function* userSagas() {
     call(onSignOutStart),
     call(onSignUpStart),
     call(onFetchHobbyStart),
-    call(onFetchIssuesStart),
+    call(onFetchTopicsStart),
     call(onUpdateProfileStart),
     call(onupdateProfileAvatarStart)
   ]);

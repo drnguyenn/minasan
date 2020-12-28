@@ -11,22 +11,22 @@ import {
   Fab
 } from '@material-ui/core';
 
-import { toggleHobbiesModalOpened } from '../../redux/modal/modal.actions';
+import { toggleTopicsModalOpened } from '../../redux/modal/modal.actions';
 import {
-  fetchHobbyStart,
+  fetchTopicsStart,
   updateProfileStart
 } from '../../redux/user/user.actions';
 
-const HobbiesModal = () => {
+const TopicsModal = () => {
   const [checkedState, setCheckedState] = useState({});
 
-  const { isHobbiesModalOpened } = useSelector(state => state.modal);
+  const { isTopicsModalOpened } = useSelector(state => state.modal);
 
-  const { hobbyList, currentUser } = useSelector(state => state.user);
+  const { topicList, currentUser } = useSelector(state => state.user);
 
   const dispatch = useDispatch();
 
-  const handleClose = () => dispatch(toggleHobbiesModalOpened());
+  const handleClose = () => dispatch(toggleTopicsModalOpened());
 
   const handleChange = event => {
     const { id, checked } = event.target;
@@ -39,8 +39,8 @@ const HobbiesModal = () => {
 
     dispatch(
       updateProfileStart({
-        hobbyIds: Object.keys(checkedState)
-          .filter(hobbyId => checkedState[hobbyId])
+        topicIds: Object.keys(checkedState)
+          .filter(topicId => checkedState[topicId])
           .map(Number)
       })
     );
@@ -49,20 +49,20 @@ const HobbiesModal = () => {
   };
 
   useEffect(() => {
-    if (isHobbiesModalOpened && !hobbyList.length) dispatch(fetchHobbyStart());
+    if (isTopicsModalOpened && !topicList.length) dispatch(fetchTopicsStart());
 
     if (currentUser)
-      currentUser.hobbies.map(({ id }) =>
+      currentUser.topics.map(({ id }) =>
         setCheckedState(checkedState => ({ ...checkedState, [id]: true }))
       );
-  }, [dispatch, isHobbiesModalOpened, hobbyList.length, currentUser]);
+  }, [dispatch, isTopicsModalOpened, topicList.length, currentUser]);
 
   return (
-    <Dialog open={isHobbiesModalOpened} onClose={handleClose}>
+    <Dialog open={isTopicsModalOpened} onClose={handleClose}>
       <form onSubmit={handleSubmit}>
-        <DialogTitle>Choose your hobbies</DialogTitle>
+        <DialogTitle>Tell us about your favorite topics</DialogTitle>
         <DialogContent>
-          {hobbyList.map(({ id, name }) => (
+          {topicList.map(({ id, name }) => (
             <FormControlLabel
               key={id}
               control={
@@ -94,4 +94,4 @@ const HobbiesModal = () => {
   );
 };
 
-export default HobbiesModal;
+export default TopicsModal;

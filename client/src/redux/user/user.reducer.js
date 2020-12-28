@@ -2,7 +2,7 @@ import UserActionTypes from './user.types';
 
 const INITIAL_STATE = {
   hobbyList: [],
-  issuesList: [],
+  topicList: [],
   currentUser: null,
   isLoading: true,
   isProfileUpdating: false,
@@ -36,27 +36,27 @@ const userReducer = (state = INITIAL_STATE, action) => {
         error: null
       };
 
-    case UserActionTypes.FETCH_HOBBY_START:
+    case UserActionTypes.FETCH_HOBBIES_START:
       return {
         ...state
       };
 
-    case UserActionTypes.FETCH_HOBBY_SUCCESS:
+    case UserActionTypes.FETCH_HOBBIES_SUCCESS:
       return {
         ...state,
         hobbyList: action.payload,
         error: null
       };
 
-    case UserActionTypes.FETCH_ISSUES_START:
+    case UserActionTypes.FETCH_TOPICS_START:
       return {
         ...state
       };
 
-    case UserActionTypes.FETCH_ISSUES_SUCCESS:
+    case UserActionTypes.FETCH_TOPICS_SUCCESS:
       return {
         ...state,
-        issuesList: action.payload,
+        topicList: action.payload,
         error: null
       };
 
@@ -89,8 +89,8 @@ const userReducer = (state = INITIAL_STATE, action) => {
     case UserActionTypes.SIGN_IN_FAILURE:
     case UserActionTypes.SIGN_OUT_FAILURE:
     case UserActionTypes.SIGN_UP_FAILURE:
-    case UserActionTypes.FETCH_HOBBY_FAILURE:
-    case UserActionTypes.FETCH_ISSUES_FAILURE:
+    case UserActionTypes.FETCH_HOBBIES_FAILURE:
+    case UserActionTypes.FETCH_TOPICS_FAILURE:
     case UserActionTypes.UPDATE_PROFILE_FAILURE:
     case UserActionTypes.UPDATE_PROFILE_AVATAR_FAILURE:
       return {
