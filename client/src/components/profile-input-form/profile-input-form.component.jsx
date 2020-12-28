@@ -57,6 +57,8 @@ const ProfileInputForm = () => {
     setUserInfo({ ...userInfo, [name]: value });
   };
 
+  console.log(issues);
+
   return (
     <ProfileInputFormStyles>
       <ProfileInputFormTitle>Profile</ProfileInputFormTitle>

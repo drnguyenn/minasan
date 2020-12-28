@@ -35,7 +35,6 @@ const IssuesModal = () => {
         topicIds: chosenList
       })
     );
-
     setChosenList([]);
     dispatch(toggleIssuesModalOpened());
   };
@@ -46,43 +45,46 @@ const IssuesModal = () => {
 
   return (
     <Dialog open={isIssuesModalOpened} onClose={handleClose}>
-      <DialogTitle>What problem do you face?</DialogTitle>
-      <DialogContent>
-        {issuesList.map(issue => (
-          <FormControlLabel
-            control={
-              <Checkbox
-                icon={<AnnouncementOutlinedIcon />}
-                checkedIcon={<AnnouncementIcon />}
-                name={issue.name}
-                onClick={() => {
-                  let chosen = chosenList;
-                  const index = chosen.indexOf(issue.id);
-                  if (index === -1) {
-                    chosen.push(issue.id);
-                  } else {
-                    chosen.splice(index, 1);
-                  }
-                  setChosenList(chosen);
-                }}
-              />
-            }
-            label={issue.name
-              .toLowerCase()
-              .split(' ')
-              .map(word => word.charAt(0).toUpperCase() + word.substring(1))
-              .join(' ')}
-          />
-        ))}
-      </DialogContent>
-      <DialogActions>
-        <Fab onClick={handleSubmit} color='primary' variant='extended'>
-          Save
-        </Fab>
-        <Fab onClick={handleClose} variant='extended'>
-          Cancel
-        </Fab>
-      </DialogActions>
+      <form onSubmit={handleSubmit}>
+        <DialogTitle>What problem do you face?</DialogTitle>
+        <DialogContent>
+          {issuesList.map(issue => (
+            <FormControlLabel
+              control={
+                <Checkbox
+                  icon={<AnnouncementOutlinedIcon />}
+                  checkedIcon={<AnnouncementIcon />}
+                  name={issue.name}
+                  onClick={() => {
+                    let chosen = chosenList;
+                    const index = chosen.indexOf(issue.id);
+                    if (index === -1) {
+                      chosen.push(issue.id);
+                    } else {
+                      chosen.splice(index, 1);
+                    }
+                    setChosenList(chosen);
+                  }}
+                />
+              }
+              label={issue.name
+                .toLowerCase()
+                .split(' ')
+                .map(word => word.charAt(0).toUpperCase() + word.substring(1))
+                .join(' ')}
+            />
+          ))}
+        </DialogContent>
+
+        <DialogActions>
+          <Fab type='submit' color='primary' variant='extended'>
+            Save
+          </Fab>
+          <Fab onClick={handleClose} variant='extended'>
+            Cancel
+          </Fab>
+        </DialogActions>
+      </form>
     </Dialog>
   );
 };

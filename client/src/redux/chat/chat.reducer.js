@@ -24,7 +24,6 @@ const chatReducer = (state = INITIAL_STATE, action) => {
       };
 
     case ChatActionTypes.FETCH_CHAT_CONTENT_SUCCESS:
-      console.log(action.payload);
       return {
         ...state,
         currentChat: action.payload,
@@ -41,7 +40,6 @@ const chatReducer = (state = INITIAL_STATE, action) => {
     case ChatActionTypes.FETCH_CONVERSATIONS_SUCCESS:
       const { chat_list, user } = action.payload;
       let currPartner;
-      console.log(chat_list);
       if (chat_list.length > 0) {
         currPartner =
           chat_list[0].user2.id === user.id

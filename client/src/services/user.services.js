@@ -143,7 +143,7 @@ export const updateProfile = async (accessToken, userProfile) => {
     const { name, avatarUrl, hobbies, topics } = user;
 
     return response.status === 200
-      ? { user: { username: name, avatarUrl, hobbies, topics } }
+      ? { user: { username: name, avatarUrl, hobbies, issues: topics } }
       : {};
   } catch (error) {
     console.error(error.response);
