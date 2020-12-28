@@ -1,19 +1,12 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 
 import { Fab } from '@material-ui/core';
 import { Send } from '@material-ui/icons';
-
-import { sendMessageStart } from '../../redux/chat/chat.actions';
 
 import { MessageEditorStyles, Input } from './message-editor.styles';
 
 const MessageEditor = ({ sendEvent }) => {
   const [text, setText] = useState('');
-
-  const { currentUser } = useSelector(state => state.user);
-
-  const dispatch = useDispatch();
 
   const handleInputChange = event => {
     setText(event.target.value);

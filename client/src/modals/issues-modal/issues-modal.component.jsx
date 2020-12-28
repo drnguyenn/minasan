@@ -15,7 +15,6 @@ import AnnouncementOutlinedIcon from '@material-ui/icons/AnnouncementOutlined';
 
 import { toggleIssuesModalOpened } from '../../redux/modal/modal.actions';
 import {
-  getCurrentUser,
   fetchIssuesStart,
   updateProfileStart
 } from '../../redux/user/user.actions';
@@ -37,7 +36,6 @@ const IssuesModal = () => {
       })
     );
 
-    dispatch(getCurrentUser());
     setChosenList([]);
     dispatch(toggleIssuesModalOpened());
   };

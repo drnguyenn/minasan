@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
-export const ProfileInputFormContainer = styled.div`
+export const ProfileInputFormStyles = styled.div`
+  position: relative;
   width: 35%;
   display: flex;
   flex-direction: column;

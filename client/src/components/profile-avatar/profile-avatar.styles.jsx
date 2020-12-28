@@ -22,6 +22,7 @@ export const UserAvatarAndUploadButton = styled.div`
 `;
 
 export const UserAvatar = styled.div`
+  position: relative;
   width: 100%;
   height: 100%;
   border-radius: 5px;
