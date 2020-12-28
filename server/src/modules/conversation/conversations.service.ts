@@ -23,6 +23,8 @@ export class ConversationsService {
     const conversation = await this.conversationRepository
       .createQueryBuilder('conversation')
       .innerJoinAndSelect('conversation.messages', 'messages')
+      .innerJoinAndSelect('conversation.user1', 'user1')
+      .innerJoinAndSelect('conversation.user2', 'user2')
       .where('messages.conversationId = :conversationId', { conversationId })
       .andWhere(
         new Brackets((qb) => {
