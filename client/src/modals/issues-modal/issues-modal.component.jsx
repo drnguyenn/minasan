@@ -22,7 +22,6 @@ import { getCurrentUser } from '../../redux/user/user.actions';
 
 const IssuesModal = () => {
   const [chosenList, setChosenList] = useState([]);
-  const { currentUser } = useSelector(state => state.user);
   const { isIssuesModalOpened } = useSelector(state => state.modal);
   const { issuesList } = useSelector(state => state.profile);
   const dispatch = useDispatch();
@@ -31,16 +30,10 @@ const IssuesModal = () => {
 
   const handleSubmit = async event => {
     event.preventDefault();
-    const { username, hobbies } = currentUser;
-
-    const hobbyIds = hobbies.map(hobby => hobby.id);
 
     dispatch(
       updateProfileStart({
-        name: username,
-        // email: event.target.email.value
-        topicIds: chosenList,
-        hobbyIds: hobbyIds
+        topicIds: chosenList
       })
     );
 

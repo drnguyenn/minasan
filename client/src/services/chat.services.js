@@ -8,12 +8,13 @@ export const fetchChatContent = async (accessToken, recieverName, roomId) => {
     }
   });
 
-  const { messages } = await response.json();
+  const messages = await response.json();
+  console.log(messages);
   return {
     chat: {
       recieverName: recieverName,
       roomId: roomId,
-      messages: messages.map(({ message, senderId, ...props }) => {
+      messages: messages.messages.map(({ message, senderId, ...props }) => {
         return { message, senderId };
       })
     }

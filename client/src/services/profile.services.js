@@ -9,9 +9,9 @@ export const fetchHobbies = async accessToken => {
       }
     });
 
-    const message = await response.json();
+    const hobbiesList = await response.json();
     return {
-      hobbyList: message.map(mes => {
+      hobbyList: hobbiesList.map(mes => {
         return { id: mes.id, name: mes.name };
       })
     };
@@ -27,9 +27,9 @@ export const fetchIssues = async accessToken => {
       Authorization: `Bearer ${accessToken}`
     }
   });
-  const message = await response.json();
+  const issuesList = await response.json();
   return {
-    issuesList: message.map(mes => {
+    issuesList: issuesList.map(mes => {
       return { id: mes.id, name: mes.name };
     })
   };
@@ -46,7 +46,6 @@ export const updateProfile = async (accessToken, userProfile) => {
       body: JSON.stringify(userProfile)
     });
 
-    const message = await response.json();
     return response.status === 201 ? {} : {};
   } catch (error) {
     console.error(error.response);
@@ -64,7 +63,6 @@ export const updateAvatar = async (accessToken, userProfile) => {
       body: userProfile
     });
 
-    const message = await response.json();
     return response.status === 201 ? {} : {};
   } catch (error) {
     console.error(error.response);

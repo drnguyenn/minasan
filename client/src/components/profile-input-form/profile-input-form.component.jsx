@@ -36,30 +36,23 @@ const ProfileInputForm = () => {
 
   const [userInfo, setUserInfo] = useState(currentUser);
 
-  const { username, email, hobbies, issues } = userInfo;
+  const { username, email } = userInfo;
 
   const handleSubmit = async event => {
     event.preventDefault();
-
-    const hobbyIds = hobbies.map(hobby => hobby.id);
-    const topicIds = issues.map(issue => issue.id);
 
     dispatch(
       updateProfileStart({
         name: event.target.username.value,
         // email: event.target.email.value
-        password: event.target.password.value,
-        topicIds: topicIds,
-        hobbyIds: hobbyIds
+        password: event.target.password.value
       })
     );
 
     setUserInfo({
       ...userInfo,
-      username: currentUser.name,
+      username: currentUser.name
       // email: currentUser.email,
-      hobbies: currentUser.hobbies,
-      issues: currentUser.issues
     });
   };
 

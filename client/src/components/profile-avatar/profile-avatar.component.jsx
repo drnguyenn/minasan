@@ -20,24 +20,22 @@ const ProfileAvatar = () => {
 
   const dispatch = useDispatch();
 
+  const updatePicture = data =>
+    new Promise((resolve, reject) => {
+      dispatch(updateProfileAvaStart(data));
+      resolve();
+    });
+
   const handleUploadClick = async event => {
     const file = event.target.files[0];
 
-    const hobbyIds = currentUser.hobbies.map(hobby => hobby.id);
-    const topicIds = currentUser.issues.map(issue => issue.id);
-
     let data = new FormData();
-    data.append('name', currentUser.username);
-    data.append('topicIds', topicIds);
-    data.append('hobbyIds', hobbyIds);
     data.append('avatar', file);
 
-    dispatch(getCurrentUser());
-    dispatch(updateProfileAvaStart(data));
+    updatePicture(data).then(() => {
+      dispatch(getCurrentUser());
+    });
   };
-
-  // useEffect(() => {
-  // }, [currentUser]);
 
   return (
     <ProfileAvatarContainer>

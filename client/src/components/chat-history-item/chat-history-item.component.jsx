@@ -7,20 +7,13 @@ import { fetchChatContentStart } from '../../redux/chat/chat.actions';
 
 import { ChatHistoryItemStyles, Title } from './chat-history-item.styles';
 
-const ChatHistoryItem = ({
-  avatarUrl,
-  title,
-  roomId,
-  handleClick,
-  isSelected
-}) => {
+const ChatHistoryItem = ({ avatarUrl, title, roomId, isSelected }) => {
   const dispatch = useDispatch();
 
   return (
     <ChatHistoryItemStyles
       onClick={() => {
         dispatch(fetchChatContentStart(title, roomId));
-        handleClick();
       }}
       isSelected={isSelected}
     >

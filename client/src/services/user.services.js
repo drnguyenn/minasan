@@ -39,23 +39,24 @@ export const getCurrentUser = async accessToken => {
       }
     });
 
-    const message = await response.json();
-    const id = message.id;
-    const username = message.name;
-    const email = message.email;
-    const hobbies = message.hobbies;
-    const issues = message.topics;
-    const avatarUrl = message.avatarUrl;
+    const {
+      id,
+      name: username,
+      email,
+      hobbies,
+      topics: issues,
+      avatarUrl
+    } = await response.json();
 
     return response.status === 200
       ? {
           user: {
             id,
-            username: username,
-            email: email,
-            hobbies: hobbies,
-            issues: issues,
-            avatarUrl: avatarUrl
+            username,
+            email,
+            hobbies,
+            issues,
+            avatarUrl
           }
         }
       : {};

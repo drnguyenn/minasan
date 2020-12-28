@@ -12,17 +12,19 @@ import { fetchConversationsStart } from '../../redux/chat/chat.actions';
 const ChatHistory = () => {
   const dispatch = useDispatch();
   const user = useSelector(state => state.user.currentUser);
-  const { connectedUser, isLoading } = useSelector(state => state.chat);
+  const { connectedUser, currentPartner, isLoading } = useSelector(
+    state => state.chat
+  );
 
-  const [currentChatId, setCurrentChatId] = useState();
+  // const [currentChatId, setCurrentChatId] = useState();
 
   useEffect(() => {
     dispatch(fetchConversationsStart());
   }, [dispatch]);
 
-  useEffect(() => {
-    if (connectedUser.length) setCurrentChatId(connectedUser[0].id);
-  }, [connectedUser]);
+  // useEffect(() => {
+  //   if (connectedUser.length) setCurrentChatId(connectedUser[0].id);
+  // }, [connectedUser]);
 
   return (
     <ChatHistoryStyles>
@@ -41,8 +43,7 @@ const ChatHistory = () => {
                 key={connectedSingleUser.id}
                 title={partner.name}
                 roomId={connectedSingleUser.id}
-                handleClick={() => setCurrentChatId(connectedSingleUser.id)}
-                isSelected={currentChatId === connectedSingleUser.id}
+                isSelected={currentPartner.id === partner.id}
               />
             );
           })}
