@@ -21,7 +21,7 @@ export function* fetchChatContent({ payload }) {
     const accessToken = localStorage.getItem('accessToken');
 
     const { receiverName, roomId } = payload;
-    const { chat } = yield call(
+    const { chat, currentPartner } = yield call(
       ChatServices.fetchChatContent,
       accessToken,
       receiverName,
@@ -29,22 +29,26 @@ export function* fetchChatContent({ payload }) {
     );
     // const { chat } = yield call(ChatServices.fetchChatContent, payload);
 
-    yield put(fetchChatContentSuccess(chat));
+    yield put(fetchChatContentSuccess({ chat, currentPartner }));
   } catch (error) {
     yield put(fetchChatContentFailure(error));
   }
 }
 
-export function* fetchConversations() {
+export function* fetchConversations({ payload }) {
   try {
+    const { currentUserId } = payload;
     const accessToken = localStorage.getItem('accessToken');
     const { chat_list } = yield call(
       ChatServices.fetchConversations,
       accessToken
     );
-    const { user } = yield call(getCurrentUser, accessToken);
+    const currPartner =
+      chat_list[0].user1.id === currentUserId
+        ? chat_list[0].user2
+        : chat_list[0].user1;
 
-    yield put(fetchConversationsSuccess(chat_list, user));
+    yield put(fetchConversationsSuccess(chat_list, currPartner));
   } catch (error) {
     yield put(fetchConversationsFailure(error));
   }
