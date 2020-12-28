@@ -1,6 +1,6 @@
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
-export const fetchChatContent = async (accessToken, recieverName, roomId) => {
+export const fetchChatContent = async (accessToken, receiverName, roomId) => {
   const response = await fetch(`${BASE_URL}/api/conversations/${roomId}`, {
     method: 'GET',
     headers: {
@@ -12,7 +12,7 @@ export const fetchChatContent = async (accessToken, recieverName, roomId) => {
   console.log(messages);
   return {
     chat: {
-      recieverName: recieverName,
+      receiverName: receiverName,
       roomId: roomId,
       messages: messages.messages.map(({ message, senderId, ...props }) => {
         return { message, senderId };
