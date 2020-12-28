@@ -1,8 +1,8 @@
 import ChatActionTypes from './chat.types';
 
-export const fetchChatContentStart = (recieverName, roomId) => ({
+export const fetchChatContentStart = (receiverName, roomId) => ({
   type: ChatActionTypes.FETCH_CHAT_CONTENT_START,
-  payload: { recieverName, roomId }
+  payload: { receiverName, roomId }
 });
 
 export const fetchChatContentSuccess = chat => ({

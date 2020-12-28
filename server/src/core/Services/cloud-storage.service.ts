@@ -32,7 +32,7 @@ export class CloudStorageService {
     try {
       await file.save(uploadedFile.buffer, { contentType: uploadedFile.mimetype });
     } catch (error) {
-      throw new BadRequestException(error);
+      throw new BadRequestException(error?.message);
     }
     return { ...file.metadata, publicUrl: `https://storage.googleapis.com/${this.bucket.name}/${file.name}` };
   }
@@ -42,7 +42,7 @@ export class CloudStorageService {
     try {
       await file.delete();
     } catch (error) {
-      throw new BadRequestException(error);
+      throw new BadRequestException(error?.message);
     }
   }
 }

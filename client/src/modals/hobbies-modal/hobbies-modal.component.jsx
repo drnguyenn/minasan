@@ -42,7 +42,7 @@ const HobbiesModal = () => {
 
   useEffect(() => {
     dispatch(fetchHobbyStart());
-  }, []);
+  }, [dispatch]);
 
   return (
     <Dialog open={isHobbiesModalOpened} onClose={handleClose}>
