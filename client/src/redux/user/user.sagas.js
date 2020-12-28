@@ -11,14 +11,13 @@ import {
   fetchHobbyFailure,
   fetchIssuesSuccess,
   fetchIssuesFailure,
-  updateProfileAvaSuccess,
-  updateProfileAvaFailure,
   updateProfileSuccess,
-  updateProfileFailure
+  updateProfileFailure,
+  updateProfileAvatarSuccess,
+  updateProfileAvatarFailure
 } from './user.actions';
 
 import * as UserServices from '../../services/user.services';
-import * as profileService from '../../services/profile.services';
 
 import { fetchConversations } from '../../services/chat.services';
 import { fetchConversationsSuccess } from '../chat/chat.actions';
@@ -84,7 +83,7 @@ export function* signUp({ payload: { username, email, password } }) {
 export function* fetchIssues() {
   try {
     const accessToken = localStorage.getItem('accessToken');
-    const { issuesList } = yield call(profileService.fetchIssues, accessToken);
+    const { issuesList } = yield call(UserServices.fetchIssues, accessToken);
 
     yield put(fetchIssuesSuccess(issuesList));
   } catch (error) {
@@ -95,7 +94,7 @@ export function* fetchIssues() {
 export function* fetchHobbies() {
   try {
     const accessToken = localStorage.getItem('accessToken');
-    const { hobbyList } = yield call(profileService.fetchHobbies, accessToken);
+    const { hobbyList } = yield call(UserServices.fetchHobbies, accessToken);
 
     yield put(fetchHobbySuccess(hobbyList));
   } catch (error) {
@@ -107,9 +106,13 @@ export function* updateProfile({ payload }) {
   try {
     const accessToken = localStorage.getItem('accessToken');
 
-    yield call(profileService.updateProfile, accessToken, payload);
+    const { user } = yield call(
+      UserServices.updateProfile,
+      accessToken,
+      payload
+    );
 
-    yield put(updateProfileSuccess());
+    yield put(updateProfileSuccess(user));
   } catch (error) {
     yield put(updateProfileFailure(error));
   }
@@ -119,11 +122,15 @@ export function* updateAvatar({ payload }) {
   try {
     const accessToken = localStorage.getItem('accessToken');
 
-    yield call(profileService.updateAvatar, accessToken, payload);
+    const { user } = yield call(
+      UserServices.updateAvatar,
+      accessToken,
+      payload
+    );
 
-    yield put(updateProfileAvaSuccess());
+    yield put(updateProfileAvatarSuccess(user));
   } catch (error) {
-    yield put(updateProfileAvaFailure(error));
+    yield put(updateProfileAvatarFailure(error));
   }
 }
 
@@ -155,7 +162,7 @@ export function* onUpdateProfileStart() {
   yield takeLatest(UserActionTypes.UPDATE_PROFILE_START, updateProfile);
 }
 
-export function* onUpdateProfileAvaStart() {
+export function* onupdateProfileAvatarStart() {
   yield takeLatest(UserActionTypes.UPDATE_PROFILE_AVATAR_START, updateAvatar);
 }
 
@@ -168,6 +175,6 @@ export function* userSagas() {
     call(onFetchHobbyStart),
     call(onFetchIssuesStart),
     call(onUpdateProfileStart),
-    call(onUpdateProfileAvaStart)
+    call(onupdateProfileAvatarStart)
   ]);
 }

@@ -1,7 +1,14 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Chip, TextField, Fab, Tooltip } from '@material-ui/core';
+import {
+  Chip,
+  TextField,
+  Fab,
+  Tooltip,
+  Backdrop,
+  CircularProgress
+} from '@material-ui/core';
 import { Edit } from '@material-ui/icons';
 
 import {
@@ -12,7 +19,7 @@ import {
 import { updateProfileStart } from '../../redux/user/user.actions';
 
 import {
-  ProfileInputFormContainer,
+  ProfileInputFormStyles,
   ProfileInputFormTitle,
   HobbiesSecton,
   HobbyList,
@@ -20,7 +27,7 @@ import {
 } from './profile-input-form.styles';
 
 const ProfileInputForm = () => {
-  const { currentUser } = useSelector(state => state.user);
+  const { currentUser, isProfileUpdating } = useSelector(state => state.user);
   const { hobbies, issues } = currentUser;
 
   const dispatch = useDispatch();
@@ -51,9 +58,15 @@ const ProfileInputForm = () => {
   };
 
   return (
-    <ProfileInputFormContainer>
+    <ProfileInputFormStyles>
       <ProfileInputFormTitle>Profile</ProfileInputFormTitle>
       <form onSubmit={handleSubmit}>
+        <Backdrop
+          open={isProfileUpdating}
+          style={{ position: 'absolute', zIndex: 1 }}
+        >
+          <CircularProgress color='inherit' />
+        </Backdrop>
         <TextField
           name='email'
           type='text'
@@ -138,12 +151,17 @@ const ProfileInputForm = () => {
           </Tooltip>
         </HobbiesSecton>
         <ButtonsGroupContainer>
-          <Fab variant='extended' color='primary' type='submit'>
+          <Fab
+            variant='extended'
+            color='primary'
+            type='submit'
+            disabled={isProfileUpdating}
+          >
             Save
           </Fab>
         </ButtonsGroupContainer>
       </form>
-    </ProfileInputFormContainer>
+    </ProfileInputFormStyles>
   );
 };
 
