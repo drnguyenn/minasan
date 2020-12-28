@@ -9,7 +9,7 @@ import {
   toggleIssuesModalOpened
 } from '../../redux/modal/modal.actions';
 
-import { updateProfileStart } from '../../redux/profile/profile.action';
+import { updateProfileStart } from '../../redux/user/user.actions';
 
 import {
   ProfileInputFormContainer,

@@ -14,15 +14,15 @@ import { Favorite, FavoriteBorder } from '@material-ui/icons';
 
 import { toggleHobbiesModalOpened } from '../../redux/modal/modal.actions';
 import {
+  getCurrentUse,
   fetchHobbyStart,
   updateProfileStart
-} from '../../redux/profile/profile.action';
-import { getCurrentUser } from '../../redux/user/user.actions';
+} from '../../redux/user/user.actions';
 
 const HobbiesModal = () => {
   const [chosenList, setChosenList] = useState([]);
   const { isHobbiesModalOpened } = useSelector(state => state.modal);
-  const { hobbyList } = useSelector(state => state.profile);
+  const { hobbyList } = useSelector(state => state.user);
 
   const dispatch = useDispatch();
   const handleClose = () => dispatch(toggleHobbiesModalOpened());
