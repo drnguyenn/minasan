@@ -50,12 +50,18 @@ const HobbiesModal = () => {
 
   useEffect(() => {
     if (isHobbiesModalOpened && !hobbyList.length) dispatch(fetchHobbyStart());
+  }, [dispatch, isHobbiesModalOpened, hobbyList.length]);
 
+  useEffect(() => {
     if (currentUser)
-      currentUser.hobbies.map(({ id }) =>
-        setCheckedState(checkedState => ({ ...checkedState, [id]: true }))
-      );
-  }, [dispatch, isHobbiesModalOpened, hobbyList.length, currentUser]);
+      setCheckedState(checkedState => ({
+        ...checkedState,
+        ...currentUser.hobbies.reduce((accumulator, { id }) => {
+          accumulator[id] = true;
+          return accumulator;
+        }, {})
+      }));
+  }, [currentUser]);
 
   return (
     <Dialog open={isHobbiesModalOpened} onClose={handleClose}>

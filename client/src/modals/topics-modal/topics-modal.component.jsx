@@ -50,12 +50,18 @@ const TopicsModal = () => {
 
   useEffect(() => {
     if (isTopicsModalOpened && !topicList.length) dispatch(fetchTopicsStart());
+  }, [dispatch, isTopicsModalOpened, topicList.length]);
 
+  useEffect(() => {
     if (currentUser)
-      currentUser.topics.map(({ id }) =>
-        setCheckedState(checkedState => ({ ...checkedState, [id]: true }))
-      );
-  }, [dispatch, isTopicsModalOpened, topicList.length, currentUser]);
+      setCheckedState(checkedState => ({
+        ...checkedState,
+        ...currentUser.topics.reduce((accumulator, { id }) => {
+          accumulator[id] = true;
+          return accumulator;
+        }, {})
+      }));
+  }, [currentUser]);
 
   return (
     <Dialog open={isTopicsModalOpened} onClose={handleClose}>
