@@ -14,7 +14,6 @@ import { Favorite, FavoriteBorder } from '@material-ui/icons';
 
 import { toggleHobbiesModalOpened } from '../../redux/modal/modal.actions';
 import {
-  getCurrentUser,
   fetchHobbyStart,
   updateProfileStart
 } from '../../redux/user/user.actions';
@@ -35,7 +34,6 @@ const HobbiesModal = () => {
         hobbyIds: chosenList
       })
     );
-    dispatch(getCurrentUser());
     setChosenList([]);
     dispatch(toggleHobbiesModalOpened());
   };

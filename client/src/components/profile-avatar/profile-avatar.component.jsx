@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { IconButton } from '@material-ui/core';
+import { IconButton, Backdrop, CircularProgress } from '@material-ui/core';
 import { PhotoCamera } from '@material-ui/icons';
 
 import {
@@ -12,31 +12,20 @@ import {
   FileInput
 } from './profile-avatar.styles';
 
-import {
-  getCurrentUser,
-  updateProfileAvaStart
-} from '../../redux/user/user.actions';
+import { updateProfileAvatarStart } from '../../redux/user/user.actions';
 
 const ProfileAvatar = () => {
-  const { currentUser } = useSelector(state => state.user);
+  const { currentUser, isAvatarUploading } = useSelector(state => state.user);
 
   const dispatch = useDispatch();
-
-  const updatePicture = data =>
-    new Promise((resolve, reject) => {
-      dispatch(updateProfileAvaStart(data));
-      resolve();
-    });
 
   const handleUploadClick = async event => {
     const file = event.target.files[0];
 
-    let data = new FormData();
+    const data = new FormData();
     data.append('avatar', file);
 
-    updatePicture(data).finally(() => {
-      dispatch(getCurrentUser());
-    });
+    dispatch(updateProfileAvatarStart(data));
   };
 
   return (
@@ -45,7 +34,14 @@ const ProfileAvatar = () => {
       <UserAvatarAndUploadButton>
         <UserAvatar
           style={{ backgroundImage: `url(${currentUser.avatarUrl})` }}
-        ></UserAvatar>
+        >
+          <Backdrop
+            open={isAvatarUploading}
+            style={{ position: 'absolute', zIndex: 1 }}
+          >
+            <CircularProgress color='inherit' />
+          </Backdrop>
+        </UserAvatar>
         <FileInput
           id='upload-button'
           name='avatarUrl'

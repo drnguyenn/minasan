@@ -81,9 +81,9 @@ export const updateProfileStart = userProfile => ({
   payload: userProfile
 });
 
-export const updateProfileSuccess = userList => ({
+export const updateProfileSuccess = userProfile => ({
   type: UserActionTypes.UPDATE_PROFILE_SUCCESS,
-  payload: userList
+  payload: userProfile
 });
 
 export const updateProfileFailure = error => ({
@@ -91,17 +91,17 @@ export const updateProfileFailure = error => ({
   payload: error
 });
 
-export const updateProfileAvaStart = userProfile => ({
+export const updateProfileAvatarStart = userProfile => ({
   type: UserActionTypes.UPDATE_PROFILE_AVATAR_START,
   payload: userProfile
 });
 
-export const updateProfileAvaSuccess = userList => ({
+export const updateProfileAvatarSuccess = userList => ({
   type: UserActionTypes.UPDATE_PROFILE_AVATAR_SUCCESS,
   payload: userList
 });
 
-export const updateProfileAvaFailure = error => ({
+export const updateProfileAvatarFailure = error => ({
   type: UserActionTypes.UPDATE_PROFILE_AVATAR_FAILURE,
   payload: error
 });

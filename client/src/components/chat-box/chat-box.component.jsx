@@ -51,7 +51,7 @@ const ChatBox = () => {
     return () => {
       socketInterface.onDisconnectEvent();
     };
-  }, [history]);
+  }, [history, roomIds, userId]);
 
   // handling join room message
   useEffect(() => {
@@ -78,7 +78,7 @@ const ChatBox = () => {
         setSnackbarStatus(true);
       }
     }
-  }, [receivedMessage]);
+  }, [receivedMessage, currChat.roomId, dispatch]);
 
   useEffect(() => {
     dispatch(
