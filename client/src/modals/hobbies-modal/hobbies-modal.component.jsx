@@ -14,7 +14,7 @@ import { Favorite, FavoriteBorder } from '@material-ui/icons';
 
 import { toggleHobbiesModalOpened } from '../../redux/modal/modal.actions';
 import {
-  getCurrentUse,
+  getCurrentUser,
   fetchHobbyStart,
   updateProfileStart
 } from '../../redux/user/user.actions';
