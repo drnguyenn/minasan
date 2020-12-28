@@ -30,7 +30,6 @@ export function* fetchHobbies() {
 export function* updateProfile({ payload }) {
   try {
     const accessToken = localStorage.getItem('accessToken');
-    // console.log(payload);
 
     yield call(profileService.updateProfile, accessToken, payload);
 
@@ -43,7 +42,6 @@ export function* updateProfile({ payload }) {
 export function* updateAvatar({ payload }) {
   try {
     const accessToken = localStorage.getItem('accessToken');
-    // console.log(payload);
 
     yield call(profileService.updateAvatar, accessToken, payload);
 

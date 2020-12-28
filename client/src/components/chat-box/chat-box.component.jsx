@@ -69,7 +69,6 @@ const ChatBox = () => {
 
   // handling receive message
   useEffect(() => {
-    // console.log(receivedMessage.message);
     if (receivedMessage.message) {
       if (receivedMessage.roomId === currChat.roomId) {
         dispatch(
@@ -128,7 +127,6 @@ const ChatBox = () => {
                   receivedMessage.roomId
                 )
               );
-              console.log(receivedMessage);
             }}
           >
             View
