@@ -41,9 +41,10 @@ const IssuesModal = () => {
     setChosenList([]);
     dispatch(toggleIssuesModalOpened());
   };
+
   useEffect(() => {
     dispatch(fetchIssuesStart());
-  }, []);
+  }, [dispatch]);
 
   return (
     <Dialog open={isIssuesModalOpened} onClose={handleClose}>

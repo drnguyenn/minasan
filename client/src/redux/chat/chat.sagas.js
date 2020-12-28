@@ -20,11 +20,11 @@ export function* fetchChatContent({ payload }) {
   try {
     const accessToken = localStorage.getItem('accessToken');
 
-    const { recieverName, roomId } = payload;
+    const { receiverName, roomId } = payload;
     const { chat } = yield call(
       ChatServices.fetchChatContent,
       accessToken,
-      recieverName,
+      receiverName,
       roomId
     );
     // const { chat } = yield call(ChatServices.fetchChatContent, payload);

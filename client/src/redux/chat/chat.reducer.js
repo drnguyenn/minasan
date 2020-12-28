@@ -6,7 +6,7 @@ const INITIAL_STATE = {
   currentPartner: null,
   currentChat: {
     conversationId: '',
-    recieverName: '',
+    receiverName: '',
     roomId: -1,
     messages: []
   },
