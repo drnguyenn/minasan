@@ -41,7 +41,7 @@ const chatReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         connectedUser: action.payload.chat_list,
-        currentPartner: action.payload.currentPartner || {},
+        currentPartner: action.payload.currentPartner || state.currentPartner,
         isLoading: false,
         error: null
       };
