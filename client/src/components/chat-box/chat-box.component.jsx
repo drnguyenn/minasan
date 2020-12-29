@@ -33,7 +33,6 @@ const ChatBox = () => {
   const userId = currentUser.id;
 
   useEffect(() => {
-    // if (history.length > 0) {
     // this will call the createConnection Event, which will get the instant of the singleton object socketInterface.
     // the socketInterface will check the private instant socket if created or not. if created, will return the current socket instant.
     // if not, will create a new instant and set all event listener.
@@ -46,7 +45,6 @@ const ChatBox = () => {
       setNewRoomMessage
     );
     socketInterface.joinRoomsEvent(connectRoomData);
-    // }
   }, [history, roomIds, userId]);
 
   useEffect(() => {

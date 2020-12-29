@@ -41,15 +41,14 @@ export function* fetchConversations({ payload }) {
       ChatServices.fetchConversations,
       accessToken
     );
-
-    const currPartner =
-      chat_list.length > 0
+    const currentPartner =
+      chat_list.length >= 0
         ? chat_list[0].user1.id === currentUserId
           ? chat_list[0].user2
           : chat_list[0].user1
-        : null;
+        : {};
 
-    yield put(fetchConversationsSuccess(chat_list, currPartner));
+    yield put(fetchConversationsSuccess(chat_list, currentPartner));
   } catch (error) {
     yield put(fetchConversationsFailure(error));
   }
@@ -71,12 +70,14 @@ export function* createConversation({ payload }) {
     );
     const { user } = yield call(getCurrentUser, accessToken);
 
-    const currPartner =
-      chat_list[0].user1.id === user.id
-        ? chat_list[0].user2
-        : chat_list[0].user1;
+    const currentPartner =
+      chat_list.length >= 0
+        ? chat_list[0].user1.id === user.id
+          ? chat_list[0].user2
+          : chat_list[0].user1
+        : {};
 
-    yield put(fetchConversationsSuccess(chat_list, currPartner));
+    yield put(fetchConversationsSuccess(chat_list, currentPartner));
   } catch (error) {
     yield put(createConversationFailure(error));
   }

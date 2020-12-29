@@ -10,7 +10,7 @@ export const fetchChatContent = async (accessToken, receiverId, roomId) => {
           roomId: roomId,
           messages: []
         },
-        currentPartner: null
+        currentPartner: {}
       };
     }
 
