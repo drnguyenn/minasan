@@ -41,13 +41,13 @@ export class UsersService {
 
     if (password) hashedPassword = this.authService.hashPassword(dto.password);
 
-    if (hobbyIds?.length) {
+    if (hobbyIds?.length >= 0) {
       const hobbies = await this.hobbyRepository.findByIds(hobbyIds);
       if (hobbies.length !== hobbyIds.length) throw new BadRequestException('Hobbies not exist');
       else user.hobbies = hobbies;
     }
 
-    if (topicIds?.length) {
+    if (topicIds?.length >= 0) {
       const topics = await this.topicRepository.findByIds(topicIds);
       if (topics.length !== topicIds.length) throw new BadRequestException('Topics not exist');
       else user.topics = topics;
