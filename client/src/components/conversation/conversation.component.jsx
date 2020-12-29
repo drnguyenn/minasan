@@ -16,7 +16,7 @@ import {
 } from './conversation.styles';
 
 const Conversation = () => {
-  const { isLoading, isSending, error } = useSelector(state => state.chat);
+  const { isLoading } = useSelector(state => state.chat);
 
   const { title, messages } = useSelector(state => state.chat.currentChat);
 

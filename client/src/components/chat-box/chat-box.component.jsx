@@ -71,7 +71,6 @@ const ChatBox = () => {
 
   // handling receive message
   useEffect(() => {
-    console.log('a message was received');
     if (receivedMessage.message) {
       if (receivedMessage.roomId === currentChat.roomId) {
         dispatch(

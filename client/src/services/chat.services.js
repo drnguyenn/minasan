@@ -72,6 +72,7 @@ export const createConversation = async (accessToken, partnerId) => {
 
     if (response.status === 200) {
       let re = await response.json();
+      console.log(re);
       return { re };
     }
 
