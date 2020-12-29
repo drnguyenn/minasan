@@ -22,8 +22,14 @@ export const AvatarAndTitle = styled.div`
   align-items: center;
   width: 15%;
 `;
+
 export const Title = styled.span`
   padding-left: 15px;
   font-size: 1.4em;
   font-weight: bold;
+`;
+
+export const NewMessageNotiStyles = styled.div`
+  min-width: 240px;
+  cursor: pointer;
 `;

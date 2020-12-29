@@ -104,11 +104,9 @@ const ProfileAvatar = () => {
         onClose={handleClose}
         message={snackbar.message}
         action={
-          <React.Fragment>
-            <IconButton size='small' color='inherit' onClick={handleClose}>
-              <Close fontSize='small' />
-            </IconButton>
-          </React.Fragment>
+          <IconButton size='small' color='inherit' onClick={handleClose}>
+            <Close fontSize='small' />
+          </IconButton>
         }
       />
       <ProfileAvatarTitle>Avatar</ProfileAvatarTitle>

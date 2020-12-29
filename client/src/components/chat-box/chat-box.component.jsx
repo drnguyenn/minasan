@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Avatar, Button, Snackbar } from '@material-ui/core';
+import { Avatar, Button, IconButton, Snackbar } from '@material-ui/core';
+import { Close } from '@material-ui/icons';
 
 import Conversation from '../conversation/conversation.component';
 import MessageEditor from '../message-editor/message-editor.component';
@@ -15,7 +16,8 @@ import {
   ChatBoxStyles,
   Header,
   AvatarAndTitle,
-  Title
+  Title,
+  NewMessageNotiStyles
 } from './chat-box.styles';
 
 const ChatBox = () => {
@@ -27,7 +29,7 @@ const ChatBox = () => {
   const [joinRoomMessage, setJoinRoomMessage] = useState('not join room');
   const [receivedMessage, setReceivedMessage] = useState('not received');
   const [newRoomMessage, setNewRoomMessage] = useState('not received');
-  const [snackbarStatus, setSnackbarStatus] = useState(false);
+  const [snackbar, setSnackbar] = useState({ open: false });
 
   const roomIds = history.map(h => h.id);
   const userId = currentUser.id;
@@ -70,16 +72,17 @@ const ChatBox = () => {
 
   // handling receive message
   useEffect(() => {
+    console.log(receivedMessage);
     if (receivedMessage.message) {
       if (receivedMessage.roomId === currentChat.roomId) {
         dispatch(
           sendMessageStart(receivedMessage.senderId, receivedMessage.message)
         );
       } else {
-        setSnackbarStatus(true);
+        setSnackbar(snackbar => ({ ...snackbar, open: true }));
       }
     }
-  }, [receivedMessage]);
+  }, [receivedMessage, dispatch]);
 
   useEffect(() => {
     dispatch(
@@ -101,6 +104,21 @@ const ChatBox = () => {
       dispatch(sendMessageStart(currentUser.id, message));
   };
 
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') return;
+
+    setSnackbar({ ...snackbar, open: false });
+  };
+
+  const NewMessageNoti = ({ sender, content, onClick }) => (
+    <NewMessageNotiStyles onClick={onClick}>
+      <h4>{sender}</h4>
+      <span>
+        {content.length < 35 ? content : `${content.substring(0, 34)} ...`}
+      </span>
+    </NewMessageNotiStyles>
+  );
+
   return (
     <ChatBoxStyles>
       <Header>
@@ -115,11 +133,19 @@ const ChatBox = () => {
       <Snackbar
         anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
         action={
-          <Button
-            color='primary'
-            size='small'
+          <IconButton size='small' color='inherit' onClick={handleClose}>
+            <Close fontSize='small' />
+          </IconButton>
+        }
+        // autoHideDuration={8000}
+        open={snackbar.open}
+        onClose={handleClose}
+        message={
+          <NewMessageNoti
+            sender={receivedMessage.senderName}
+            content={receivedMessage.message}
             onClick={() => {
-              setSnackbarStatus(false);
+              handleClose();
               dispatch(
                 fetchChatContentStart(
                   receivedMessage.senderId,
@@ -127,16 +153,8 @@ const ChatBox = () => {
                 )
               );
             }}
-          >
-            View
-          </Button>
+          />
         }
-        autoHideDuration={8000}
-        open={snackbarStatus}
-        onClose={() => {
-          setSnackbarStatus(false);
-        }}
-        message={receivedMessage ? receivedMessage.message : ''}
       />
     </ChatBoxStyles>
   );
