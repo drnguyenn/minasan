@@ -20,7 +20,7 @@ import {
 import { updateProfileAvatarStart } from '../../redux/user/user.actions';
 
 const ProfileAvatar = () => {
-  const [snackBar, setSnackBar] = useState({ open: false, message: '' });
+  const [snackbar, setSnackbar] = useState({ open: false, message: '' });
 
   const [uploadTriggered, setUploadTriggered] = useState(false);
 
@@ -32,13 +32,13 @@ const ProfileAvatar = () => {
 
   useEffect(() => {
     if (uploadTriggered && isAvatarUploading)
-      setSnackBar({
+      setSnackbar({
         open: true,
         message: 'Uploading...'
       });
 
     if (uploadTriggered && !isAvatarUploading && !error) {
-      setSnackBar({
+      setSnackbar({
         open: true,
         message: 'Avatar uploaded'
       });
@@ -46,7 +46,7 @@ const ProfileAvatar = () => {
     }
 
     if (uploadTriggered && error) {
-      setSnackBar({
+      setSnackbar({
         open: true,
         message: error
       });
@@ -67,7 +67,7 @@ const ProfileAvatar = () => {
 
     if (file) {
       if (file.size > 2097152) {
-        setSnackBar({
+        setSnackbar({
           open: true,
           message: <FileTooLargeMessage />
         });
@@ -86,8 +86,8 @@ const ProfileAvatar = () => {
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') return;
 
-    setSnackBar({
-      ...snackBar,
+    setSnackbar({
+      ...snackbar,
       open: false
     });
   };
@@ -99,10 +99,10 @@ const ProfileAvatar = () => {
           vertical: 'bottom',
           horizontal: 'left'
         }}
-        open={snackBar.open}
+        open={snackbar.open}
         autoHideDuration={6000}
         onClose={handleClose}
-        message={snackBar.message}
+        message={snackbar.message}
         action={
           <React.Fragment>
             <IconButton size='small' color='inherit' onClick={handleClose}>

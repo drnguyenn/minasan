@@ -35,7 +35,7 @@ const ProfileInputForm = () => {
 
   const [updateTriggered, setUploadTriggered] = useState(false);
 
-  const [snackBar, setSnackBar] = useState({ open: false, message: '' });
+  const [snackbar, setSnackbar] = useState({ open: false, message: '' });
 
   const { hobbies, topics } = currentUser;
 
@@ -47,13 +47,13 @@ const ProfileInputForm = () => {
 
   useEffect(() => {
     if (updateTriggered && isProfileUpdating)
-      setSnackBar({
+      setSnackbar({
         open: true,
         message: 'Updating...'
       });
 
     if (updateTriggered && !isProfileUpdating && !error) {
-      setSnackBar({
+      setSnackbar({
         open: true,
         message: 'Changes saved'
       });
@@ -61,7 +61,7 @@ const ProfileInputForm = () => {
     }
 
     if (updateTriggered && error) {
-      setSnackBar({
+      setSnackbar({
         open: true,
         message: error
       });
@@ -96,8 +96,8 @@ const ProfileInputForm = () => {
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') return;
 
-    setSnackBar({
-      ...snackBar,
+    setSnackbar({
+      ...snackbar,
       open: false
     });
   };
@@ -109,10 +109,10 @@ const ProfileInputForm = () => {
           vertical: 'bottom',
           horizontal: 'left'
         }}
-        open={snackBar.open}
+        open={snackbar.open}
         autoHideDuration={6000}
         onClose={handleClose}
-        message={snackBar.message}
+        message={snackbar.message}
         action={
           <React.Fragment>
             <IconButton size='small' color='inherit' onClick={handleClose}>
