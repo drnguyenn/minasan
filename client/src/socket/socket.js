@@ -2,9 +2,13 @@ import io from 'socket.io-client';
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
+let connectedRoom = [];
+
 const socketInterface = (function () {
   // global socket, init only one
-  let socket;
+  let socket = null;
+  // value keep track of connected room id, init only one
+
   const createSocket = (
     data,
     joinedRoomHandler,
@@ -28,7 +32,12 @@ const socketInterface = (function () {
 
     // connect success
     socket.on('connect', () => {
+      connectedRoom.forEach(roomId => {
+        let index = data.roomIds.indexOf(roomId);
+        if (index !== -1) data.roomIds.splice(index, 1);
+      });
       socket.emit('join-rooms', data);
+      connectedRoom = connectedRoom.concat(data.roomIds);
     });
 
     // join room event
@@ -67,19 +76,28 @@ const socketInterface = (function () {
     },
 
     joinRoomsEvent: data => {
-      console.log(data);
-      if (socket.connected === false) {
-        console.log('not connected');
+      // console.log(data); // have roomIds and userIds
+      if (!socket) {
+        console.error('Socket not created');
+        return 0;
       } else {
+        connectedRoom.forEach(roomId => {
+          let index = data.roomIds.indexOf(roomId);
+          if (index != -1) data.roomIds.splice(index, 1);
+        });
         socket.emit('join-rooms', data);
+        connectedRoom = connectedRoom.concat(data.roomIds);
+        return 1;
       }
     },
 
     sendMessageEvent: data => {
       if (!socket) {
         console.error('Socket not created');
+        return 0;
       } else {
         socket.emit('send-message', data);
+        return 1;
       }
     },
 
@@ -90,6 +108,7 @@ const socketInterface = (function () {
         console.log('disconecting from server');
         socket.close();
         socket = null;
+        connectedRoom = [];
       }
     }
   };

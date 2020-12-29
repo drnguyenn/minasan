@@ -5,7 +5,6 @@ const INITIAL_STATE = {
   suggestedUser: [],
   currentPartner: null,
   currentChat: {
-    conversationId: '',
     receiverId: '',
     roomId: -1,
     messages: []

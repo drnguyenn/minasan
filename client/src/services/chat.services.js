@@ -1,26 +1,42 @@
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 export const fetchChatContent = async (accessToken, receiverId, roomId) => {
-  console.log('fetchChatContent service was called');
-  const response = await fetch(`${BASE_URL}/api/conversations/${roomId}`, {
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${accessToken}`
+  try {
+    console.log('fetchChatContent');
+    if (roomId === -1) {
+      return {
+        chat: {
+          receiverId: receiverId,
+          roomId: roomId,
+          messages: []
+        },
+        currentPartner: null
+      };
     }
-  });
 
-  const { messages, user1, user2 } = await response.json();
-  const currentPartner = user1.id === receiverId ? user1 : user2;
-  return {
-    chat: {
-      receiverId: receiverId,
-      roomId: roomId,
-      messages: messages.map(({ message, senderId, ...props }) => {
-        return { message, senderId };
-      })
-    },
-    currentPartner
-  };
+    const response = await fetch(`${BASE_URL}/api/conversations/${roomId}`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      }
+    });
+
+    const { messages, user1, user2 } = await response.json();
+    const currentPartner = user1.id === receiverId ? user1 : user2;
+    return {
+      chat: {
+        receiverId: receiverId,
+        roomId: roomId,
+        messages: messages.map(({ message, senderId, ...props }) => {
+          return { message, senderId };
+        })
+      },
+      currentPartner
+    };
+  } catch (error) {
+    console.error(error);
+    throw new Error(error.message);
+  }
 };
 
 export const fetchConversations = async accessToken => {
@@ -32,9 +48,9 @@ export const fetchConversations = async accessToken => {
         Authorization: `Bearer ${accessToken}`
       }
     });
-    const res = await response.json();
+    const chat_list = await response.json();
 
-    return response.status === 200 ? { chat_list: res } : {};
+    return response.status === 200 ? { chat_list } : {};
   } catch (error) {
     console.error(error);
     throw new Error(error.message);
@@ -70,13 +86,8 @@ export const createConversation = async (accessToken, partnerId) => {
       body: JSON.stringify({ userId: partnerId })
     });
 
-    if (response.status === 200) {
-      let re = await response.json();
-      console.log(re);
-      return { re };
-    }
-
-    return {};
+    let roomInfo = await response.json();
+    return { roomInfo };
   } catch (error) {
     console.error(error);
     throw new Error(error.message);

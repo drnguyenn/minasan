@@ -23,15 +23,9 @@ const FindFriendsModal = () => {
   const dispatch = useDispatch();
   const users = useSelector(state => state.chat.suggestedUser);
 
-  const createNewConversation = partnerId =>
-    new Promise((resolve, reject) => {
-      dispatch(createConversationStart(partnerId));
-      resolve();
-    });
-
   const clickEvent = partnerId => {
     dispatch(toggleFindFriendsModalOpened());
-    createNewConversation(partnerId).then(console.log(currentChat));
+    dispatch(createConversationStart(partnerId));
   };
 
   return (
