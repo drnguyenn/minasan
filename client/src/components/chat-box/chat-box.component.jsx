@@ -138,7 +138,7 @@ const ChatBox = () => {
             <Close fontSize='small' />
           </IconButton>
         }
-        // autoHideDuration={8000}
+        autoHideDuration={6000}
         open={snackbar.open}
         onClose={handleClose}
         message={
