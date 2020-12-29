@@ -38,7 +38,7 @@ export class ConversationsService {
       .orderBy({ 'messages.updatedAt': 'ASC' })
       .getOne();
 
-    return conversation ? conversation : { ...(await this.conversationRepository.findOne({ id: conversationId })), messages: [] };
+    return conversation ? conversation : await this.conversationRepository.findOne({ id: conversationId });
   }
 
   async createConversation(user1Id: number, user2Id: number): Promise<Conversation> {
