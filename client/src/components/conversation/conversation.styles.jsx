@@ -12,10 +12,11 @@ export const Introduction = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  align-items: center;
   height: 120px;
   padding: 0 10px;
   margin-top: auto;
-  margin-bottom: 30px;
+  margin-bottom: 50px;
 `;
 
 export const IntroTitle = styled.span`

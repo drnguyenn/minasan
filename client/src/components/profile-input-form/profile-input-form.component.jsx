@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import {
@@ -7,9 +7,11 @@ import {
   Fab,
   Tooltip,
   Backdrop,
-  CircularProgress
+  CircularProgress,
+  Snackbar,
+  IconButton
 } from '@material-ui/core';
-import { Edit } from '@material-ui/icons';
+import { Edit, Close } from '@material-ui/icons';
 
 import {
   toggleHobbiesModalOpened,
@@ -27,7 +29,13 @@ import {
 } from './profile-input-form.styles';
 
 const ProfileInputForm = () => {
-  const { currentUser, isProfileUpdating } = useSelector(state => state.user);
+  const { currentUser, isProfileUpdating, error } = useSelector(
+    state => state.user
+  );
+
+  const [updateTriggered, setUploadTriggered] = useState(false);
+
+  const [snackBar, setSnackBar] = useState({ open: false, message: '' });
 
   const { hobbies, topics } = currentUser;
 
@@ -36,6 +44,30 @@ const ProfileInputForm = () => {
   const [userInfo, setUserInfo] = useState({ ...currentUser, password: '' });
 
   const { username, email, password } = userInfo;
+
+  useEffect(() => {
+    if (updateTriggered && isProfileUpdating)
+      setSnackBar({
+        open: true,
+        message: 'Updating...'
+      });
+
+    if (updateTriggered && !isProfileUpdating && !error) {
+      setSnackBar({
+        open: true,
+        message: 'Changes saved'
+      });
+      setUploadTriggered(updateTriggered => false);
+    }
+
+    if (updateTriggered && error) {
+      setSnackBar({
+        open: true,
+        message: error
+      });
+      setUploadTriggered(updateTriggered => false);
+    }
+  }, [isProfileUpdating, error, updateTriggered]);
 
   const handleSubmit = async event => {
     event.preventDefault();
@@ -52,6 +84,8 @@ const ProfileInputForm = () => {
           : newUserInfo
       )
     );
+
+    setUploadTriggered(true);
   };
 
   const handleChange = event => {
@@ -59,8 +93,34 @@ const ProfileInputForm = () => {
     setUserInfo({ ...userInfo, [name]: value });
   };
 
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') return;
+
+    setSnackBar({
+      ...snackBar,
+      open: false
+    });
+  };
+
   return (
     <ProfileInputFormStyles>
+      <Snackbar
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left'
+        }}
+        open={snackBar.open}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        message={snackBar.message}
+        action={
+          <React.Fragment>
+            <IconButton size='small' color='inherit' onClick={handleClose}>
+              <Close fontSize='small' />
+            </IconButton>
+          </React.Fragment>
+        }
+      />
       <ProfileInputFormTitle>Profile</ProfileInputFormTitle>
       <form onSubmit={handleSubmit}>
         <Backdrop

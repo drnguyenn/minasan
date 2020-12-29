@@ -3,7 +3,7 @@ import ChatActionTypes from './chat.types';
 const INITIAL_STATE = {
   connectedUser: [],
   suggestedUser: [],
-  currentPartner: null,
+  currentPartner: {},
   currentChat: {
     receiverId: '',
     roomId: -1,

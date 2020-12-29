@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Redirect, Route, Switch } from 'react-router-dom';
 
 import { getCurrentUser } from './redux/user/user.actions';
-import { fetchConversationsStart } from './redux/chat/chat.actions';
 
 import PrivateRoute from './routes/private-route.component';
 
