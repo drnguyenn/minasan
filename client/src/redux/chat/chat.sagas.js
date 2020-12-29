@@ -86,6 +86,7 @@ export function* createConversation({ payload }) {
 }
 
 export function* sendMessage({ payload: { message, senderId } }) {
+  console.log('sendMessage action was called');
   try {
     yield put(sendMessageSuccess(message, senderId));
   } catch (error) {

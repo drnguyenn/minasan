@@ -20,6 +20,7 @@ const ChatHistory = () => {
     dispatch(fetchConversationsStart(currentUser.id));
   }, [dispatch, currentUser]);
 
+  // console.log(currentPartner);
   return (
     <ChatHistoryStyles>
       <ChatSearchBar />

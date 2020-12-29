@@ -24,9 +24,6 @@ const App = () => {
 
   useEffect(() => {
     dispatch(getCurrentUser());
-    if (currentUser) {
-      dispatch(fetchConversationsStart(currentUser.id));
-    }
   }, [dispatch]);
 
   return (

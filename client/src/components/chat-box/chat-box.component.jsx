@@ -46,11 +46,14 @@ const ChatBox = () => {
         setNewRoomMessage
       );
     }
+  }, [history, roomIds, userId]);
+
+  useEffect(() => {
     // remove socket when component dismount, may cause error
     return () => {
       socketInterface.onDisconnectEvent();
     };
-  }, [history, roomIds, userId]);
+  }, []);
 
   // handling join room message
   useEffect(() => {
@@ -68,6 +71,8 @@ const ChatBox = () => {
 
   // handling receive message
   useEffect(() => {
+    console.log('receive event was called');
+    console.log(receivedMessage);
     if (receivedMessage.message) {
       if (receivedMessage.roomId === currentChat.roomId) {
         dispatch(
@@ -94,7 +99,6 @@ const ChatBox = () => {
       message: message,
       senderId: currentUser.id
     };
-
     socketInterface.sendMessageEvent(data);
     dispatch(sendMessageStart(currentUser.id, message));
   };
@@ -122,6 +126,7 @@ const ChatBox = () => {
             size='small'
             onClick={() => {
               setSnackbarStatus(false);
+              console.log(receivedMessage);
               dispatch(
                 fetchChatContentStart(
                   receivedMessage.userId,
