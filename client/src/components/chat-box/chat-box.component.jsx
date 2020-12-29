@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Avatar, Button, IconButton, Snackbar } from '@material-ui/core';
+import { Avatar, IconButton, Snackbar } from '@material-ui/core';
 import { Close } from '@material-ui/icons';
 
 import Conversation from '../conversation/conversation.component';
@@ -138,7 +138,7 @@ const ChatBox = () => {
             <Close fontSize='small' />
           </IconButton>
         }
-        // autoHideDuration={8000}
+        autoHideDuration={6000}
         open={snackbar.open}
         onClose={handleClose}
         message={
