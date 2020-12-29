@@ -11,14 +11,15 @@ import {
   ConversationStyles,
   Introduction,
   IntroTitle,
-  IntroDescription,
-  MessageStatus
+  IntroDescription
 } from './conversation.styles';
 
 const Conversation = () => {
-  const { isLoading, isSending, error } = useSelector(state => state.chat);
+  const { isLoading } = useSelector(state => state.chat);
 
-  const { title, messages } = useSelector(state => state.chat.currentChat);
+  const { messages } = useSelector(state => state.chat.currentChat);
+
+  const { name, avatarUrl } = useSelector(state => state.chat.currentPartner);
 
   const { currentUser } = useSelector(state => state.user);
 
@@ -36,8 +37,12 @@ const Conversation = () => {
   ) : (
     <ConversationStyles>
       <Introduction>
-        <Avatar />
-        <IntroTitle>{title}</IntroTitle>
+        <Avatar
+          alt={name}
+          src={avatarUrl}
+          style={{ width: 100, height: 100 }}
+        />
+        <IntroTitle>{name}</IntroTitle>
         <IntroDescription>Your conversation starts here</IntroDescription>
       </Introduction>
       <FlipMove>

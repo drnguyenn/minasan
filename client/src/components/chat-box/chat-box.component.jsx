@@ -100,21 +100,17 @@ const ChatBox = () => {
     socketInterface.sendMessageEvent(data);
     dispatch(sendMessageStart(currentUser.id, message));
   };
+
   return (
-    <React.Fragment>
-      <ChatBoxStyles>
-        <Header>
-          <AvatarAndTitle>
-            <Avatar
-              alt={currentChat.title}
-              src={currentPartner ? currentPartner.avatarUrl : ''}
-            />
-            <Title>{currentChat.title}</Title>
-          </AvatarAndTitle>
-        </Header>
-        <Conversation />
-        <MessageEditor sendEvent={sendMessage} />
-      </ChatBoxStyles>
+    <ChatBoxStyles>
+      <Header>
+        <AvatarAndTitle>
+          <Avatar alt={currentChat.title} src={currentPartner.avatarUrl} />
+          <Title>{currentPartner.name}</Title>
+        </AvatarAndTitle>
+      </Header>
+      <Conversation />
+      <MessageEditor sendEvent={sendMessage} />
 
       <Snackbar
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
@@ -141,8 +137,8 @@ const ChatBox = () => {
           setSnackbarStatus(false);
         }}
         message={receivedMessage ? receivedMessage.message : ''}
-      ></Snackbar>
-    </React.Fragment>
+      />
+    </ChatBoxStyles>
   );
 };
 
