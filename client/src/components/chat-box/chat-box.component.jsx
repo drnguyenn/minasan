@@ -105,7 +105,7 @@ const ChatBox = () => {
     <ChatBoxStyles>
       <Header>
         <AvatarAndTitle>
-          <Avatar alt={currentChat.title} src={currentPartner.avatarUrl} />
+          <Avatar alt={currentPartner.name} src={currentPartner.avatarUrl} />
           <Title>{currentPartner.name}</Title>
         </AvatarAndTitle>
       </Header>
@@ -113,10 +113,10 @@ const ChatBox = () => {
       <MessageEditor sendEvent={sendMessage} />
 
       <Snackbar
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
         action={
           <Button
-            color='secondary'
+            color='primary'
             size='small'
             onClick={() => {
               setSnackbarStatus(false);
@@ -131,7 +131,7 @@ const ChatBox = () => {
             View
           </Button>
         }
-        autoHideDuration={2000}
+        autoHideDuration={8000}
         open={snackbarStatus}
         onClose={() => {
           setSnackbarStatus(false);
