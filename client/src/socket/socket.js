@@ -87,6 +87,7 @@ const socketInterface = (function () {
       if (!socket) {
         console.error('Socket not created');
       } else {
+        console.log('disconecting from server');
         socket.close();
         socket = null;
       }

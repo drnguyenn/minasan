@@ -1,8 +1,8 @@
 import ChatActionTypes from './chat.types';
 
-export const fetchChatContentStart = (receiverName, roomId) => ({
+export const fetchChatContentStart = (receiverId, roomId) => ({
   type: ChatActionTypes.FETCH_CHAT_CONTENT_START,
-  payload: { receiverName, roomId }
+  payload: { receiverId, roomId }
 });
 
 export const fetchChatContentSuccess = chat => ({
@@ -15,13 +15,14 @@ export const fetchChatContentFailure = error => ({
   payload: error
 });
 
-export const fetchConversationsStart = () => ({
-  type: ChatActionTypes.FETCH_CONVERSATIONS_START
+export const fetchConversationsStart = currentUserId => ({
+  type: ChatActionTypes.FETCH_CONVERSATIONS_START,
+  payload: { currentUserId }
 });
 
-export const fetchConversationsSuccess = (chat_list, user) => ({
+export const fetchConversationsSuccess = (chat_list, currPartner) => ({
   type: ChatActionTypes.FETCH_CONVERSATIONS_SUCCESS,
-  payload: { chat_list, user }
+  payload: { chat_list, currPartner }
 });
 
 export const fetchConversationsFailure = error => ({

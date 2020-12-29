@@ -21,9 +21,8 @@ import {
 const ChatBox = () => {
   const dispatch = useDispatch();
   const history = useSelector(state => state.chat.connectedUser);
-  const currChat = useSelector(state => state.chat.currentChat);
+  const { currentChat, currentPartner } = useSelector(state => state.chat);
   const currentUser = useSelector(state => state.user.currentUser);
-  const partner = useSelector(state => state.chat.currentPartner);
 
   const [joinRoomMessage, setJoinRoomMessage] = useState('not join room');
   const [receivedMessage, setReceivedMessage] = useState('not received');
@@ -47,11 +46,14 @@ const ChatBox = () => {
         setNewRoomMessage
       );
     }
+  }, [history, roomIds, userId]);
+
+  useEffect(() => {
     // remove socket when component dismount, may cause error
     return () => {
       socketInterface.onDisconnectEvent();
     };
-  }, [history, roomIds, userId]);
+  }, []);
 
   // handling join room message
   useEffect(() => {
@@ -70,7 +72,7 @@ const ChatBox = () => {
   // handling receive message
   useEffect(() => {
     if (receivedMessage.message) {
-      if (receivedMessage.roomId === currChat.roomId) {
+      if (receivedMessage.roomId === currentChat.roomId) {
         dispatch(
           sendMessageStart(receivedMessage.senderId, receivedMessage.message)
         );
@@ -78,35 +80,36 @@ const ChatBox = () => {
         setSnackbarStatus(true);
       }
     }
-  }, [receivedMessage, currChat.roomId, dispatch]);
+  }, [receivedMessage]);
 
   useEffect(() => {
     dispatch(
       fetchChatContentStart(
-        partner ? partner.name : 'No one here yet',
+        currentPartner ? currentPartner.id : 'No one here yet',
         history.length > 0 ? history[0].id : -1
       )
     );
-  }, [dispatch, partner, history]);
+  }, [dispatch, history]);
 
   const sendMessage = message => {
     const data = {
-      roomId: currChat.roomId,
+      roomId: currentChat.roomId,
       message: message,
       senderId: currentUser.id
     };
-
     socketInterface.sendMessageEvent(data);
     dispatch(sendMessageStart(currentUser.id, message));
   };
-
   return (
     <React.Fragment>
       <ChatBoxStyles>
         <Header>
           <AvatarAndTitle>
-            <Avatar alt={currChat.title} src='' />
-            <Title>{currChat.title}</Title>
+            <Avatar
+              alt={currentChat.title}
+              src={currentPartner ? currentPartner.avatarUrl : ''}
+            />
+            <Title>{currentChat.title}</Title>
           </AvatarAndTitle>
         </Header>
         <Conversation />
@@ -123,7 +126,7 @@ const ChatBox = () => {
               setSnackbarStatus(false);
               dispatch(
                 fetchChatContentStart(
-                  receivedMessage.userId,
+                  receivedMessage.senderId,
                   receivedMessage.roomId
                 )
               );

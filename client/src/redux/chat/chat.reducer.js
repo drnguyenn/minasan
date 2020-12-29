@@ -6,7 +6,7 @@ const INITIAL_STATE = {
   currentPartner: null,
   currentChat: {
     conversationId: '',
-    receiverName: '',
+    receiverId: '',
     roomId: -1,
     messages: []
   },
@@ -24,10 +24,10 @@ const chatReducer = (state = INITIAL_STATE, action) => {
       };
 
     case ChatActionTypes.FETCH_CHAT_CONTENT_SUCCESS:
-      console.log(action.payload);
       return {
         ...state,
-        currentChat: action.payload,
+        currentChat: action.payload.chat,
+        currentPartner: action.payload.currentPartner,
         isLoading: false,
         error: null
       };
@@ -39,19 +39,10 @@ const chatReducer = (state = INITIAL_STATE, action) => {
       };
 
     case ChatActionTypes.FETCH_CONVERSATIONS_SUCCESS:
-      const { chat_list, user } = action.payload;
-      let currPartner;
-      console.log(chat_list);
-      if (chat_list.length > 0) {
-        currPartner =
-          chat_list[0].user2.id === user.id
-            ? chat_list[0].user1
-            : chat_list[0].user2;
-      }
       return {
         ...state,
-        connectedUser: chat_list,
-        currentPartner: currPartner,
+        connectedUser: action.payload.chat_list,
+        currentPartner: action.payload.currPartner,
         isLoading: false,
         error: null
       };
