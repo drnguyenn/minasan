@@ -36,7 +36,7 @@ export class ConversationsService {
       .orderBy({ 'messages.updatedAt': 'ASC' })
       .getOne();
 
-    return conversation ? conversation : this.conversationRepository.create({ messages: [] });
+    return conversation ? conversation : { ...(await this.conversationRepository.findOne({ id: conversationId })), messages: [] };
   }
 
   async createConversation(user1Id: number, user2Id: number): Promise<Conversation> {
