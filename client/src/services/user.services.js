@@ -11,12 +11,14 @@ export const signInWithEmail = async (email, password) => {
     });
 
     switch (response.status) {
+      case 200:
       case 201:
         const { accessToken } = await response.json();
         localStorage.setItem('accessToken', accessToken);
 
         return await getCurrentUser(accessToken);
 
+      case 400:
       case 401:
         alert('Email or Password is incorrect.');
         throw new Error(response.statusText);

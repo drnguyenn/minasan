@@ -34,7 +34,11 @@ export function* getCurrentUser() {
 
     const { user } = yield call(UserServices.getCurrentUser, accessToken);
 
-    if (!user) return;
+    if (!user) {
+      yield put(signInFailure(null));
+      return;
+    }
+
     yield put(signInSuccess(user));
   } catch (error) {
     yield put(signInFailure(error));

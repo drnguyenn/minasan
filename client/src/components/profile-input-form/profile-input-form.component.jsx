@@ -127,7 +127,7 @@ const ProfileInputForm = () => {
             </Fab>
           </Tooltip>
         </HobbiesSecton>
-        <h3>Topics</h3>
+        <h3>Favorite Topics</h3>
         <HobbiesSecton>
           <HobbyList>
             {topics.length
