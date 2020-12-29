@@ -36,8 +36,10 @@ const socketInterface = (function () {
         let index = data.roomIds.indexOf(roomId);
         if (index !== -1) data.roomIds.splice(index, 1);
       });
-      socket.emit('join-rooms', data);
-      connectedRoom = connectedRoom.concat(data.roomIds);
+      if (data.roomIds.length > 0) {
+        socket.emit('join-rooms', data);
+        connectedRoom = connectedRoom.concat(data.roomIds);
+      }
     });
 
     // join room event
@@ -83,10 +85,12 @@ const socketInterface = (function () {
       } else {
         connectedRoom.forEach(roomId => {
           let index = data.roomIds.indexOf(roomId);
-          if (index != -1) data.roomIds.splice(index, 1);
+          if (index !== -1) data.roomIds.splice(index, 1);
         });
-        socket.emit('join-rooms', data);
-        connectedRoom = connectedRoom.concat(data.roomIds);
+        if (data.roomIds.length > 0) {
+          socket.emit('join-rooms', data);
+          connectedRoom = connectedRoom.concat(data.roomIds);
+        }
         return 1;
       }
     },

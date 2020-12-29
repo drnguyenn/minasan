@@ -18,7 +18,6 @@ import { createConversationStart } from '../../redux/chat/chat.actions';
 
 const FindFriendsModal = () => {
   const { isFindFriendsModalOpened } = useSelector(state => state.modal);
-  const { currentChat } = useSelector(state => state.chat);
 
   const dispatch = useDispatch();
   const users = useSelector(state => state.chat.suggestedUser);
