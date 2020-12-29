@@ -33,19 +33,18 @@ const ChatBox = () => {
   const userId = currentUser.id;
 
   useEffect(() => {
-    if (history.length > 0) {
-      // this will call the createConnection Event, which will get the instant of the singleton object socketInterface.
-      // the socketInterface will check the private instant socket if created or not. if created, will return the current socket instant.
-      // if not, will create a new instant and set all event listener.
-      // Becasue there will only be one instant of socketInterface object. there will be no duplicate listener on any event or multiple socket.io connection.
-      let connectRoomData = { roomIds, userId };
-      socketInterface.createConnectionEvent(
-        connectRoomData,
-        setJoinRoomMessage,
-        setReceivedMessage,
-        setNewRoomMessage
-      );
-    }
+    // this will call the createConnection Event, which will get the instant of the singleton object socketInterface.
+    // the socketInterface will check the private instant socket if created or not. if created, will return the current socket instant.
+    // if not, will create a new instant and set all event listener.
+    // Becasue there will only be one instant of socketInterface object. there will be no duplicate listener on any event or multiple socket.io connection.
+    let connectRoomData = { roomIds, userId };
+    socketInterface.createConnectionEvent(
+      connectRoomData,
+      setJoinRoomMessage,
+      setReceivedMessage,
+      setNewRoomMessage
+    );
+    socketInterface.joinRoomsEvent(connectRoomData);
   }, [history, roomIds, userId]);
 
   useEffect(() => {
@@ -97,8 +96,9 @@ const ChatBox = () => {
       message: message,
       senderId: currentUser.id
     };
-    socketInterface.sendMessageEvent(data);
-    dispatch(sendMessageStart(currentUser.id, message));
+    const sendStatus = socketInterface.sendMessageEvent(data);
+    if (sendStatus && currentChat.roomId >= 0)
+      dispatch(sendMessageStart(currentUser.id, message));
   };
 
   return (

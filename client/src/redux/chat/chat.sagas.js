@@ -20,13 +20,13 @@ export function* fetchChatContent({ payload }) {
   try {
     const accessToken = localStorage.getItem('accessToken');
     const { receiverId, roomId } = payload;
+
     const { chat, currentPartner } = yield call(
       ChatServices.fetchChatContent,
       accessToken,
       receiverId,
       roomId
     );
-    // const { chat } = yield call(ChatServices.fetchChatContent, payload);
     yield put(fetchChatContentSuccess({ chat, currentPartner }));
   } catch (error) {
     yield put(fetchChatContentFailure(error));
@@ -41,14 +41,45 @@ export function* fetchConversations({ payload }) {
       ChatServices.fetchConversations,
       accessToken
     );
-    const currPartner =
-      chat_list[0].user1.id === currentUserId
-        ? chat_list[0].user2
-        : chat_list[0].user1;
+    const currentPartner =
+      chat_list.length >= 0
+        ? chat_list[0].user1.id === currentUserId
+          ? chat_list[0].user2
+          : chat_list[0].user1
+        : {};
 
-    yield put(fetchConversationsSuccess(chat_list, currPartner));
+    yield put(fetchConversationsSuccess(chat_list, currentPartner));
   } catch (error) {
     yield put(fetchConversationsFailure(error));
+  }
+}
+
+export function* createConversation({ payload }) {
+  try {
+    const accessToken = localStorage.getItem('accessToken');
+
+    const { roomInfo } = yield call(
+      ChatServices.createConversation,
+      accessToken,
+      payload
+    );
+
+    const { chat_list } = yield call(
+      ChatServices.fetchConversations,
+      accessToken
+    );
+    const { user } = yield call(getCurrentUser, accessToken);
+
+    const currentPartner =
+      chat_list.length >= 0
+        ? chat_list[0].user1.id === user.id
+          ? chat_list[0].user2
+          : chat_list[0].user1
+        : {};
+
+    yield put(fetchConversationsSuccess(chat_list, currentPartner));
+  } catch (error) {
+    yield put(createConversationFailure(error));
   }
 }
 
@@ -62,24 +93,6 @@ export function* fetchSuggestedUsers() {
     yield put(fetchSuggestedUsersSuccess(user_list));
   } catch (error) {
     yield put(fetchSuggestedUsersFailure(error));
-  }
-}
-
-export function* createConversation({ payload }) {
-  try {
-    const accessToken = localStorage.getItem('accessToken');
-
-    yield call(ChatServices.createConversation, accessToken, payload);
-
-    const { chat_list } = yield call(
-      ChatServices.fetchConversations,
-      accessToken
-    );
-    const { user } = yield call(getCurrentUser, accessToken);
-
-    yield put(fetchConversationsSuccess(chat_list, user));
-  } catch (error) {
-    yield put(createConversationFailure(error));
   }
 }
 
