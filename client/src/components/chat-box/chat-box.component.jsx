@@ -94,7 +94,8 @@ const ChatBox = () => {
     const data = {
       roomId: currentChat.roomId,
       message: message,
-      senderId: currentUser.id
+      senderId: currentUser.id,
+      senderName: currentUser.username
     };
     const sendStatus = socketInterface.sendMessageEvent(data);
     if (sendStatus && currentChat.roomId >= 0)

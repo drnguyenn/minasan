@@ -47,11 +47,11 @@ export class WsGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayD
   }
 
   @SubscribeMessage(WSEvent.SEND_MESSAGE)
-  async handleSendMessage(@ConnectedSocket() client: Socket, @MessageBody() { roomId, message, senderId }: MessageDto) {
+  async handleSendMessage(@ConnectedSocket() client: Socket, @MessageBody() { roomId, message, senderId, senderName }: MessageDto) {
     if (!roomId || !message || !senderId) throw new WsException('Bad Request');
 
     this.logger.debug(`User ${senderId} sends '${message}' to room ${roomId}`);
     await this.messageService.saveMessage(roomId, message, senderId);
-    client.to(roomId.toString()).broadcast.emit(WSEvent.BROADCAST_MESSAGE, { roomId, message, senderId });
+    client.to(roomId.toString()).broadcast.emit(WSEvent.BROADCAST_MESSAGE, { roomId, message, senderId, senderName });
   }
 }
