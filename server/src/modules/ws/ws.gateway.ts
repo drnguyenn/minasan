@@ -21,6 +21,8 @@ export class WsGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayD
   constructor(public messageService: MessagesService) {}
   private logger = new Logger('WebSocket');
 
+  private onlineUsers = [];
+
   @WebSocketServer() server: Server;
 
   afterInit(server: Server) {
@@ -28,11 +30,16 @@ export class WsGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayD
   }
 
   handleConnection(client: Socket) {
-    this.logger.debug(`${client.id} connected`);
+    this.logger.debug(`User ${client.handshake.query['userId']} connected`);
+    this.onlineUsers.push({ userId: parseInt(client.handshake.query['userId']), wsId: client.id });
+    this.logger.debug(`Online User: ${JSON.stringify(this.onlineUsers)}`);
   }
 
   handleDisconnect(client: Socket) {
-    this.logger.debug(`${client.id} disconnected`);
+    const user = this.onlineUsers.find((user) => user.wsId === client.id);
+    this.logger.debug(`User ${user.userId} disconnected`);
+    this.onlineUsers = this.onlineUsers.filter((user) => user.wsId !== client.id);
+    this.logger.debug(`Online User: ${JSON.stringify(this.onlineUsers)}`);
   }
 
   @SubscribeMessage(WSEvent.JOIN_ROOMS)
@@ -53,5 +60,10 @@ export class WsGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayD
     this.logger.debug(`User ${senderId} sends '${message}' to room ${roomId}`);
     await this.messageService.saveMessage(roomId, message, senderId);
     client.to(roomId.toString()).broadcast.emit(WSEvent.BROADCAST_MESSAGE, { roomId, message, senderId, senderName });
+  }
+
+  handleNewRoom(partnerId: number, conversationId: number): void {
+    const partner = this.onlineUsers.find((user) => user.userId === partnerId);
+    if (partner) this.server.to(partner.wsId).emit(WSEvent.NEW_ROOM, { roomId: conversationId });
   }
 }

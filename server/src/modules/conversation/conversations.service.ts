@@ -4,12 +4,14 @@ import { Brackets, Repository } from 'typeorm';
 
 import { Conversation } from '../../entities/Conversation.entity';
 import { User } from '../../entities/User.entity';
+import { WsGateway } from '../ws/ws.gateway';
 
 @Injectable()
 export class ConversationsService {
   constructor(
     @InjectRepository(Conversation) private conversationRepository: Repository<Conversation>,
-    @InjectRepository(User) private userRepository: Repository<User>
+    @InjectRepository(User) private userRepository: Repository<User>,
+    private wsGateway: WsGateway
   ) {}
 
   async getConversations(userId: number): Promise<Array<Conversation>> {
@@ -54,6 +56,8 @@ export class ConversationsService {
 
     if (conversations.length > 0) throw new BadRequestException('Conversation existed');
 
-    return await this.conversationRepository.save({ user1Id, user2Id });
+    const conversation = await this.conversationRepository.save({ user1Id, user2Id });
+    this.wsGateway.handleNewRoom(user2Id, conversation.id);
+    return conversation;
   }
 }

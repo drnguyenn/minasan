@@ -5,6 +5,7 @@ import { WsGateway } from './ws.gateway';
 
 @Module({
   imports: [MessagesModule],
-  providers: [WsGateway]
+  providers: [WsGateway],
+  exports: [WsGateway]
 })
 export class WsModule {}
