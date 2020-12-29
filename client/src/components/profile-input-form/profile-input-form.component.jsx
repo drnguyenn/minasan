@@ -40,11 +40,17 @@ const ProfileInputForm = () => {
   const handleSubmit = async event => {
     event.preventDefault();
 
+    const newUserInfo = { name: username };
+
     dispatch(
-      updateProfileStart({
-        name: username,
-        password
-      })
+      updateProfileStart(
+        password.length
+          ? {
+              ...newUserInfo,
+              password
+            }
+          : newUserInfo
+      )
     );
   };
 
@@ -86,7 +92,6 @@ const ProfileInputForm = () => {
           fullWidth
         />
         <TextField
-          required
           name='password'
           type='password'
           defaultValue=''
