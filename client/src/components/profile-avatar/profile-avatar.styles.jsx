@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const ProfileAvatarContainer = styled.div`
+export const ProfileAvatarStyles = styled.div`
   width: 22%;
   height: 30vw;
   display: flex;

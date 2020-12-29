@@ -3,7 +3,7 @@ import ModalActionTypes from './modal.types';
 const INITIAL_STATE = {
   isFindFriendsModalOpened: false,
   isHobbiesModalOpened: false,
-  isIssuesModalOpened: false
+  isTopicsModalOpened: false
 };
 
 const modalReducer = (state = INITIAL_STATE, action) => {
@@ -20,10 +20,10 @@ const modalReducer = (state = INITIAL_STATE, action) => {
         isHobbiesModalOpened: !state.isHobbiesModalOpened
       };
 
-    case ModalActionTypes.TOGGLE_ISSUES_MODAL_OPENED:
+    case ModalActionTypes.TOGGLE_TOPICS_MODAL_OPENED:
       return {
         ...state,
-        isIssuesModalOpened: !state.isIssuesModalOpened
+        isTopicsModalOpened: !state.isTopicsModalOpened
       };
 
     default:

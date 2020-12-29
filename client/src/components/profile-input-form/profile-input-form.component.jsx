@@ -13,7 +13,7 @@ import { Edit } from '@material-ui/icons';
 
 import {
   toggleHobbiesModalOpened,
-  toggleIssuesModalOpened
+  toggleTopicsModalOpened
 } from '../../redux/modal/modal.actions';
 
 import { updateProfileStart } from '../../redux/user/user.actions';
@@ -28,28 +28,24 @@ import {
 
 const ProfileInputForm = () => {
   const { currentUser, isProfileUpdating } = useSelector(state => state.user);
-  const { hobbies, issues } = currentUser;
+
+  const { hobbies, topics } = currentUser;
 
   const dispatch = useDispatch();
 
-  const [userInfo, setUserInfo] = useState(currentUser);
+  const [userInfo, setUserInfo] = useState({ ...currentUser, password: '' });
 
-  const { username, email } = userInfo;
+  const { username, email, password } = userInfo;
 
   const handleSubmit = async event => {
     event.preventDefault();
 
     dispatch(
       updateProfileStart({
-        name: event.target.username.value,
-        password: event.target.password.value
+        name: username,
+        password
       })
     );
-
-    setUserInfo({
-      ...userInfo,
-      username: currentUser.name
-    });
   };
 
   const handleChange = event => {
@@ -72,7 +68,7 @@ const ProfileInputForm = () => {
         <TextField
           name='email'
           type='text'
-          defaultValue={email}
+          value={email}
           label='Email'
           margin='normal'
           variant='outlined'
@@ -84,7 +80,7 @@ const ProfileInputForm = () => {
           autoComplete='off'
           name='username'
           type='text'
-          defaultValue={username}
+          value={username}
           onChange={handleChange}
           label='Username'
           margin='normal'
@@ -97,7 +93,7 @@ const ProfileInputForm = () => {
           type='password'
           defaultValue=''
           onChange={handleChange}
-          label='Password'
+          label='New password'
           margin='normal'
           variant='outlined'
           fullWidth
@@ -108,6 +104,7 @@ const ProfileInputForm = () => {
             {hobbies.length
               ? hobbies.map(hobby => (
                   <Chip
+                    key={hobby.id}
                     label={hobby.name
                       .toLowerCase()
                       .split(' ')
@@ -127,13 +124,14 @@ const ProfileInputForm = () => {
             </Fab>
           </Tooltip>
         </HobbiesSecton>
-        <h3>Issues</h3>
+        <h3>Topics</h3>
         <HobbiesSecton>
           <HobbyList>
-            {issues.length
-              ? issues.map(issue => (
+            {topics.length
+              ? topics.map(topic => (
                   <Chip
-                    label={issue.name
+                    key={topic.id}
+                    label={topic.name
                       .toLowerCase()
                       .split(' ')
                       .map(
@@ -147,7 +145,7 @@ const ProfileInputForm = () => {
               : 'Nothing'}
           </HobbyList>
           <Tooltip title='Edit'>
-            <Fab onClick={() => dispatch(toggleIssuesModalOpened())}>
+            <Fab onClick={() => dispatch(toggleTopicsModalOpened())}>
               <Edit />
             </Fab>
           </Tooltip>

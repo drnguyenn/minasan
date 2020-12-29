@@ -5,7 +5,7 @@ import { IconButton, Backdrop, CircularProgress } from '@material-ui/core';
 import { PhotoCamera } from '@material-ui/icons';
 
 import {
-  ProfileAvatarContainer,
+  ProfileAvatarStyles,
   ProfileAvatarTitle,
   UserAvatarAndUploadButton,
   UserAvatar,
@@ -29,7 +29,7 @@ const ProfileAvatar = () => {
   };
 
   return (
-    <ProfileAvatarContainer>
+    <ProfileAvatarStyles>
       <ProfileAvatarTitle>Avatar</ProfileAvatarTitle>
       <UserAvatarAndUploadButton>
         <UserAvatar
@@ -55,7 +55,7 @@ const ProfileAvatar = () => {
           </IconButton>
         </label>
       </UserAvatarAndUploadButton>
-    </ProfileAvatarContainer>
+    </ProfileAvatarStyles>
   );
 };
 

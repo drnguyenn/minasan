@@ -48,31 +48,31 @@ export const signUpFailure = error => ({
 });
 
 export const fetchHobbyStart = payload => ({
-  type: UserActionTypes.FETCH_HOBBY_START,
+  type: UserActionTypes.FETCH_HOBBIES_START,
   payload: { payload }
 });
 
 export const fetchHobbySuccess = hobbyList => ({
-  type: UserActionTypes.FETCH_HOBBY_SUCCESS,
+  type: UserActionTypes.FETCH_HOBBIES_SUCCESS,
   payload: hobbyList
 });
 
 export const fetchHobbyFailure = error => ({
-  type: UserActionTypes.FETCH_HOBBY_FAILURE,
+  type: UserActionTypes.FETCH_HOBBIES_FAILURE,
   payload: error
 });
 
-export const fetchIssuesStart = () => ({
-  type: UserActionTypes.FETCH_ISSUES_START
+export const fetchTopicsStart = () => ({
+  type: UserActionTypes.FETCH_TOPICS_START
 });
 
-export const fetchIssuesSuccess = issuesList => ({
-  type: UserActionTypes.FETCH_ISSUES_SUCCESS,
-  payload: issuesList
+export const fetchTopicsSuccess = topicList => ({
+  type: UserActionTypes.FETCH_TOPICS_SUCCESS,
+  payload: topicList
 });
 
-export const fetchIssuesFailure = error => ({
-  type: UserActionTypes.FETCH_ISSUES_FAILURE,
+export const fetchTopicsFailure = error => ({
+  type: UserActionTypes.FETCH_TOPICS_FAILURE,
   payload: error
 });
 

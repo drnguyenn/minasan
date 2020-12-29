@@ -44,7 +44,7 @@ export const getCurrentUser = async accessToken => {
       name: username,
       email,
       hobbies,
-      topics: issues,
+      topics,
       avatarUrl
     } = await response.json();
 
@@ -55,7 +55,7 @@ export const getCurrentUser = async accessToken => {
             username,
             email,
             hobbies,
-            issues,
+            topics,
             avatarUrl
           }
         }
@@ -112,16 +112,16 @@ export const fetchHobbies = async accessToken => {
   }
 };
 
-export const fetchIssues = async accessToken => {
+export const fetchTopics = async accessToken => {
   const response = await fetch(`${BASE_URL}/api/topics`, {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${accessToken}`
     }
   });
-  const issuesList = await response.json();
+  const topicList = await response.json();
   return {
-    issuesList: issuesList.map(mes => {
+    topicList: topicList.map(mes => {
       return { id: mes.id, name: mes.name };
     })
   };
