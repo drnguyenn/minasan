@@ -7,7 +7,10 @@ import { Close } from '@material-ui/icons';
 import Conversation from '../conversation/conversation.component';
 import MessageEditor from '../message-editor/message-editor.component';
 
-import { fetchChatContentStart } from '../../redux/chat/chat.actions';
+import {
+  fetchChatContentStart,
+  fetchConversationsStart
+} from '../../redux/chat/chat.actions';
 import { sendMessageStart } from '../../redux/chat/chat.actions';
 
 import socketInterface from '../../socket/socket';
@@ -66,13 +69,12 @@ const ChatBox = () => {
   // handling new room message
   useEffect(() => {
     if (newRoomMessage) {
-      console.log(newRoomMessage);
+      dispatch(fetchConversationsStart(currentUser.id));
     }
-  }, [newRoomMessage]);
+  }, [newRoomMessage, dispatch]);
 
   // handling receive message
   useEffect(() => {
-    console.log(receivedMessage);
     if (receivedMessage.message) {
       if (receivedMessage.roomId === currentChat.roomId) {
         dispatch(

@@ -42,7 +42,7 @@ export function* fetchConversations({ payload }) {
       accessToken
     );
     const currentPartner =
-      chat_list.length >= 0
+      chat_list.length > 0
         ? chat_list[0].user1.id === currentUserId
           ? chat_list[0].user2
           : chat_list[0].user1
@@ -71,7 +71,7 @@ export function* createConversation({ payload }) {
     const { user } = yield call(getCurrentUser, accessToken);
 
     const currentPartner =
-      chat_list.length >= 0
+      chat_list.length > 0
         ? chat_list[0].user1.id === user.id
           ? chat_list[0].user2
           : chat_list[0].user1
