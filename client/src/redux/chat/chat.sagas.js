@@ -19,16 +19,14 @@ import ChatActionTypes from './chat.types';
 export function* fetchChatContent({ payload }) {
   try {
     const accessToken = localStorage.getItem('accessToken');
-
-    const { receiverName, roomId } = payload;
+    const { receiverId, roomId } = payload;
     const { chat, currentPartner } = yield call(
       ChatServices.fetchChatContent,
       accessToken,
-      receiverName,
+      receiverId,
       roomId
     );
     // const { chat } = yield call(ChatServices.fetchChatContent, payload);
-
     yield put(fetchChatContentSuccess({ chat, currentPartner }));
   } catch (error) {
     yield put(fetchChatContentFailure(error));
@@ -86,7 +84,6 @@ export function* createConversation({ payload }) {
 }
 
 export function* sendMessage({ payload: { message, senderId } }) {
-  console.log('sendMessage action was called');
   try {
     yield put(sendMessageSuccess(message, senderId));
   } catch (error) {

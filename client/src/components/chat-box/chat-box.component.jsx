@@ -71,8 +71,6 @@ const ChatBox = () => {
 
   // handling receive message
   useEffect(() => {
-    console.log('receive event was called');
-    console.log(receivedMessage);
     if (receivedMessage.message) {
       if (receivedMessage.roomId === currentChat.roomId) {
         dispatch(
@@ -82,12 +80,12 @@ const ChatBox = () => {
         setSnackbarStatus(true);
       }
     }
-  }, [receivedMessage, currentChat.roomId, dispatch]);
+  }, [receivedMessage]);
 
   useEffect(() => {
     dispatch(
       fetchChatContentStart(
-        currentPartner ? currentPartner.name : 'No one here yet',
+        currentPartner ? currentPartner.id : 'No one here yet',
         history.length > 0 ? history[0].id : -1
       )
     );
@@ -126,10 +124,9 @@ const ChatBox = () => {
             size='small'
             onClick={() => {
               setSnackbarStatus(false);
-              console.log(receivedMessage);
               dispatch(
                 fetchChatContentStart(
-                  receivedMessage.userId,
+                  receivedMessage.senderId,
                   receivedMessage.roomId
                 )
               );
