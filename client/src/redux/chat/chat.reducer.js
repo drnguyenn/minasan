@@ -38,10 +38,15 @@ const chatReducer = (state = INITIAL_STATE, action) => {
       };
 
     case ChatActionTypes.FETCH_CONVERSATIONS_SUCCESS:
+      const currPartner =
+        action.payload.currentPartner !== null
+          ? action.payload.currentPartner
+          : state.currentPartner;
+      console.log(currPartner);
       return {
         ...state,
         connectedUser: action.payload.chat_list,
-        currentPartner: action.payload.currentPartner || {},
+        currentPartner: currPartner || {},
         isLoading: false,
         error: null
       };

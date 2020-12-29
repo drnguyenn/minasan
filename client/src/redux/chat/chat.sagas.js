@@ -37,16 +37,19 @@ export function* fetchConversations({ payload }) {
   try {
     const { currentUserId } = payload;
     const accessToken = localStorage.getItem('accessToken');
+
     const { chat_list } = yield call(
       ChatServices.fetchConversations,
       accessToken
     );
     const currentPartner =
-      chat_list.length > 0
-        ? chat_list[0].user1.id === currentUserId
-          ? chat_list[0].user2
-          : chat_list[0].user1
-        : {};
+      currentUserId !== -2
+        ? chat_list.length > 0
+          ? chat_list[0].user1.id === currentUserId
+            ? chat_list[0].user2
+            : chat_list[0].user1
+          : {}
+        : null;
 
     yield put(fetchConversationsSuccess(chat_list, currentPartner));
   } catch (error) {
