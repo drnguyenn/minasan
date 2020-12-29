@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Avatar, Button, IconButton, Snackbar } from '@material-ui/core';
+import { Avatar, IconButton, Snackbar } from '@material-ui/core';
 import { Close } from '@material-ui/icons';
 
 import Conversation from '../conversation/conversation.component';
