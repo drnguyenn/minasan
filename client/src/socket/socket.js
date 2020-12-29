@@ -11,7 +11,7 @@ const socketInterface = (function () {
     broadcastHandler,
     newRoomHandler
   ) => {
-    socket = io.connect(BASE_URL);
+    socket = io.connect(BASE_URL, { query: `userId=${data.userId}` });
 
     // catch error on connection
     socket.on('connect_failed', error => {
@@ -66,14 +66,14 @@ const socketInterface = (function () {
       return socket;
     },
 
-    // joinRoomsEvent: data => {
-    //   console.log(data);
-    //   if (socket.connected === false) {
-    //     console.log('not connected');
-    //   } else {
-    //     socket.emit('join-rooms', data);
-    //   }
-    // },
+    joinRoomsEvent: data => {
+      console.log(data);
+      if (socket.connected === false) {
+        console.log('not connected');
+      } else {
+        socket.emit('join-rooms', data);
+      }
+    },
 
     sendMessageEvent: data => {
       if (!socket) {

@@ -17,6 +17,7 @@ import { getCurrentUser } from '../../services/user.services';
 import ChatActionTypes from './chat.types';
 
 export function* fetchChatContent({ payload }) {
+  console.log('fetch chat content');
   try {
     const accessToken = localStorage.getItem('accessToken');
     const { receiverId, roomId } = payload;

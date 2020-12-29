@@ -1,6 +1,7 @@
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 export const fetchChatContent = async (accessToken, receiverId, roomId) => {
+  console.log('fetchChatContent service was called');
   const response = await fetch(`${BASE_URL}/api/conversations/${roomId}`, {
     method: 'GET',
     headers: {
@@ -10,7 +11,6 @@ export const fetchChatContent = async (accessToken, receiverId, roomId) => {
 
   const { messages, user1, user2 } = await response.json();
   const currentPartner = user1.id === receiverId ? user1 : user2;
-
   return {
     chat: {
       receiverId: receiverId,
