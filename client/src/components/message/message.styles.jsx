@@ -28,6 +28,7 @@ export const Content = styled.div`
   white-space: break-spaces;
   overflow-wrap: anywhere;
   border-radius: 10px;
+  font-size: large;
 
   ${({ isMyMessage }) => (isMyMessage ? MyMessageStyles : OthersMessageStyles)}
 `;
