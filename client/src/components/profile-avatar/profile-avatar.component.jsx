@@ -40,7 +40,7 @@ const ProfileAvatar = () => {
     if (uploadTriggered && !isAvatarUploading && !error) {
       setSnackbar({
         open: true,
-        message: 'Avatar uploaded'
+        message: 'Avatar uploaded.'
       });
       setUploadTriggered(uploadTriggered => false);
     }

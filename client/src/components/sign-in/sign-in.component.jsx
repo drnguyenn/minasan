@@ -21,8 +21,6 @@ const SignIn = () => {
     event.preventDefault();
 
     dispatch(emailSignInStart(email, password));
-
-    setUserCredentials({ ...userCredentials, email: '', password: '' });
   };
 
   const handleChange = event => {

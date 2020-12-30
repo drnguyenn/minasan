@@ -10,22 +10,22 @@ export const signInWithEmail = async (email, password) => {
       body: JSON.stringify({ email, password })
     });
 
-    switch (response.status) {
-      case 200:
-      case 201:
-        const { accessToken } = await response.json();
-        localStorage.setItem('accessToken', accessToken);
+    if (response.status === 200 || response.status === 201) {
+      const { accessToken } = await response.json();
+      localStorage.setItem('accessToken', accessToken);
 
-        return await getCurrentUser(accessToken);
-
-      case 400:
-      case 401:
-        alert('Email or Password is incorrect.');
-        throw new Error(response.statusText);
-
-      default:
-        return {};
+      return await getCurrentUser(accessToken);
     }
+
+    if (response.status >= 400) {
+      const { message } = await response.json();
+
+      alert(message);
+
+      throw new Error(response.statusText);
+    }
+
+    return {};
   } catch (error) {
     console.error(error);
     throw new Error(error.message);
@@ -78,15 +78,29 @@ export const signUp = async (username, email, password) => {
       body: JSON.stringify({ name: username, email, password })
     });
 
-    const {
-      id,
-      name: newUsername,
-      email: newUserEmail
-    } = await response.json();
+    if (response.status === 201) {
+      const {
+        id,
+        name: newUsername,
+        email: newUserEmail
+      } = await response.json();
 
-    return response.status === 201
-      ? { user: { id, username: newUsername, email: newUserEmail } }
-      : {};
+      alert(
+        'Signed up successfully. You can use your credentials to sign in now.'
+      );
+
+      return { user: { id, username: newUsername, email: newUserEmail } };
+    }
+
+    if (response.status >= 400) {
+      const { message } = await response.json();
+
+      alert(message);
+
+      throw new Error(response.statusText);
+    }
+
+    return {};
   } catch (error) {
     console.error(error);
     throw new Error(error.message);
