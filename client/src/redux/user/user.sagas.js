@@ -52,10 +52,10 @@ export function* signInWithEmail({ payload: { email, password } }) {
     if (!user) return;
 
     const accessToken = localStorage.getItem('accessToken');
-    const { chat_list } = yield call(fetchConversations, accessToken);
+    const { chatList } = yield call(fetchConversations, accessToken);
 
     yield put(signInSuccess(user));
-    yield put(fetchConversationsSuccess(chat_list));
+    yield put(fetchConversationsSuccess(chatList));
   } catch (error) {
     yield put(signInFailure(error));
   }

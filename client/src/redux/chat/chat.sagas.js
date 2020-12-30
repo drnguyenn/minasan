@@ -38,7 +38,7 @@ export function* fetchConversations({ payload }) {
     const { currentUserId } = payload;
     const accessToken = localStorage.getItem('accessToken');
 
-    const { chat_list } = yield call(
+    const { chatList } = yield call(
       ChatServices.fetchConversations,
       accessToken
     );
@@ -46,14 +46,14 @@ export function* fetchConversations({ payload }) {
     // flag -2 for no changes in current partner, -1 is default value of the call
     const currentPartner =
       currentUserId !== -2
-        ? chat_list.length > 0
-          ? chat_list[0].user1.id === currentUserId
-            ? chat_list[0].user2
-            : chat_list[0].user1
+        ? chatList.length > 0
+          ? chatList[0].user1.id === currentUserId
+            ? chatList[0].user2
+            : chatList[0].user1
           : {}
         : null;
 
-    yield put(fetchConversationsSuccess(chat_list, currentPartner));
+    yield put(fetchConversationsSuccess(chatList, currentPartner));
   } catch (error) {
     yield put(fetchConversationsFailure(error));
   }
@@ -69,20 +69,20 @@ export function* createConversation({ payload }) {
       payload
     );
 
-    const { chat_list } = yield call(
+    const { chatList } = yield call(
       ChatServices.fetchConversations,
       accessToken
     );
     const { user } = yield call(getCurrentUser, accessToken);
 
     const currentPartner =
-      chat_list.length > 0
-        ? chat_list[0].user1.id === user.id
-          ? chat_list[0].user2
-          : chat_list[0].user1
+      chatList.length > 0
+        ? chatList[0].user1.id === user.id
+          ? chatList[0].user2
+          : chatList[0].user1
         : {};
 
-    yield put(fetchConversationsSuccess(chat_list, currentPartner));
+    yield put(fetchConversationsSuccess(chatList, currentPartner));
   } catch (error) {
     yield put(createConversationFailure(error));
   }
