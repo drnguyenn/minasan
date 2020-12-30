@@ -66,8 +66,8 @@ export const FetchSuggestedUsers = async accessToken => {
         Authorization: `Bearer ${accessToken}`
       }
     });
-    const userlist = await response.json();
-    return response.status === 200 ? { user_list: userlist } : {};
+    const userList = await response.json();
+    return response.status === 200 ? { userList } : {};
   } catch (error) {
     console.error(error);
     throw new Error(error.message);

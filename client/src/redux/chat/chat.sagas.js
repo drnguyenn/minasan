@@ -91,11 +91,11 @@ export function* createConversation({ payload }) {
 export function* fetchSuggestedUsers() {
   try {
     const accessToken = localStorage.getItem('accessToken');
-    const { user_list } = yield call(
+    const { userList } = yield call(
       ChatServices.FetchSuggestedUsers,
       accessToken
     );
-    yield put(fetchSuggestedUsersSuccess(user_list));
+    yield put(fetchSuggestedUsersSuccess(userList));
   } catch (error) {
     yield put(fetchSuggestedUsersFailure(error));
   }
