@@ -48,9 +48,9 @@ export const fetchConversations = async accessToken => {
         Authorization: `Bearer ${accessToken}`
       }
     });
-    const chat_list = await response.json();
+    const chatList = await response.json();
 
-    return response.status === 200 ? { chat_list } : {};
+    return response.status === 200 ? { chatList } : {};
   } catch (error) {
     console.error(error);
     throw new Error(error.message);

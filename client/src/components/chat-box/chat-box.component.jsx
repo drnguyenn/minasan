@@ -29,9 +29,9 @@ const ChatBox = () => {
   const { currentChat, currentPartner } = useSelector(state => state.chat);
   const currentUser = useSelector(state => state.user.currentUser);
 
-  const [joinRoomMessage, setJoinRoomMessage] = useState('not join room');
-  const [receivedMessage, setReceivedMessage] = useState('not received');
-  const [newRoomMessage, setNewRoomMessage] = useState('not received');
+  const [joinRoomMessage, setJoinRoomMessage] = useState('');
+  const [receivedMessage, setReceivedMessage] = useState('');
+  const [newRoomMessage, setNewRoomMessage] = useState('');
   const [snackbar, setSnackbar] = useState({ open: false });
 
   const roomIds = history.map(h => h.id);
@@ -69,13 +69,13 @@ const ChatBox = () => {
   // handling new room message
   useEffect(() => {
     if (newRoomMessage) {
-      dispatch(fetchConversationsStart(currentUser.id));
+      dispatch(fetchConversationsStart(-2));
     }
   }, [newRoomMessage, dispatch]);
 
   // handling receive message
   useEffect(() => {
-    if (receivedMessage.message) {
+    if (receivedMessage) {
       if (receivedMessage.roomId === currentChat.roomId) {
         dispatch(
           sendMessageStart(receivedMessage.senderId, receivedMessage.message)
@@ -93,7 +93,7 @@ const ChatBox = () => {
         history.length > 0 ? history[0].id : -1
       )
     );
-  }, [dispatch, history]);
+  }, [dispatch]);
 
   const sendMessage = message => {
     const data = {

@@ -20,9 +20,9 @@ export const fetchConversationsStart = currentUserId => ({
   payload: { currentUserId }
 });
 
-export const fetchConversationsSuccess = (chat_list, currentPartner) => ({
+export const fetchConversationsSuccess = (chatList, currentPartner) => ({
   type: ChatActionTypes.FETCH_CONVERSATIONS_SUCCESS,
-  payload: { chat_list, currentPartner }
+  payload: { chatList, currentPartner }
 });
 
 export const fetchConversationsFailure = error => ({
