@@ -42,6 +42,8 @@ export function* fetchConversations({ payload }) {
       ChatServices.fetchConversations,
       accessToken
     );
+
+    // flag -2 for no changes in current partner, -1 is default value of the call
     const currentPartner =
       currentUserId !== -2
         ? chat_list.length > 0
