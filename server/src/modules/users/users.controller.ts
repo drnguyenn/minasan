@@ -31,7 +31,7 @@ export class UsersController {
   @UseInterceptors(
     FileInterceptor('avatar', {
       storage: memoryStorage(),
-      limits: { fileSize: 2097152 },    // 2MB --- 2*2^20
+      limits: { fileSize: 2097152 }, // 2MB --- 2*2^20
       fileFilter: (req, file, callback) => {
         return file.mimetype.match(/image\/(jpg|jpeg|png|gif)$/)
           ? callback(null, true)
