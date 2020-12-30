@@ -78,7 +78,6 @@ export function* signUp({ payload: { username, email, password } }) {
     if (!user) return;
 
     yield put(signUpSuccess({ user }));
-    alert('Signed Up Successfully.');
   } catch (error) {
     yield put(signUpFailure(error));
   }

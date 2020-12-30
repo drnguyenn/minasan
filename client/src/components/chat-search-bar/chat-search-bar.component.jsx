@@ -8,9 +8,14 @@ import {
   Icon
 } from './chat-search-bar.styles';
 
-const ChatSearchBar = () => (
+const ChatSearchBar = ({ onChange }) => (
   <ChatSearchBarStyles>
-    <SearchInput type='search' placeholder='Search...' autoComplete='off' />
+    <SearchInput
+      type='search'
+      placeholder='Search...'
+      autoComplete='off'
+      onChange={onChange}
+    />
     <Icon>
       <Search />
     </Icon>

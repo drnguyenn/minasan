@@ -28,14 +28,6 @@ const SignUp = () => {
     }
 
     dispatch(signUpStart({ username, email, password }));
-
-    setUserCredentials({
-      ...userCredentials,
-      username: '',
-      email: '',
-      password: '',
-      confirmPassword: ''
-    });
   };
 
   const handleChange = event => {
@@ -68,6 +60,10 @@ const SignUp = () => {
           margin='normal'
           required
         />
+        <span>
+          * Password must be at least 6 characters in length, including
+          uppercase, lowercase letters and a number or special character
+        </span>
         <TextField
           name='password'
           type='password'

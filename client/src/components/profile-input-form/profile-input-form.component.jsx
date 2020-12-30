@@ -55,7 +55,7 @@ const ProfileInputForm = () => {
     if (updateTriggered && !isProfileUpdating && !error) {
       setSnackbar({
         open: true,
-        message: 'Changes saved'
+        message: 'Changes saved.'
       });
       setUploadTriggered(updateTriggered => false);
     }
