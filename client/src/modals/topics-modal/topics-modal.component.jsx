@@ -26,7 +26,10 @@ const TopicsModal = () => {
 
   const dispatch = useDispatch();
 
-  const handleClose = () => dispatch(toggleTopicsModalOpened());
+  const handleClose = () => {
+    dispatch(toggleTopicsModalOpened());
+    setCheckedState({});
+  };
 
   const handleChange = event => {
     const { id, checked } = event.target;

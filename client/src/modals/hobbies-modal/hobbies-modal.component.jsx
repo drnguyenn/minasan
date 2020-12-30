@@ -26,7 +26,10 @@ const HobbiesModal = () => {
 
   const dispatch = useDispatch();
 
-  const handleClose = () => dispatch(toggleHobbiesModalOpened());
+  const handleClose = () => {
+    dispatch(toggleHobbiesModalOpened());
+    setCheckedState({});
+  };
 
   const handleChange = event => {
     const { id, checked } = event.target;
