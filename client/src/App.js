@@ -8,7 +8,7 @@ import PrivateRoute from './routes/private-route.component';
 
 import Spinner from './components/spinner/spinner.component';
 import ErrorBoundary from './components/error-boundary/error-boundary.component';
-import ModalRegistra from './modals/modal-registra.component';
+import ModalRegistrar from './modals/modal-registrar.component';
 import Header from './components/header/header.component';
 
 import { GlobalStyle } from './global.styles';
@@ -28,7 +28,7 @@ const App = () => {
   return (
     <div>
       <GlobalStyle />
-      <ModalRegistra />
+      <ModalRegistrar />
       {currentUser ? <Header /> : null}
       <Switch>
         <ErrorBoundary>
