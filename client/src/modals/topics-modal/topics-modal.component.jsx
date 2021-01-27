@@ -26,10 +26,7 @@ const TopicsModal = () => {
 
   const dispatch = useDispatch();
 
-  const handleClose = () => {
-    dispatch(toggleTopicsModalOpened());
-    setCheckedState({});
-  };
+  const handleClose = () => dispatch(toggleTopicsModalOpened());
 
   const handleChange = event => {
     const { id, checked } = event.target;
@@ -57,13 +54,17 @@ const TopicsModal = () => {
 
   useEffect(() => {
     if (currentUser)
-      setCheckedState(checkedState => ({
-        ...checkedState,
-        ...currentUser.topics.reduce((accumulator, { id }) => {
-          accumulator[id] = true;
-          return accumulator;
-        }, {})
-      }));
+      setCheckedState(checkedState =>
+        currentUser.topics.length
+          ? {
+              ...checkedState,
+              ...currentUser.topics.reduce((accumulator, { id }) => {
+                accumulator[id] = true;
+                return accumulator;
+              }, {})
+            }
+          : {}
+      );
   }, [currentUser]);
 
   return (

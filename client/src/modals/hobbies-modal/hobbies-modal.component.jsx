@@ -26,10 +26,7 @@ const HobbiesModal = () => {
 
   const dispatch = useDispatch();
 
-  const handleClose = () => {
-    dispatch(toggleHobbiesModalOpened());
-    setCheckedState({});
-  };
+  const handleClose = () => dispatch(toggleHobbiesModalOpened());
 
   const handleChange = event => {
     const { id, checked } = event.target;
@@ -57,13 +54,17 @@ const HobbiesModal = () => {
 
   useEffect(() => {
     if (currentUser)
-      setCheckedState(checkedState => ({
-        ...checkedState,
-        ...currentUser.hobbies.reduce((accumulator, { id }) => {
-          accumulator[id] = true;
-          return accumulator;
-        }, {})
-      }));
+      setCheckedState(checkedState =>
+        currentUser.hobbies.length
+          ? {
+              ...checkedState,
+              ...currentUser.hobbies.reduce((accumulator, { id }) => {
+                accumulator[id] = true;
+                return accumulator;
+              }, {})
+            }
+          : {}
+      );
   }, [currentUser]);
 
   return (
