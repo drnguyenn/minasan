@@ -27,13 +27,13 @@ export class CreateUserDto {
 export class UpdateUserDto extends PartialType(PickType(CreateUserDto, ['name', 'password'] as const)) {
   @ApiPropertyOptional({ type: [Number] })
   @IsOptional()
-  @Transform((value: string) => (typeof value === 'string' ? value.split(',').map((id) => Number(id)) : value))
+  @Transform(({ value }) => (typeof value === 'string' ? value.split(',').map((id) => Number(id)) : value))
   @IsNumber({}, { each: true })
   hobbyIds: number[];
 
   @ApiPropertyOptional({ type: [Number] })
   @IsOptional()
-  @Transform((value: string) => (typeof value === 'string' ? value.split(',').map((id) => Number(id)) : value))
+  @Transform(({ value }) => (typeof value === 'string' ? value.split(',').map((id) => Number(id)) : value))
   @IsNumber({}, { each: true })
   topicIds: number[];
 
