@@ -14,6 +14,6 @@ export const OrmConfig: ConnectionOptions = {
   password: process.env.SQL_PASSWORD,
   database: process.env.SQL_NAME,
   entities: [join(__dirname, '../../**/**.entity{.ts,.js}')],
-  synchronize: process.env.NODE_ENV !== 'DEV',
+  synchronize: true,
   logger: new SqlLogger(['schema', 'error', 'warn', 'info', 'log', 'migration'])
 };
